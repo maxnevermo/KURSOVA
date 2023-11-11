@@ -1,6 +1,7 @@
 #ifndef PATIENTINFO_H
 #define PATIENTINFO_H
 #include <iostream>
+#include <string>
 
 
 class patientInfo
