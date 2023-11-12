@@ -7,116 +7,373 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>605</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>PatientMonitoring</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+background-color: rgb(142, 157, 204);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>150</y>
-      <width>120</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>200</y>
-      <width>120</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_6">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>250</y>
-      <width>120</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_7">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>300</y>
-      <width>120</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>350</y>
-      <width>120</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>160</y>
-      <width>256</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QSplitter" name="splitter">
+   <widget class="QPushButton" name="bloodPressureSort">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
-      <width>161</width>
-      <height>24</height>
+      <y>170</y>
+      <width>230</width>
+      <height>41</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+	border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
     </property>
-    <widget class="QPushButton" name="scanButton">
-     <property name="text">
-      <string>Scan</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="addButton">
-     <property name="text">
-      <string>Add</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="writeButton">
-     <property name="text">
-      <string>Write</string>
-     </property>
-    </widget>
+    <property name="text">
+     <string>Sort by pressure</string>
+    </property>
    </widget>
+   <widget class="QPushButton" name="bloodTypeGroupButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>230</y>
+      <width>230</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+	border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Group by blood type</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pulseSortButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>290</y>
+      <width>230</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+	border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Rh group | Pulse sort</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="donorCheckButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>230</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+	border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Check donors</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="agePulseCheckButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>410</y>
+      <width>230</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+	border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Age pressure checker</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="patientTable">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>80</y>
+      <width>721</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget {
+	background-color: #D9DBF1;
+    color: #000000;
+    border-radius: 20px;
+}
+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="rectangle">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>270</width>
+      <height>600</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>C:/Users/maxnevermo/Desktop/menu.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="scanButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>70</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Scan</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="addButton">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>110</y>
+      <width>70</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Add</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="writeButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>110</y>
+      <width>70</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Write</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>530</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D9DBF1</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>C:/Users/maxnevermo/Desktop/logo.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="stats">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>10</y>
+      <width>731</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>C:/Users/maxnevermo/Desktop/nav.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="normPressureCheckButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>470</y>
+      <width>230</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+	border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Check healthy person</string>
+    </property>
+   </widget>
+   <zorder>rectangle</zorder>
+   <zorder>bloodPressureSort</zorder>
+   <zorder>bloodTypeGroupButton</zorder>
+   <zorder>pulseSortButton</zorder>
+   <zorder>donorCheckButton</zorder>
+   <zorder>agePulseCheckButton</zorder>
+   <zorder>patientTable</zorder>
+   <zorder>scanButton</zorder>
+   <zorder>addButton</zorder>
+   <zorder>writeButton</zorder>
+   <zorder>logo</zorder>
+   <zorder>stats</zorder>
+   <zorder>normPressureCheckButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

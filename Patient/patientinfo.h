@@ -2,7 +2,7 @@
 #define PATIENTINFO_H
 #include <iostream>
 #include <string>
-
+#include <QMessageBox>
 
 class patientInfo
 {

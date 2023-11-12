@@ -2,6 +2,9 @@
 #define PATIENTMONITORING_H
 
 #include <QMainWindow>
+#include <QGraphicsDropShadowEffect>
+#include <QFileDialog>
+#include <fstream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PatientMonitoring; }
@@ -14,6 +17,11 @@ class PatientMonitoring : public QMainWindow
 public:
     PatientMonitoring(QWidget *parent = nullptr);
     ~PatientMonitoring();
+
+    void onScanTableButtonClick();
+
+private slots:
+    void on_scanButton_clicked();
 
 private:
     Ui::PatientMonitoring *ui;
