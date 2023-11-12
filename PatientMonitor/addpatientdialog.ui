@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>addPatientDialog</class>
+ <widget class="QDialog" name="addPatientDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>399</width>
+    <height>439</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: #8E9DCC
+}</string>
+  </property>
+  <widget class="QTextEdit" name="surnameTextEdit">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>40</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTextEdit {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QTextEdit:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="upperPressureTextEdit">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>200</y>
+     <width>171</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTextEdit {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QTextEdit:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="ageSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>80</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QSpinBox {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QSpinBox:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="pulseCB">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>289</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QSpinBox {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QSpinBox:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="bloodTypeCB">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>120</y>
+     <width>171</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QComboBox:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="rhFactorCB">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>160</y>
+     <width>171</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QComboBox:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="lowerPressureTextEdit">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>240</y>
+     <width>171</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTextEdit {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QTextEdit:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="surnameLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>40</y>
+     <width>111</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Прізвище</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ageLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>80</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Вік:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="bloodTypeLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>125</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Група крові</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="rhFactorLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>160</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Резус-фактор</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="upperLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>190</y>
+     <width>191</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Діастолічний тиск</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lowerLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>230</y>
+     <width>181</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Систолічний тиск</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pulseLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>285</y>
+     <width>70</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Пульс</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addButton">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>350</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}</string>
+   </property>
+   <property name="text">
+    <string>Додати</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

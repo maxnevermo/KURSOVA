@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsDropShadowEffect>
 #include <QFileDialog>
+#include <QPixmap>
 #include <fstream>
 
 QT_BEGIN_NAMESPACE

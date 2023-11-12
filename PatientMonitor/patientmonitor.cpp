@@ -1,12 +1,12 @@
-#include "patientmonitoring.h"
+#include "patientmonitor.h"
 #include "patientinfo.h"
-#include "ui_patientmonitoring.h"
+#include "ui_patientmonitor.h"
 
 std::vector<patientInfo> patients;
 
-PatientMonitoring::PatientMonitoring(QWidget *parent)
+PatientMonitor::PatientMonitor(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::PatientMonitoring)
+    , ui(new Ui::PatientMonitor)
 {
     ui->setupUi(this);
 
@@ -65,7 +65,20 @@ PatientMonitoring::PatientMonitoring(QWidget *parent)
     ui->agePulseCheckButton->setGraphicsEffect(shadowEffectAgePulseChecker);
     ui->normPressureCheckButton->setGraphicsEffect(shadowEffectHealthyChecker);
 
-    if (ui->patientTable->rowCount() == 0) {
+    ui->patientTable->setColumnCount(7);
+    ui->patientTable->setColumnWidth(0, 70);
+    ui->patientTable->setColumnWidth(1, 205);
+    ui->patientTable->setColumnWidth(1, 110);
+    ui->patientTable->setColumnWidth(1, 213);
+    ui->patientTable->setColumnWidth(1, 200);
+    ui->patientTable->setColumnWidth(1, 242);
+    ui->patientTable->setColumnWidth(1, 190);
+
+    try {
+        if (ui->patientTable->rowCount() == 0)
+            throw 1;
+    }
+    catch (int) {
         QPushButton* scanTableButton = new QPushButton("Scan", ui->patientTable);
 
         int buttonWidth = 250;
@@ -83,9 +96,9 @@ PatientMonitoring::PatientMonitoring(QWidget *parent)
 
         scanTableButton->setStyleSheet("QPushButton {"
                                        "background-color: #C6CCE8;"
-                                        "color: #000000;"
-                                        "border-radius: 0.5em;"
-                                        "font-family: 'Gogh';"
+                                       "color: #000000;"
+                                       "border-radius: 0.5em;"
+                                       "font-family: 'Gogh';"
                                        "font-weight: 500;"
                                        "font-size: 30px"
                                        "}"
@@ -96,20 +109,21 @@ PatientMonitoring::PatientMonitoring(QWidget *parent)
                                        "font-size: 30px"
                                        "}");
 
-        connect(scanTableButton, &QPushButton::clicked, this, &PatientMonitoring::onScanTableButtonClick);
+        connect(scanTableButton, &QPushButton::clicked, this, &PatientMonitor::onScanTableButtonClick);
     }
-    QPixmap pic1("I:\\uni\\thirdsemcourse\\images\\menu.png");
-    ui->label->setPixmap(pic1);
-
 }
 
-void PatientMonitoring::onScanTableButtonClick() {
+void PatientMonitor::onScanTableButtonClick() {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open File"), QDir::homePath(), tr("All Files (*.*)"));
+                                                    tr("Open File"), QDir::homePath(), tr("All Files (*.*)"));
 
     std::ifstream inputData(fileName.toStdString());
 
-    if(!inputData || inputData.peek() == EOF){
+    try {
+        if(!inputData || inputData.peek() == EOF)
+            throw 1;
+    }
+    catch (int) {
         QMessageBox mb("PatientMonitor",
                        "Error\n\nFile cannot be opened or it is empty\nPlease, try again",
                        QMessageBox::NoIcon,
@@ -127,17 +141,15 @@ void PatientMonitoring::onScanTableButtonClick() {
                          "}");
         mb.exec();
     }
-
-
 }
 
-PatientMonitoring::~PatientMonitoring()
+PatientMonitor::~PatientMonitor()
 {
     delete ui;
 }
 
 
-void PatientMonitoring::on_scanButton_clicked()
+void PatientMonitor::on_scanButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open File"), QDir::homePath(), tr("All Files (*.*)"));
@@ -163,5 +175,30 @@ void PatientMonitoring::on_scanButton_clicked()
                          "}");
         mb.exec();
     }
+}
+
+
+void PatientMonitor::on_addButton_clicked()
+{
+    addPatientDialog addPatientDialog(this);
+    connect(&addPatientDialog, &addPatientDialog::patientAdded, this, &PatientMonitor::onPatientAdded);
+    addPatientDialog.exec();
+}
+
+void PatientMonitor::onPatientAdded(const patientInfo &patient)
+{
+    patients.push_back(patient);
+    int rows = ui->patientTable->rowCount();
+    int createNewRow = rows + 1;
+
+    ui->patientTable->insertRow(rows);
+
+    QTableWidgetItem* newPatientInfo = new QTableWidgetItem(QString::number(createNewRow));
+    ui->patientTable->setItem(rows, 0, newPatientInfo);
+
+//    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patient.getSurname()));
+//    ui->patientTable->setItem(rows, 1, newPatientInfo);
+//    newPatientInfo = new QTableWidgetItem(QString::number(patient.getAge()));
+//    ui->patientTable->setItem(rows, 2, newPatientInfo);
 }
 
