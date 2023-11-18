@@ -9,6 +9,7 @@ class patientInfo
 public:
     patientInfo();
     patientInfo(std::string, int, int, char, int, int, int);
+
     void setNum(int num) { m_num = num; }
     void setSurname(const std::string& surname) { m_surname = surname; }
     void setAge(int age) { m_age = age; }

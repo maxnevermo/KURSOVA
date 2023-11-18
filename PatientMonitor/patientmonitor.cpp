@@ -141,6 +141,14 @@ void PatientMonitor::onScanTableButtonClick() {
                          "}");
         mb.exec();
     }
+
+    std::string myline;
+    while (inputData) {
+        std::getline (inputData, myline);
+        qDebug() << myline << ": " << inputData.tellg() << '\n';
+    }
+
+    inputData.close();
 }
 
 PatientMonitor::~PatientMonitor()
@@ -175,6 +183,14 @@ void PatientMonitor::on_scanButton_clicked()
                          "}");
         mb.exec();
     }
+
+    std::string myline;
+    while (inputData) {
+        std::getline (inputData, myline);
+        qDebug() << myline << ": " << inputData.tellg() << '\n';
+    }
+
+        inputData.close();
 }
 
 

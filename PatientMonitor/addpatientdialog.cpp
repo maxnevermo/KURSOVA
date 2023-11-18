@@ -6,10 +6,11 @@ addPatientDialog::addPatientDialog(QWidget *parent) :
     ui(new Ui::addPatientDialog)
 {
     ui->setupUi(this);
-    QStringList bloodTypeList = {"Не вибрано", "1", "2", "3", "4"};
+    setWindowTitle("Add new patient");
+    QStringList bloodTypeList = {"Undefined", "1", "2", "3", "4"};
     ui->bloodTypeCB->addItems(bloodTypeList);
 
-    QStringList rhFactorList = {"Не вибрано", "+", "-"};
+    QStringList rhFactorList = {"Undefined", "+", "-"};
     ui->rhFactorCB->addItems(rhFactorList);
 }
 
