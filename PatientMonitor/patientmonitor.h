@@ -23,6 +23,7 @@ public:
     ~PatientMonitor();
 
     void onScanTableButtonClick();
+    void checkIfEmpty();
 
 public slots:
     void onPatientAdded(const patientInfo &patient);

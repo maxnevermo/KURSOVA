@@ -66,56 +66,50 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->normPressureCheckButton->setGraphicsEffect(shadowEffectHealthyChecker);
 
     ui->patientTable->setColumnCount(7);
-    ui->patientTable->setColumnWidth(0, 70);
-    ui->patientTable->setColumnWidth(1, 205);
-    ui->patientTable->setColumnWidth(1, 110);
-    ui->patientTable->setColumnWidth(1, 213);
-    ui->patientTable->setColumnWidth(1, 200);
-    ui->patientTable->setColumnWidth(1, 242);
-    ui->patientTable->setColumnWidth(1, 190);
+    ui->patientTable->setColumnWidth(0, 47);
+    ui->patientTable->setColumnWidth(1, 122);
+    ui->patientTable->setColumnWidth(2, 65);
+    ui->patientTable->setColumnWidth(3, 126);
+    ui->patientTable->setColumnWidth(4, 120);
+    ui->patientTable->setColumnWidth(5, 143);
+    ui->patientTable->setColumnWidth(6, 88);
+
+    ui->patientTable->setShowGrid(false);
+
+    ui->patientTable->horizontalHeader()->setVisible(false);
+    ui->patientTable->verticalHeader()->setVisible(false);
+
+    ui->patientTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->patientTable->setSelectionMode(QAbstractItemView::NoSelection);
+
+
+    QGraphicsDropShadowEffect *shadowEffectScanTable = new QGraphicsDropShadowEffect();
+    shadowEffectScanTable->setBlurRadius(20);
+    shadowEffectScanTable->setXOffset(0);
+    shadowEffectScanTable->setColor(QColor(0, 0, 0, 30));
+
+    ui->scanTableButton->setGraphicsEffect(shadowEffectScanTable);
+
+    connect(ui->scanTableButton, &QPushButton::clicked, this, &PatientMonitor::onScanTableButtonClick);
+    ui->scanTableButton->setVisible(false);
 
     try {
         if (ui->patientTable->rowCount() == 0)
             throw 1;
     }
     catch (int) {
-        QPushButton* scanTableButton = new QPushButton("Scan", ui->patientTable);
-
-        int buttonWidth = 250;
-        int buttonHeight = 50;
-        int x = (ui->patientTable->width() - buttonWidth) / 2;
-        int y = (ui->patientTable->height() - buttonHeight) / 2;
-        scanTableButton->setGeometry(x, y, buttonWidth, buttonHeight);
-
-        QGraphicsDropShadowEffect *shadowEffectScanTable = new QGraphicsDropShadowEffect();
-        shadowEffectScanTable->setBlurRadius(20);
-        shadowEffectScanTable->setXOffset(0);
-        shadowEffectScanTable->setColor(QColor(0, 0, 0, 30));
-
-        scanTableButton->setGraphicsEffect(shadowEffectScanTable);
-
-        scanTableButton->setStyleSheet("QPushButton {"
-                                       "background-color: #C6CCE8;"
-                                       "color: #000000;"
-                                       "border-radius: 0.5em;"
-                                       "font-family: 'Gogh';"
-                                       "font-weight: 500;"
-                                       "font-size: 30px"
-                                       "}"
-                                       "QPushButton:hover {"
-                                       "background-color: #A9B9E3;"
-                                       "font-family: 'Gogh';"
-                                       "font-weight: 500;"
-                                       "font-size: 30px"
-                                       "}");
-
-        connect(scanTableButton, &QPushButton::clicked, this, &PatientMonitor::onScanTableButtonClick);
+        ui->scanTableButton->setVisible(true);
     }
 }
 
+PatientMonitor::~PatientMonitor()
+{
+    delete ui;
+}
+
+
 void PatientMonitor::onScanTableButtonClick() {
-    QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Open File"), QDir::homePath(), tr("All Files (*.*)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath(), tr("All Files (*.*)"));
 
     std::ifstream inputData(fileName.toStdString());
 
@@ -151,16 +145,11 @@ void PatientMonitor::onScanTableButtonClick() {
     inputData.close();
 }
 
-PatientMonitor::~PatientMonitor()
-{
-    delete ui;
-}
 
 
 void PatientMonitor::on_scanButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Open File"), QDir::homePath(), tr("All Files (*.*)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
 
     std::ifstream inputData(fileName.toStdString());
 
@@ -210,11 +199,43 @@ void PatientMonitor::onPatientAdded(const patientInfo &patient)
     ui->patientTable->insertRow(rows);
 
     QTableWidgetItem* newPatientInfo = new QTableWidgetItem(QString::number(createNewRow));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(rows, 0, newPatientInfo);
 
-//    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patient.getSurname()));
-//    ui->patientTable->setItem(rows, 1, newPatientInfo);
-//    newPatientInfo = new QTableWidgetItem(QString::number(patient.getAge()));
-//    ui->patientTable->setItem(rows, 2, newPatientInfo);
+    newPatientInfo = new QTableWidgetItem(patient.getSurname().c_str());
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(rows, 1, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::number(patient.getAge()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(rows, 2, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patient.getBloodType()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(rows, 3, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patient.getRhFactor()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(rows, 4, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::number(patient.getUpPressure()) + "/" + QString::number(patient.getLowPressure()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(rows, 5, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::number(patient.getPulseValue()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(rows, 6, newPatientInfo);
+
+    checkIfEmpty();
 }
 
+
+
+
+void PatientMonitor::checkIfEmpty() {
+    if(ui->patientTable->rowCount() > 0) {
+        ui->scanTableButton->setVisible(false);
+    } else {
+        ui->scanTableButton->setVisible(true);
+    }
+}

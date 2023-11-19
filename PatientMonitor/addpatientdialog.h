@@ -2,7 +2,12 @@
 #define ADDPATIENTDIALOG_H
 
 #include <QDialog>
+#include <QGraphicsDropShadowEffect>
+#include <QRegularExpression>
+#include <QMessageBox>
+
 #include "patientinfo.h"
+
 
 namespace Ui {
 class addPatientDialog;
@@ -14,6 +19,7 @@ class addPatientDialog : public QDialog
 
 public:
     explicit addPatientDialog(QWidget *parent = nullptr);
+    void addDataError(const QString &errorInputMessage);
     ~addPatientDialog();
 
 signals:

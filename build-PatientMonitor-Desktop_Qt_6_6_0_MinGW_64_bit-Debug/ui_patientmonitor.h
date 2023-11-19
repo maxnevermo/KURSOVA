@@ -39,6 +39,7 @@ public:
     QPushButton *agePulseCheckButton;
     QPushButton *normPressureCheckButton;
     QPushButton *bloodTypeGroupButton;
+    QPushButton *scanTableButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -46,7 +47,7 @@ public:
     {
         if (PatientMonitor->objectName().isEmpty())
             PatientMonitor->setObjectName("PatientMonitor");
-        PatientMonitor->resize(1000, 650);
+        PatientMonitor->resize(990, 650);
         PatientMonitor->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "background-color: rgb(142, 157, 204);\n"
 "}"));
@@ -85,13 +86,29 @@ public:
         rectangle->setPixmap(QPixmap(QString::fromUtf8("../../../images/menu.png")));
         patientTable = new QTableWidget(centralwidget);
         patientTable->setObjectName("patientTable");
-        patientTable->setGeometry(QRect(270, 70, 721, 521));
+        patientTable->setGeometry(QRect(270, 70, 711, 521));
         patientTable->setStyleSheet(QString::fromUtf8("QTableWidget {\n"
 "	background-color: #D9DBF1;\n"
 "    color: #000000;\n"
 "    border-radius: 20px;\n"
+"	font-family: 'Gogh';\n"
+"	font-weight: 500;\n"
+"	font-size: 15px;\n"
 "}\n"
-""));
+"\n"
+"QTableWidget::item:hover { \n"
+"border-right: 0.5px solid #E5E5E5;\n"
+"}\n"
+"\n"
+"QTableWidget::item:hover { \n"
+"border-right: 0.5px solid #E5E5E5;\n"
+"background-color: #A9B9E3\n"
+" }\n"
+"\n"
+"QTableWidget::item:active { \n"
+"border-right: 0.5px solid #E5E5E5;\n"
+"background-color: #A9B9E3\n"
+" }"));
         writeButton = new QPushButton(centralwidget);
         writeButton->setObjectName("writeButton");
         writeButton->setGeometry(QRect(180, 110, 70, 31));
@@ -216,8 +233,7 @@ public:
 "    background-color: #A9B9E3;\n"
 "	font-family: 'Gogh';\n"
 "	font-weight: 500;\n"
-"}\n"
-""));
+"}"));
         bloodTypeGroupButton = new QPushButton(centralwidget);
         bloodTypeGroupButton->setObjectName("bloodTypeGroupButton");
         bloodTypeGroupButton->setGeometry(QRect(20, 230, 230, 41));
@@ -236,6 +252,24 @@ public:
 "	font-weight: 500;\n"
 "}\n"
 ""));
+        scanTableButton = new QPushButton(centralwidget);
+        scanTableButton->setObjectName("scanTableButton");
+        scanTableButton->setGeometry(QRect(520, 280, 250, 50));
+        scanTableButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"background-color: #C6CCE8;\n"
+"color: #000000;\n"
+"border-radius: 0.5em;\n"
+"font-family: 'Gogh';\n"
+"font-weight: 500;\n"
+"font-size: 30px\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"background-color: #A9B9E3;\n"
+"font-family: 'Gogh';\n"
+"font-weight: 500;\n"
+"font-size: 30px\n"
+"}"));
         PatientMonitor->setCentralWidget(centralwidget);
         state->raise();
         pulseSortButton->raise();
@@ -250,9 +284,10 @@ public:
         normPressureCheckButton->raise();
         bloodTypeGroupButton->raise();
         logo->raise();
+        scanTableButton->raise();
         menubar = new QMenuBar(PatientMonitor);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1000, 21));
+        menubar->setGeometry(QRect(0, 0, 990, 21));
         PatientMonitor->setMenuBar(menubar);
         statusbar = new QStatusBar(PatientMonitor);
         statusbar->setObjectName("statusbar");
@@ -278,6 +313,7 @@ public:
         agePulseCheckButton->setText(QCoreApplication::translate("PatientMonitor", "Age pressure checker", nullptr));
         normPressureCheckButton->setText(QCoreApplication::translate("PatientMonitor", "Check healthy person", nullptr));
         bloodTypeGroupButton->setText(QCoreApplication::translate("PatientMonitor", "Group by blood type", nullptr));
+        scanTableButton->setText(QCoreApplication::translate("PatientMonitor", "Scan", nullptr));
     } // retranslateUi
 
 };

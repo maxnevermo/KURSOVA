@@ -3,18 +3,18 @@
 patientInfo::patientInfo()
 {
     this->m_num = 0;
-    this->m_surname = "Undefined";
+    this->m_surname = "Не визначено";
     this->m_age = 0;
-    this->m_bloodType = 0;
-    this->m_rhFactor = '/';
+    this->m_bloodType = "Не визначено";
+    this->m_rhFactor = "Не визначено";
     this->m_upPressure = 0;
     this->m_lowPressure = 0;
     this->m_pulseValue = 0;
 }
 
-void patientInfo::errorMessage() {
+void patientInfo::errorMessage(QString currentError) {
     QMessageBox mb("PatientMonitor",
-                   "Error.\n\nInput data are incorrect\n(Probably, you didn't fill some fields)\nPlease, try again",
+                   currentError,
                    QMessageBox::NoIcon,
                    QMessageBox::Yes | QMessageBox::Default,
                    QMessageBox::NoButton,
@@ -31,10 +31,13 @@ void patientInfo::errorMessage() {
     mb.exec();
 }
 
-patientInfo::patientInfo(std::string surname = "Невідомо", int age = 0, int bloodType = 0, char rhFactor = '/', int upPressure = 0, int lowPressure = 0, int pulse = 0) {
-    if (surname == "Невідомо" || age == 0 || bloodType == 0 || rhFactor == '/'
-        || upPressure == 0 || lowPressure == 0 || pulse == 0) {
-        errorMessage();
-    }
-
+patientInfo::patientInfo(std::string surname, int age, std::string bloodType, std::string rhFactor, int upPressure, int lowPressure, int pulse)
+{
+    m_surname = surname;
+    m_age = age;
+    m_bloodType = bloodType;
+    m_rhFactor = rhFactor;
+    m_upPressure = upPressure;
+    m_lowPressure = lowPressure;
+    m_pulseValue = pulse;
 }
