@@ -28,8 +28,11 @@ public:
     void onScanTableButtonClick();
     void checkIfEmpty();
 
-    void quickSort(std::vector<patientInfo> &patients, int low, int high);
-    int partition(std::vector<patientInfo> &patients, int low, int high);
+    void pressureQuickSort(std::vector<patientInfo> &patients, int low, int high);
+    void heartRateQuickSort(std::vector<patientInfo> &patients, int low, int high);
+
+    int pressurePartition(std::vector<patientInfo> &patients, int low, int high);
+    int heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high);
 
 public slots:
     void onPatientAdded(const patientInfo &patient);
@@ -40,6 +43,8 @@ private slots:
     void on_bloodPressureSort_clicked();
 
     void on_bloodTypeGroupButton_clicked();
+
+    void on_rhGroupHrSort_clicked();
 
 private:
     Ui::PatientMonitor *ui;

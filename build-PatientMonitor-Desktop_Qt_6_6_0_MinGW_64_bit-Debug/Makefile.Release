@@ -282,9 +282,13 @@ release/moc_addpatientdialog.cpp: ../PatientMonitor/addpatientdialog.h \
 		C:/Qt/6.6.0/mingw_64/include/QtCore/QSizeF \
 		C:/Qt/6.6.0/mingw_64/include/QtGui/QTransform \
 		C:/Qt/6.6.0/mingw_64/include/QtCore/qnativeinterface.h \
-		../PatientMonitor/patientinfo.h \
+		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QGraphicsDropShadowEffect \
+		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qgraphicseffect.h \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/QRegularExpression \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/qregularexpression.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qmessagebox.h \
+		../PatientMonitor/patientinfo.h \
 		release/moc_predefs.h \
 		C:/Qt/6.6.0/mingw_64/bin/moc.exe
 	C:\Qt\6.6.0\mingw_64\bin\moc.exe $(DEFINES) --include I:/uni/thirdsem/course/git/KURSOVA/build-PatientMonitor-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.6.0/mingw_64/mkspecs/win32-g++ -II:/uni/thirdsem/course/git/KURSOVA/PatientMonitor -IC:/Qt/6.6.0/mingw_64/include -IC:/Qt/6.6.0/mingw_64/include/QtWidgets -IC:/Qt/6.6.0/mingw_64/include/QtGui -IC:/Qt/6.6.0/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\PatientMonitor\addpatientdialog.h -o release\moc_addpatientdialog.cpp
@@ -470,9 +474,11 @@ release/moc_patientmonitor.cpp: ../PatientMonitor/patientmonitor.h \
 		C:/Qt/6.6.0/mingw_64/include/QtGui/QPixmap \
 		../PatientMonitor/addpatientdialog.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QDialog \
-		../PatientMonitor/patientinfo.h \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/QRegularExpression \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/qregularexpression.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qmessagebox.h \
+		../PatientMonitor/patientinfo.h \
 		release/moc_predefs.h \
 		C:/Qt/6.6.0/mingw_64/bin/moc.exe
 	C:\Qt\6.6.0\mingw_64\bin\moc.exe $(DEFINES) --include I:/uni/thirdsem/course/git/KURSOVA/build-PatientMonitor-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.6.0/mingw_64/mkspecs/win32-g++ -II:/uni/thirdsem/course/git/KURSOVA/PatientMonitor -IC:/Qt/6.6.0/mingw_64/include -IC:/Qt/6.6.0/mingw_64/include/QtWidgets -IC:/Qt/6.6.0/mingw_64/include/QtGui -IC:/Qt/6.6.0/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\PatientMonitor\patientmonitor.h -o release\moc_patientmonitor.cpp
@@ -668,9 +674,13 @@ release/addpatientdialog.o: ../PatientMonitor/addpatientdialog.cpp ../PatientMon
 		C:/Qt/6.6.0/mingw_64/include/QtCore/QSizeF \
 		C:/Qt/6.6.0/mingw_64/include/QtGui/QTransform \
 		C:/Qt/6.6.0/mingw_64/include/QtCore/qnativeinterface.h \
-		../PatientMonitor/patientinfo.h \
+		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QGraphicsDropShadowEffect \
+		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qgraphicseffect.h \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/QRegularExpression \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/qregularexpression.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qmessagebox.h \
+		../PatientMonitor/patientinfo.h \
 		ui_addpatientdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\addpatientdialog.o ..\PatientMonitor\addpatientdialog.cpp
 
@@ -855,9 +865,11 @@ release/main.o: ../PatientMonitor/main.cpp ../PatientMonitor/patientmonitor.h \
 		C:/Qt/6.6.0/mingw_64/include/QtGui/QPixmap \
 		../PatientMonitor/addpatientdialog.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QDialog \
-		../PatientMonitor/patientinfo.h \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/QRegularExpression \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/qregularexpression.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qmessagebox.h \
+		../PatientMonitor/patientinfo.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qapplication.h \
 		C:/Qt/6.6.0/mingw_64/include/QtCore/qcoreapplication.h \
@@ -1229,9 +1241,11 @@ release/patientmonitor.o: ../PatientMonitor/patientmonitor.cpp ../PatientMonitor
 		C:/Qt/6.6.0/mingw_64/include/QtGui/QPixmap \
 		../PatientMonitor/addpatientdialog.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QDialog \
-		../PatientMonitor/patientinfo.h \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/QRegularExpression \
+		C:/Qt/6.6.0/mingw_64/include/QtCore/qregularexpression.h \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.6.0/mingw_64/include/QtWidgets/qmessagebox.h \
+		../PatientMonitor/patientinfo.h \
 		ui_patientmonitor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\patientmonitor.o ..\PatientMonitor\patientmonitor.cpp
 

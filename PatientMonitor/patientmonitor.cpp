@@ -252,15 +252,15 @@ void PatientMonitor::onPatientAdded(const patientInfo &patient)
     checkIfEmpty();
 }
 
-void PatientMonitor::quickSort(std::vector<patientInfo> &patients, int low, int high) {
+void PatientMonitor::pressureQuickSort(std::vector<patientInfo> &patients, int low, int high) {
     if (low < high) {
-        int pivotIndex = partition(patients, low, high);
-        quickSort(patients, low, pivotIndex - 1);
-        quickSort(patients, pivotIndex + 1, high);
+        int pivotIndex = pressurePartition(patients, low, high);
+        pressureQuickSort(patients, low, pivotIndex - 1);
+        pressureQuickSort(patients, pivotIndex + 1, high);
     }
 }
 
-int PatientMonitor::partition(std::vector<patientInfo> &patients, int low, int high) {
+int PatientMonitor::pressurePartition(std::vector<patientInfo> &patients, int low, int high) {
     patientInfo pivot = patients[high];
     int i = low - 1;
 
@@ -275,9 +275,32 @@ int PatientMonitor::partition(std::vector<patientInfo> &patients, int low, int h
     return i + 1;
 }
 
+void PatientMonitor::heartRateQuickSort(std::vector<patientInfo> &patients, int low, int high) {
+    if (low < high) {
+        int pivotIndex = heartRatepressurepartition(patients, low, high);
+        heartRateQuickSort(patients, low, pivotIndex - 1);
+        heartRateQuickSort(patients, pivotIndex + 1, high);
+    }
+}
+
+int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high) {
+    patientInfo pivot = patients[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; ++j) {
+        if (patients[j].getPulseValue() < pivot.getPulseValue()) {
+            i++;
+            std::swap(patients[i], patients[j]);
+        }
+    }
+
+    std::swap(patients[i + 1], patients[high]);
+    return i + 1;
+}
+
 void PatientMonitor::on_bloodPressureSort_clicked()
 {
-    quickSort(patients, 0, patients.size() - 1);
+    pressureQuickSort(patients, 0, patients.size() - 1);
 
     ui->patientTable->clear();
 
@@ -409,3 +432,65 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
     }
 
 }
+
+void PatientMonitor::on_rhGroupHrSort_clicked()
+{
+    std::vector<patientInfo> rhP;
+    std::vector<patientInfo> rhM;
+
+    std::string currentRH;
+
+    for (int i = 0; i < patients.size(); i++) {
+        currentRH = patients[i].getRhFactor();
+        if(currentRH == "+")
+            rhP.push_back(patients[i]);
+        if(currentRH == "-")
+            rhM.push_back(patients[i]);
+    }
+
+    heartRateQuickSort(rhP, 0, rhP.size() - 1);
+    heartRateQuickSort(rhM, 0, rhM.size() - 1);
+
+
+    std::vector<patientInfo> groupedPatients;
+    groupedPatients.insert(groupedPatients.end(), rhP.begin(), rhP.end());
+    groupedPatients.insert(groupedPatients.end(), rhM.begin(), rhM.end());
+
+    rhP.clear();
+    rhM.clear();
+
+    QTableWidgetItem* newPatientInfo = NULL;
+
+    ui->patientTable->clear();
+
+    for (int i = 0; i < groupedPatients.size(); i++) {
+        newPatientInfo = new QTableWidgetItem(QString::number(i+1));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 0, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(groupedPatients[i].getSurname().c_str());
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 1, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(groupedPatients[i].getAge()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 2, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(groupedPatients[i].getBloodType()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 3, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(groupedPatients[i].getRhFactor()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 4, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(groupedPatients[i].getUpPressure()) + "/" + QString::number(groupedPatients[i].getLowPressure()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 5, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(groupedPatients[i].getPulseValue()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 6, newPatientInfo);
+    }
+}
+
