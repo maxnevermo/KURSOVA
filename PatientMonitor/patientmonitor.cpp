@@ -107,17 +107,26 @@ PatientMonitor::~PatientMonitor()
     delete ui;
 }
 
+std::vector<std::string> splitByString(const std::string& input, const std::string& delimiter) {
+    std::vector<std::string> elements;
+    size_t startPos = 0;
+    size_t foundPos;
+
+    while ((foundPos = input.find(delimiter, startPos)) != std::string::npos) {
+        elements.push_back(input.substr(startPos, foundPos - startPos));
+        startPos = foundPos + delimiter.length();
+    }
+
+    elements.push_back(input.substr(startPos));
+    return elements;
+}
 
 void PatientMonitor::onScanTableButtonClick() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath(), tr("All Files (*.*)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
 
     std::ifstream inputData(fileName.toStdString());
 
-    try {
-        if(!inputData || inputData.peek() == EOF)
-            throw 1;
-    }
-    catch (int) {
+    if (!inputData || inputData.peek() == EOF) {
         QMessageBox mb("PatientMonitor",
                        "Error\n\nFile cannot be opened or it is empty\nPlease, try again",
                        QMessageBox::NoIcon,
@@ -126,6 +135,7 @@ void PatientMonitor::onScanTableButtonClick() {
                        QMessageBox::NoButton);
         QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\sad-but-relieved-face_1f625.png");
         mb.setIconPixmap(exportSuccess);
+
         mb.setStyleSheet("QMessageBox {"
                          "background-color: #C6CCE8;"
                          "color: #000000;"
@@ -137,15 +147,21 @@ void PatientMonitor::onScanTableButtonClick() {
     }
 
     std::string myline;
-    while (inputData) {
-        std::getline (inputData, myline);
-        qDebug() << myline << ": " << inputData.tellg() << '\n';
+    std::string delim = " | ";
+    std::string Pdelim = "/";
+    std::vector<std::string> dividedPatientInfo;
+    std::vector<std::string> dividedPressure;
+
+    while (std::getline(inputData, myline)) {
+        dividedPatientInfo = splitByString(myline, delim);
+        dividedPressure = splitByString(dividedPatientInfo.at(4), Pdelim);
+        patientInfo newPatient (dividedPatientInfo.at(0), stoi(dividedPatientInfo.at(1)),dividedPatientInfo.at(2),dividedPatientInfo.at(3),stoi(dividedPressure.at(0)),
+                               stoi(dividedPressure.at(1)), stoi(dividedPatientInfo.at(5)));
+        onPatientAdded(newPatient);
     }
 
     inputData.close();
 }
-
-
 
 void PatientMonitor::on_scanButton_clicked()
 {
@@ -153,7 +169,7 @@ void PatientMonitor::on_scanButton_clicked()
 
     std::ifstream inputData(fileName.toStdString());
 
-    if(!inputData || inputData.peek() == EOF){
+    if (!inputData || inputData.peek() == EOF) {
         QMessageBox mb("PatientMonitor",
                        "Error\n\nFile cannot be opened or it is empty\nPlease, try again",
                        QMessageBox::NoIcon,
@@ -174,14 +190,21 @@ void PatientMonitor::on_scanButton_clicked()
     }
 
     std::string myline;
-    while (inputData) {
-        std::getline (inputData, myline);
-        qDebug() << myline << ": " << inputData.tellg() << '\n';
+    std::string delim = " | ";
+    std::string Pdelim = "/";
+    std::vector<std::string> dividedPatientInfo;
+    std::vector<std::string> dividedPressure;
+
+    while (std::getline(inputData, myline)) {
+        dividedPatientInfo = splitByString(myline, delim);
+        dividedPressure = splitByString(dividedPatientInfo.at(4), Pdelim);
+        patientInfo newPatient (dividedPatientInfo.at(0), stoi(dividedPatientInfo.at(1)),dividedPatientInfo.at(2),dividedPatientInfo.at(3),stoi(dividedPressure.at(0)),
+                               stoi(dividedPressure.at(1)), stoi(dividedPatientInfo.at(5)));
+        onPatientAdded(newPatient);
     }
 
-        inputData.close();
+    inputData.close();
 }
-
 
 void PatientMonitor::on_addButton_clicked()
 {
@@ -229,8 +252,67 @@ void PatientMonitor::onPatientAdded(const patientInfo &patient)
     checkIfEmpty();
 }
 
+void PatientMonitor::quickSort(std::vector<patientInfo> &patients, int low, int high) {
+    if (low < high) {
+        int pivotIndex = partition(patients, low, high);
+        quickSort(patients, low, pivotIndex - 1);
+        quickSort(patients, pivotIndex + 1, high);
+    }
+}
 
+int PatientMonitor::partition(std::vector<patientInfo> &patients, int low, int high) {
+    patientInfo pivot = patients[high];
+    int i = low - 1;
 
+    for (int j = low; j < high; ++j) {
+        if (patients[j].getUpPressure() < pivot.getUpPressure()) {
+            i++;
+            std::swap(patients[i], patients[j]);
+        }
+    }
+
+    std::swap(patients[i + 1], patients[high]);
+    return i + 1;
+}
+
+void PatientMonitor::on_bloodPressureSort_clicked()
+{
+    quickSort(patients, 0, patients.size() - 1);
+
+    ui->patientTable->clear();
+
+    QTableWidgetItem* newPatientInfo = NULL;
+
+    for (int i =0; i < patients.size(); i++) {
+        newPatientInfo = new QTableWidgetItem(QString::number(i+1));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 0, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(patients[i].getSurname().c_str());
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 1, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getAge()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 2, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getBloodType()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 3, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getRhFactor()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 4, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getUpPressure()) + "/" + QString::number(patients[i].getLowPressure()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 5, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getPulseValue()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 6, newPatientInfo);
+    }
+}
 
 void PatientMonitor::checkIfEmpty() {
     if(ui->patientTable->rowCount() > 0) {
@@ -238,4 +320,92 @@ void PatientMonitor::checkIfEmpty() {
     } else {
         ui->scanTableButton->setVisible(true);
     }
+}
+
+void PatientMonitor::on_bloodTypeGroupButton_clicked()
+{
+    std::vector<patientInfo> firstTB;
+    std::vector<patientInfo> secondTB;
+    std::vector<patientInfo> thirdTB;
+    std::vector<patientInfo> fourthTB;
+
+    std::vector<patientInfo> rhP;
+    std::vector<patientInfo> rhM;
+
+    std::string currentBT;
+    std::string currentRH;
+
+    for (int i = 0; i < patients.size(); i++) {
+        currentRH = patients[i].getRhFactor();
+        if(currentRH == "+")
+            rhP.push_back(patients[i]);
+        if(currentRH == "-")
+            rhM.push_back(patients[i]);
+    }
+
+    std::vector<patientInfo> groupedPatients;
+    groupedPatients.insert(groupedPatients.end(), rhP.begin(), rhP.end());
+    groupedPatients.insert(groupedPatients.end(), rhM.begin(), rhM.end());
+
+    rhP.clear();
+    rhM.clear();
+
+
+    for (int i = 0; i < groupedPatients.size(); i++) {
+        currentBT = groupedPatients[i].getBloodType();
+        if(currentBT == "I")
+            firstTB.push_back(groupedPatients[i]);
+        if(currentBT == "II")
+            secondTB.push_back(groupedPatients[i]);
+        if(currentBT == "III")
+            thirdTB.push_back(groupedPatients[i]);
+        if(currentBT == "IV")
+            fourthTB.push_back(groupedPatients[i]);
+    }
+
+    std::vector<patientInfo> mergedVector;
+    mergedVector.insert(mergedVector.end(), firstTB.begin(), firstTB.end());
+    mergedVector.insert(mergedVector.end(), secondTB.begin(), secondTB.end());
+    mergedVector.insert(mergedVector.end(), thirdTB.begin(), thirdTB.end());
+    mergedVector.insert(mergedVector.end(), fourthTB.begin(), fourthTB.end());
+
+    firstTB.clear();
+    secondTB.clear();
+    thirdTB.clear();
+    fourthTB.clear();
+
+    QTableWidgetItem* newPatientInfo = NULL;
+
+    ui->patientTable->clear();
+
+    for (int i = 0; i < mergedVector.size(); i++) {
+        newPatientInfo = new QTableWidgetItem(QString::number(i+1));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 0, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(mergedVector[i].getSurname().c_str());
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 1, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(mergedVector[i].getAge()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 2, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(mergedVector[i].getBloodType()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 3, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(mergedVector[i].getRhFactor()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 4, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(mergedVector[i].getUpPressure()) + "/" + QString::number(groupedPatients[i].getLowPressure()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 5, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(mergedVector[i].getPulseValue()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 6, newPatientInfo);
+    }
+
 }

@@ -100,11 +100,11 @@ void addPatientDialog::on_addButton_clicked()
 
     try
     {
-        QRegularExpression ukrainianRegex("^[А-ЩЬЮЯҐЄIІЇа-щьюяґєiії]+$");
-        QRegularExpressionMatch ukrainianMatch = ukrainianRegex.match(gotName);
-        if (!ukrainianMatch.hasMatch())
-        {
-            throw QString("Invalid surname.\nPlease use only Ukrainian letters.");
+        QRegularExpression englishRegex("^[A-Za-z]+$");
+        QRegularExpressionMatch englishMatch = englishRegex.match(gotName);
+
+        if (!englishMatch.hasMatch()) {
+            throw QString("Invalid name.\nPlease use only english letters.");
         }
 
         if (gotAge <= 0)

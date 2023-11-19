@@ -6,8 +6,11 @@
 #include <QFileDialog>
 #include <QPixmap>
 #include <fstream>
+#include <locale>
+#include <codecvt>
 
 #include "addpatientdialog.h"
+#include "patientinfo.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -25,13 +28,19 @@ public:
     void onScanTableButtonClick();
     void checkIfEmpty();
 
+    void quickSort(std::vector<patientInfo> &patients, int low, int high);
+    int partition(std::vector<patientInfo> &patients, int low, int high);
+
 public slots:
     void onPatientAdded(const patientInfo &patient);
 
 private slots:
     void on_scanButton_clicked();
-
     void on_addButton_clicked();
+    void on_bloodPressureSort_clicked();
+
+    void on_bloodTypeGroupButton_clicked();
+
 private:
     Ui::PatientMonitor *ui;
 };
