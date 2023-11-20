@@ -494,3 +494,9 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
     }
 }
 
+
+void PatientMonitor::on_agePulseCheckButton_clicked()
+{
+
+}
+

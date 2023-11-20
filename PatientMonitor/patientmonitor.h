@@ -46,6 +46,8 @@ private slots:
 
     void on_rhGroupHrSort_clicked();
 
+    void on_agePulseCheckButton_clicked();
+
 private:
     Ui::PatientMonitor *ui;
 };
