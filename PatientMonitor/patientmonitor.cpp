@@ -306,7 +306,7 @@ void PatientMonitor::on_bloodPressureSort_clicked()
 
     QTableWidgetItem* newPatientInfo = NULL;
 
-    for (int i =0; i < patients.size(); i++) {
+    for (int i =0; i < (int)(patients.size()); i++) {
         newPatientInfo = new QTableWidgetItem(QString::number(i+1));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 0, newPatientInfo);
@@ -358,7 +358,7 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
     std::string currentBT;
     std::string currentRH;
 
-    for (int i = 0; i < patients.size(); i++) {
+    for (int i = 0; i < (int)(patients.size()); i++) {
         currentRH = patients[i].getRhFactor();
         if(currentRH == "+")
             rhP.push_back(patients[i]);
@@ -374,7 +374,7 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
     rhM.clear();
 
 
-    for (int i = 0; i < groupedPatients.size(); i++) {
+    for (int i = 0; i < (int)(groupedPatients.size()); i++) {
         currentBT = groupedPatients[i].getBloodType();
         if(currentBT == "I")
             firstTB.push_back(groupedPatients[i]);
@@ -401,7 +401,7 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
 
     ui->patientTable->clear();
 
-    for (int i = 0; i < mergedVector.size(); i++) {
+    for (int i = 0; i < (int)(mergedVector.size()); i++) {
         newPatientInfo = new QTableWidgetItem(QString::number(i+1));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 0, newPatientInfo);
@@ -440,7 +440,7 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
 
     std::string currentRH;
 
-    for (int i = 0; i < patients.size(); i++) {
+    for (int i = 0; i < (int)(patients.size()); i++) {
         currentRH = patients[i].getRhFactor();
         if(currentRH == "+")
             rhP.push_back(patients[i]);
@@ -463,7 +463,7 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
 
     ui->patientTable->clear();
 
-    for (int i = 0; i < groupedPatients.size(); i++) {
+    for (int i = 0; i < (int)(groupedPatients.size()); i++) {
         newPatientInfo = new QTableWidgetItem(QString::number(i+1));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 0, newPatientInfo);
@@ -494,9 +494,15 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
     }
 }
 
+void PatientMonitor::onAgeSet(int age) {
+    for (int i = 0; i < (int)(patients.size()); i++) {
+    }
+}
 
 void PatientMonitor::on_agePulseCheckButton_clicked()
 {
-
+    agePatientDialog* agePatientDialogWindow = new agePatientDialog();
+    agePatientDialogWindow->show();
+    QObject::connect(agePatientDialogWindow, &agePatientDialog::sentAge, this, &PatientMonitor::onAgeSet);
 }
 

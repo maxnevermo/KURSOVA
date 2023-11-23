@@ -11,6 +11,7 @@
 
 #include "addpatientdialog.h"
 #include "patientinfo.h"
+#include "agepatientdialog.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -36,6 +37,7 @@ public:
 
 public slots:
     void onPatientAdded(const patientInfo &patient);
+    void onAgeSet(int age);
 
 private slots:
     void on_scanButton_clicked();
