@@ -8,10 +8,13 @@
 #include <QTableWidgetItem>
 #include <fstream>
 #include <codecvt>
+#include <QPrintDialog>
+#include <QPrinter>
 
 #include "addpatientdialog.h"
 #include "patientinfo.h"
 #include "ageinputdialog.h"
+#include "donorstable.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -37,6 +40,8 @@ public:
 
     void onItemClicked(QTableWidgetItem *item);
 
+    void operatingError();
+
 public slots:
     void onPatientAdded(const patientInfo &patient);
     void handleAgeSet(const int &age);
@@ -59,6 +64,11 @@ private slots:
     void on_writeButton_clicked();
 
     void on_normPressureCheckButton_clicked();
+
+    void on_donorCheckButton_clicked();
+
+signals:
+    void sentPatients(const std::vector<patientInfo> &patients);
 
 private:
     Ui::PatientMonitor *ui;

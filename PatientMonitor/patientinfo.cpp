@@ -12,25 +12,6 @@ patientInfo::patientInfo()
     this->m_pulseValue = 0;
 }
 
-void patientInfo::errorMessage(QString currentError) {
-    QMessageBox mb("PatientMonitor",
-                   currentError,
-                   QMessageBox::NoIcon,
-                   QMessageBox::Yes | QMessageBox::Default,
-                   QMessageBox::NoButton,
-                   QMessageBox::NoButton);
-    QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
-    mb.setIconPixmap(exportSuccess);
-    mb.setStyleSheet("QMessageBox {"
-                     "background-color: #C6CCE8;"
-                     "color: #000000;"
-                     "font-family: 'Gogh';"
-                     "font-weight: 400;"
-                     "font-size: 20px"
-                     "}");
-    mb.exec();
-}
-
 patientInfo::patientInfo(std::string surname, int age, std::string bloodType, std::string rhFactor, int upPressure, int lowPressure, int pulse)
 {
     m_surname = surname;

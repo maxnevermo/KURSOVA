@@ -88,6 +88,7 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->patientTable->setSelectionMode(QAbstractItemView::MultiSelection);
     connect(ui->patientTable, &QTableWidget::itemClicked, this, &PatientMonitor::onItemClicked);
 
+    ui->patientTable->setFocusPolicy(Qt::NoFocus);
 
 
     ui->menuFile->setStyleSheet("QMenu {background-color: #C6CCE8; color: #000000; border-radius: 0.5em; font-family: 'Gogh'; font-weight: 500; font-size: 15px }"
@@ -104,7 +105,6 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->scanTableButton->setGraphicsEffect(shadowEffectScanTable);
     ui->scanTableButton->setVisible(false);
     connect(ui->scanTableButton, &QPushButton::clicked, this, &PatientMonitor::onScanTableButtonClick);
-    ui->patientTable->setFocusPolicy(Qt::NoFocus);
 
 
     try {
@@ -284,6 +284,9 @@ int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patient
 
 void PatientMonitor::on_bloodPressureSort_clicked()
 {
+    if (patients.size() == 0) {
+        operatingError();
+    } else {
     std::vector<patientInfo> patientsToOperate = patients;
 
     pressureQuickSort(patientsToOperate, 0, patientsToOperate.size() - 1);
@@ -321,6 +324,7 @@ void PatientMonitor::on_bloodPressureSort_clicked()
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
+    }
 }
 
 void PatientMonitor::checkIfEmpty() {
@@ -333,6 +337,9 @@ void PatientMonitor::checkIfEmpty() {
 
 void PatientMonitor::on_bloodTypeGroupButton_clicked()
 {
+    if (patients.size() == 0) {
+        operatingError();
+    } else {
     std::vector<patientInfo> firstTB;
     std::vector<patientInfo> secondTB;
     std::vector<patientInfo> thirdTB;
@@ -416,11 +423,14 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
-
+    }
 }
 
 void PatientMonitor::on_rhGroupHrSort_clicked()
 {
+    if (patients.size() == 0) {
+        operatingError();
+    } else {
     std::vector<patientInfo> rhP;
     std::vector<patientInfo> rhM;
 
@@ -478,27 +488,13 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
+    }
 }
 
 void PatientMonitor::on_agePulseCheckButton_clicked()
 {
     if(patients.size() == 0) {
-        QMessageBox mb("Pressure and pulse check",
-                       "Patient list is empty",
-                       QMessageBox::NoIcon,
-                       QMessageBox::Ok | QMessageBox::Default,
-                       QMessageBox::NoButton,
-                       QMessageBox::NoButton);
-        QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
-        mb.setIconPixmap(exportSuccess);
-        mb.setStyleSheet("QMessageBox {"
-                         "background-color: #C6CCE8;"
-                         "color: #000000;"
-                         "font-family: 'Gogh';"
-                         "font-weight: 400;"
-                         "font-size: 20px"
-                         "}");
-        mb.exec();
+         operatingError();
     } else {
 
     AgeInputDialog ageInputDialogWindow(this);
@@ -599,7 +595,9 @@ void PatientMonitor::handleAgeSet(const int &age) {
 
 void PatientMonitor::on_actionCancel_action_triggered()
 {
-
+    if (patients.size() == 0) {
+        operatingError();
+    } else {
     for (int i = (int)(patients.size())-1; i >= 0; i--) {
         ui->patientTable->removeRow(i);
     }
@@ -639,6 +637,7 @@ void PatientMonitor::on_actionCancel_action_triggered()
     }
 
     patients = backUpVector;
+    }
 }
 
 
@@ -650,6 +649,9 @@ void PatientMonitor::on_actionExit_triggered()
 
 void PatientMonitor::on_writeButton_clicked()
 {
+    if (patients.size() == 0) {
+        operatingError();
+    } else {
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save Patient Data"), "", tr("Text Files (*.txt);;All Files (*)"));
 
     if (!filePath.isEmpty()) {
@@ -686,6 +688,7 @@ void PatientMonitor::on_writeButton_clicked()
         std::cerr << "Error opening file\n";
     }
     }
+    }
 }
 
 
@@ -707,22 +710,7 @@ void PatientMonitor::onItemClicked(QTableWidgetItem *item) {
 void PatientMonitor::on_normPressureCheckButton_clicked()
 {
     if(patients.size() == 0) {
-    QMessageBox mb("Pressure and pulse check",
-                   "Patient list is empty",
-                   QMessageBox::NoIcon,
-                   QMessageBox::Ok | QMessageBox::Default,
-                   QMessageBox::NoButton,
-                   QMessageBox::NoButton);
-    QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
-    mb.setIconPixmap(exportSuccess);
-    mb.setStyleSheet("QMessageBox {"
-                     "background-color: #C6CCE8;"
-                     "color: #000000;"
-                     "font-family: 'Gogh';"
-                     "font-weight: 400;"
-                     "font-size: 20px"
-                     "}");
-    mb.exec();
+        operatingError();
     } else {
 
     healthyPatients.clear();
@@ -792,4 +780,35 @@ void PatientMonitor::on_normPressureCheckButton_clicked()
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
+}
+
+void PatientMonitor::on_donorCheckButton_clicked()
+{
+    if (patients.size() == 0) {
+        operatingError();
+    } else {
+            donorsTable* donorsTableWindow = new donorsTable(this);
+            connect(this, &PatientMonitor::sentPatients, donorsTableWindow, &donorsTable::receivePatientList);
+            emit sentPatients(patients);
+            donorsTableWindow->show();
+    }
+}
+
+void PatientMonitor::operatingError() {
+    QMessageBox mb("PatientMonitor",
+                   "Patient list is empty",
+                   QMessageBox::NoIcon,
+                   QMessageBox::Yes | QMessageBox::Default,
+                   QMessageBox::NoButton,
+                   QMessageBox::NoButton);
+    QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
+    mb.setIconPixmap(exportSuccess);
+    mb.setStyleSheet("QMessageBox {"
+                     "background-color: #C6CCE8;"
+                     "color: #000000;"
+                     "font-family: 'Gogh';"
+                     "font-weight: 400;"
+                     "font-size: 20px"
+                     "}");
+    mb.exec();
 }

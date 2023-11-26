@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     addpatientdialog.cpp \
     ageinputdialog.cpp \
+    donorstable.cpp \
     main.cpp \
     patientinfo.cpp \
     patientmonitor.cpp
@@ -18,12 +19,14 @@ SOURCES += \
 HEADERS += \
     addpatientdialog.h \
     ageinputdialog.h \
+    donorstable.h \
     patientinfo.h \
     patientmonitor.h
 
 FORMS += \
     addpatientdialog.ui \
     ageinputdialog.ui \
+    donorstable.ui \
     patientmonitor.ui
 
 # Default rules for deployment.

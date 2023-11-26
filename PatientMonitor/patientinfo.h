@@ -28,8 +28,6 @@ public:
     int getLowPressure() const { return m_lowPressure; }
     int getPulseValue() const { return m_pulseValue; }
 
-    void errorMessage(QString currentError);
-
 private:
     int m_num;
     std::string m_surname;
