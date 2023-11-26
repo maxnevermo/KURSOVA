@@ -812,3 +812,27 @@ void PatientMonitor::operatingError() {
                      "}");
     mb.exec();
 }
+
+void PatientMonitor::on_actionPrint_triggered()
+{
+    QPrinter printer(QPrinter::PrinterResolution);
+
+    QPrintDialog printDialog(&printer, this);
+    if (printDialog.exec() == QDialog::Accepted) {
+            QPainter painter(&printer);
+
+            painter.setRenderHint(QPainter::Antialiasing, true);
+            painter.setRenderHint(QPainter::TextAntialiasing, true);
+
+            QFont font = painter.font();
+            font.setPointSize(12);
+            painter.setFont(font);
+
+            double scaleFactor = 4;
+            painter.scale(scaleFactor, scaleFactor);
+
+            ui->patientTable->render(&painter);
+    }
+}
+
+

@@ -8,8 +8,12 @@
 #include <QTableWidgetItem>
 #include <fstream>
 #include <codecvt>
-#include <QPrintDialog>
 #include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
+#include <QTextDocument>
+#include <QTextCursor>
+
 
 #include "addpatientdialog.h"
 #include "patientinfo.h"
@@ -66,6 +70,8 @@ private slots:
     void on_normPressureCheckButton_clicked();
 
     void on_donorCheckButton_clicked();
+
+    void on_actionPrint_triggered();
 
 signals:
     void sentPatients(const std::vector<patientInfo> &patients);
