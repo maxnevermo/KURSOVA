@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>399</width>
-    <height>439</height>
+    <width>400</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -223,7 +223,7 @@ font-family: &quot;Gogh&quot;;
 font-weight: 500;</string>
    </property>
    <property name="text">
-    <string>Прізвище</string>
+    <string>Surname</string>
    </property>
   </widget>
   <widget class="QLabel" name="ageLabel">
@@ -231,7 +231,7 @@ font-weight: 500;</string>
     <rect>
      <x>15</x>
      <y>80</y>
-     <width>30</width>
+     <width>51</width>
      <height>30</height>
     </rect>
    </property>
@@ -242,7 +242,7 @@ font-family: &quot;Gogh&quot;;
 font-weight: 500;</string>
    </property>
    <property name="text">
-    <string>Вік:</string>
+    <string>Age</string>
    </property>
   </widget>
   <widget class="QLabel" name="bloodTypeLabel">
@@ -250,7 +250,7 @@ font-weight: 500;</string>
     <rect>
      <x>15</x>
      <y>125</y>
-     <width>131</width>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
@@ -261,7 +261,7 @@ font-family: &quot;Gogh&quot;;
 font-weight: 500;</string>
    </property>
    <property name="text">
-    <string>Група крові</string>
+    <string>Blood type</string>
    </property>
   </widget>
   <widget class="QLabel" name="rhFactorLabel">
@@ -269,7 +269,7 @@ font-weight: 500;</string>
     <rect>
      <x>15</x>
      <y>160</y>
-     <width>141</width>
+     <width>91</width>
      <height>21</height>
     </rect>
    </property>
@@ -280,7 +280,7 @@ font-family: &quot;Gogh&quot;;
 font-weight: 500;</string>
    </property>
    <property name="text">
-    <string>Резус-фактор</string>
+    <string>Rh factor</string>
    </property>
   </widget>
   <widget class="QLabel" name="upperLabel">
@@ -288,25 +288,6 @@ font-weight: 500;</string>
     <rect>
      <x>15</x>
      <y>190</y>
-     <width>191</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: #000000;
-font-size: 20px;
-font-family: &quot;Gogh&quot;;
-font-weight: 500;</string>
-   </property>
-   <property name="text">
-    <string>Діастолічний тиск</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lowerLabel">
-   <property name="geometry">
-    <rect>
-     <x>15</x>
-     <y>230</y>
      <width>181</width>
      <height>40</height>
     </rect>
@@ -318,15 +299,15 @@ font-family: &quot;Gogh&quot;;
 font-weight: 500;</string>
    </property>
    <property name="text">
-    <string>Систолічний тиск</string>
+    <string>Diastolic pressure</string>
    </property>
   </widget>
-  <widget class="QLabel" name="pulseLabel">
+  <widget class="QLabel" name="lowerLabel">
    <property name="geometry">
     <rect>
      <x>15</x>
-     <y>285</y>
-     <width>70</width>
+     <y>230</y>
+     <width>171</width>
      <height>40</height>
     </rect>
    </property>
@@ -337,16 +318,35 @@ font-family: &quot;Gogh&quot;;
 font-weight: 500;</string>
    </property>
    <property name="text">
-    <string>Пульс</string>
+    <string>Systolic pressure</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pulseLabel">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>285</y>
+     <width>101</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Heart rate</string>
    </property>
   </widget>
   <widget class="QPushButton" name="addButton">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>165</x>
      <y>350</y>
-     <width>121</width>
-     <height>41</height>
+     <width>70</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -365,7 +365,7 @@ QPushButton:hover {
 }</string>
    </property>
    <property name="text">
-    <string>Додати</string>
+    <string>Add</string>
    </property>
   </widget>
  </widget>

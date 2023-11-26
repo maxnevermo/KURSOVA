@@ -5,6 +5,7 @@
 std::vector<patientInfo> patients;
 std::vector<patientInfo> hyperTTachyC;
 std::vector<patientInfo> healthyPatients;
+std::vector<patientInfo> backUpVector;
 
 PatientMonitor::PatientMonitor(QWidget *parent)
     : QMainWindow(parent)
@@ -114,11 +115,12 @@ PatientMonitor::PatientMonitor(QWidget *parent)
         ui->scanTableButton->setVisible(true);
     }
 }
-
 PatientMonitor::~PatientMonitor()
 {
     delete ui;
 }
+
+
 
 std::vector<std::string> splitByString(const std::string& input, const std::string& delimiter) {
     std::vector<std::string> elements;
@@ -134,50 +136,11 @@ std::vector<std::string> splitByString(const std::string& input, const std::stri
     return elements;
 }
 
-void PatientMonitor::onScanTableButtonClick() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
 
-    std::ifstream inputData(fileName.toStdString());
-
-    if (!inputData || inputData.peek() == EOF) {
-        QMessageBox mb("PatientMonitor",
-                       "Error\n\nFile cannot be opened or it is empty\nPlease, try again",
-                       QMessageBox::NoIcon,
-                       QMessageBox::Ok | QMessageBox::Default,
-                       QMessageBox::NoButton,
-                       QMessageBox::NoButton);
-        QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\sad-but-relieved-face_1f625.png");
-        mb.setIconPixmap(exportSuccess);
-
-        mb.setStyleSheet("QMessageBox {"
-                         "background-color: #C6CCE8;"
-                         "color: #000000;"
-                         "font-family: 'Gogh';"
-                         "font-weight: 400;"
-                         "font-size: 20px"
-                         "}");
-        mb.exec();
-    }
-
-    std::string myline;
-    std::string delim = " | ";
-    std::string Pdelim = "/";
-    std::vector<std::string> dividedPatientInfo;
-    std::vector<std::string> dividedPressure;
-
-    while (std::getline(inputData, myline)) {
-        dividedPatientInfo = splitByString(myline, delim);
-        dividedPressure = splitByString(dividedPatientInfo.at(4), Pdelim);
-        patientInfo newPatient (dividedPatientInfo.at(0), stoi(dividedPatientInfo.at(1)),dividedPatientInfo.at(2),dividedPatientInfo.at(3),stoi(dividedPressure.at(0)),
-                               stoi(dividedPressure.at(1)), stoi(dividedPatientInfo.at(5)));
-        onPatientAdded(newPatient);
-    }
-
-    inputData.close();
-}
 
 void PatientMonitor::on_scanButton_clicked()
 {
+
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
 
     std::ifstream inputData(fileName.toStdString());
@@ -217,6 +180,14 @@ void PatientMonitor::on_scanButton_clicked()
     }
 
     inputData.close();
+
+    if (backUpVector.empty()) {
+        backUpVector = patients;
+    }
+}
+
+void PatientMonitor::onScanTableButtonClick() {
+    on_scanButton_clicked();
 }
 
 void PatientMonitor::on_addButton_clicked()
@@ -538,6 +509,7 @@ void PatientMonitor::on_agePulseCheckButton_clicked()
 
 void PatientMonitor::handleAgeSet(const int &age) {
     int flagChecker = 0;
+    hyperTTachyC.clear();
 
     for (int i = 0; i < (int)(patients.size()); i++) {
         if (patients[i].getAge() == age) {
@@ -628,43 +600,45 @@ void PatientMonitor::handleAgeSet(const int &age) {
 void PatientMonitor::on_actionCancel_action_triggered()
 {
 
-    for (int i = (int)(patients.size()); i >= 0; i--) {
-    ui->patientTable->removeRow(i);
+    for (int i = (int)(patients.size())-1; i >= 0; i--) {
+        ui->patientTable->removeRow(i);
     }
 
     QTableWidgetItem* newPatientInfo = NULL;
 
-    for (int i = 0; i < (int)(patients.size()); i++) {
+    for (int i = 0; i < (int)(backUpVector.size()); i++) {
     ui->patientTable->insertRow(i);
 
     newPatientInfo = new QTableWidgetItem(QString::number(i+1));
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(i, 0, newPatientInfo);
 
-    newPatientInfo = new QTableWidgetItem(patients[i].getSurname().c_str());
+    newPatientInfo = new QTableWidgetItem(backUpVector[i].getSurname().c_str());
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(i, 1, newPatientInfo);
 
-    newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getAge()));
+    newPatientInfo = new QTableWidgetItem(QString::number(backUpVector[i].getAge()));
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(i, 2, newPatientInfo);
 
-    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getBloodType()));
+    newPatientInfo = new QTableWidgetItem(QString::fromStdString(backUpVector[i].getBloodType()));
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(i, 3, newPatientInfo);
 
-    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getRhFactor()));
+    newPatientInfo = new QTableWidgetItem(QString::fromStdString(backUpVector[i].getRhFactor()));
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(i, 4, newPatientInfo);
 
-    newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getUpPressure()) + "/" + QString::number(patients[i].getLowPressure()));
+    newPatientInfo = new QTableWidgetItem(QString::number(backUpVector[i].getUpPressure()) + "/" + QString::number(backUpVector[i].getLowPressure()));
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(i, 5, newPatientInfo);
 
-    newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getPulseValue()));
+    newPatientInfo = new QTableWidgetItem(QString::number(backUpVector[i].getPulseValue()));
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(i, 6, newPatientInfo);
     }
+
+    patients = backUpVector;
 }
 
 
@@ -682,28 +656,39 @@ void PatientMonitor::on_writeButton_clicked()
     std::ofstream patientOutputFile(filePath.toStdString());
 
     if (patientOutputFile.is_open()) {
-        std::string patientToOutput = "";
-
-        QTableWidgetItem* theItem = nullptr;
+        QString header = QString("%1 | %2 | %3 | %4 | %5 | %6 | %7\n")
+                             .arg("ID", -15)
+                             .arg("Name", -15)
+                             .arg("Age", -15)
+                             .arg("Ward", -15)
+                             .arg("Blood Type", -15)
+                             .arg("Blood Pressure", -15)
+                             .arg("Heart Rate", -15);
+        QString dividing = QString("-").repeated(125) + "\n";
+        patientOutputFile << header.toStdString();
+        patientOutputFile << dividing.toStdString();
 
         for (int i = 0; i < ui->patientTable->rowCount(); i++) {
-            patientToOutput = "";
+            QString patientToOutput = "";
+
             for (int j = 0; j < ui->patientTable->columnCount(); j++) {
-                theItem = ui->patientTable->item(i, j);
+                QTableWidgetItem* theItem = ui->patientTable->item(i, j);
                 QString theText = theItem->text();
-                patientToOutput += theText.toStdString() + " | ";
+                patientToOutput += QString("%1 | ").arg(theText, -15);
             }
+
             patientToOutput += "\n";
-            patientOutputFile << patientToOutput;
+            patientOutputFile << patientToOutput.toStdString();
         }
 
         patientOutputFile.close();
-    }
-    else {
+    } else {
         std::cerr << "Error opening file\n";
     }
     }
 }
+
+
 
 
 void PatientMonitor::onItemClicked(QTableWidgetItem *item) {
