@@ -5,13 +5,13 @@
 #include <QGraphicsDropShadowEffect>
 #include <QFileDialog>
 #include <QPixmap>
+#include <QTableWidgetItem>
 #include <fstream>
-#include <locale>
 #include <codecvt>
 
 #include "addpatientdialog.h"
 #include "patientinfo.h"
-#include "agepatientdialog.h"
+#include "ageinputdialog.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -35,9 +35,11 @@ public:
     int pressurePartition(std::vector<patientInfo> &patients, int low, int high);
     int heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high);
 
+    void onItemClicked(QTableWidgetItem *item);
+
 public slots:
     void onPatientAdded(const patientInfo &patient);
-    void onAgeSet(int age);
+    void handleAgeSet(const int &age);
 
 private slots:
     void on_scanButton_clicked();
@@ -49,6 +51,14 @@ private slots:
     void on_rhGroupHrSort_clicked();
 
     void on_agePulseCheckButton_clicked();
+
+    void on_actionCancel_action_triggered();
+
+    void on_actionExit_triggered();
+
+    void on_writeButton_clicked();
+
+    void on_normPressureCheckButton_clicked();
 
 private:
     Ui::PatientMonitor *ui;

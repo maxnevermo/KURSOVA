@@ -68,7 +68,7 @@ void addPatientDialog::addDataError(const QString &errorMessage) {
     QMessageBox mb("Add new patient",
                    errorMessage,
                    QMessageBox::NoIcon,
-                   QMessageBox::Yes | QMessageBox::Default,
+                   QMessageBox::Ok | QMessageBox::Default,
                    QMessageBox::NoButton,
                    QMessageBox::NoButton);
     QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
@@ -107,7 +107,7 @@ void addPatientDialog::on_addButton_clicked()
             throw QString("Invalid name.\nPlease use only english letters.");
         }
 
-        if (gotAge <= 0)
+        if (gotAge < 0)
         {
             throw QString("Invalid age.\nPlease enter a valid age.");
         }

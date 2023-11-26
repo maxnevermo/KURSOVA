@@ -3,6 +3,8 @@
 #include "ui_patientmonitor.h"
 
 std::vector<patientInfo> patients;
+std::vector<patientInfo> hyperTTachyC;
+std::vector<patientInfo> healthyPatients;
 
 PatientMonitor::PatientMonitor(QWidget *parent)
     : QMainWindow(parent)
@@ -82,6 +84,16 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->patientTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->patientTable->setSelectionMode(QAbstractItemView::NoSelection);
 
+    ui->patientTable->setSelectionMode(QAbstractItemView::MultiSelection);
+    connect(ui->patientTable, &QTableWidget::itemClicked, this, &PatientMonitor::onItemClicked);
+
+
+
+    ui->menuFile->setStyleSheet("QMenu {background-color: #C6CCE8; color: #000000; border-radius: 0.5em; font-family: 'Gogh'; font-weight: 500; font-size: 15px }"
+                                "QMenu:hover { background-color: #A9B9E3; font-family: 'Gogh'; font-weight: 500; } ");
+
+    ui->menubar->setStyleSheet("QMenuBar { color: #000000; border-radius: 0.5em; font-family: 'Gogh'; font-weight: 500; font-size: 15px }");
+
 
     QGraphicsDropShadowEffect *shadowEffectScanTable = new QGraphicsDropShadowEffect();
     shadowEffectScanTable->setBlurRadius(20);
@@ -89,9 +101,10 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     shadowEffectScanTable->setColor(QColor(0, 0, 0, 30));
 
     ui->scanTableButton->setGraphicsEffect(shadowEffectScanTable);
-
-    connect(ui->scanTableButton, &QPushButton::clicked, this, &PatientMonitor::onScanTableButtonClick);
     ui->scanTableButton->setVisible(false);
+    connect(ui->scanTableButton, &QPushButton::clicked, this, &PatientMonitor::onScanTableButtonClick);
+    ui->patientTable->setFocusPolicy(Qt::NoFocus);
+
 
     try {
         if (ui->patientTable->rowCount() == 0)
@@ -300,7 +313,9 @@ int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patient
 
 void PatientMonitor::on_bloodPressureSort_clicked()
 {
-    pressureQuickSort(patients, 0, patients.size() - 1);
+    std::vector<patientInfo> patientsToOperate = patients;
+
+    pressureQuickSort(patientsToOperate, 0, patientsToOperate.size() - 1);
 
     ui->patientTable->clear();
 
@@ -311,27 +326,27 @@ void PatientMonitor::on_bloodPressureSort_clicked()
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 0, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(patients[i].getSurname().c_str());
+        newPatientInfo = new QTableWidgetItem(patientsToOperate[i].getSurname().c_str());
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 1, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getAge()));
+        newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getAge()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 2, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getBloodType()));
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patientsToOperate[i].getBloodType()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 3, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getRhFactor()));
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patientsToOperate[i].getRhFactor()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 4, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getUpPressure()) + "/" + QString::number(patients[i].getLowPressure()));
+        newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getUpPressure()) + "/" + QString::number(patientsToOperate[i].getLowPressure()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 5, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getPulseValue()));
+        newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getPulseValue()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
@@ -494,15 +509,302 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
     }
 }
 
-void PatientMonitor::onAgeSet(int age) {
-    for (int i = 0; i < (int)(patients.size()); i++) {
+void PatientMonitor::on_agePulseCheckButton_clicked()
+{
+    if(patients.size() == 0) {
+        QMessageBox mb("Pressure and pulse check",
+                       "Patient list is empty",
+                       QMessageBox::NoIcon,
+                       QMessageBox::Ok | QMessageBox::Default,
+                       QMessageBox::NoButton,
+                       QMessageBox::NoButton);
+        QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
+        mb.setIconPixmap(exportSuccess);
+        mb.setStyleSheet("QMessageBox {"
+                         "background-color: #C6CCE8;"
+                         "color: #000000;"
+                         "font-family: 'Gogh';"
+                         "font-weight: 400;"
+                         "font-size: 20px"
+                         "}");
+        mb.exec();
+    } else {
+
+    AgeInputDialog ageInputDialogWindow(this);
+    connect(&ageInputDialogWindow, &AgeInputDialog::ageSet, this, &PatientMonitor::handleAgeSet);
+    ageInputDialogWindow.exec();
     }
 }
 
-void PatientMonitor::on_agePulseCheckButton_clicked()
-{
-    agePatientDialog* agePatientDialogWindow = new agePatientDialog();
-    agePatientDialogWindow->show();
-    QObject::connect(agePatientDialogWindow, &agePatientDialog::sentAge, this, &PatientMonitor::onAgeSet);
+void PatientMonitor::handleAgeSet(const int &age) {
+    int flagChecker = 0;
+
+    for (int i = 0; i < (int)(patients.size()); i++) {
+        if (patients[i].getAge() == age) {
+            flagChecker++;
+        }
+    }
+
+    if (flagChecker == 0) {
+        QMessageBox mb("Pressure and pulse check",
+                       "No patients of this age",
+                       QMessageBox::NoIcon,
+                       QMessageBox::Ok | QMessageBox::Default,
+                       QMessageBox::NoButton,
+                       QMessageBox::NoButton);
+        QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
+        mb.setIconPixmap(exportSuccess);
+        mb.setStyleSheet("QMessageBox {"
+                         "background-color: #C6CCE8;"
+                         "color: #000000;"
+                         "font-family: 'Gogh';"
+                         "font-weight: 400;"
+                         "font-size: 20px"
+                         "}");
+        mb.exec();
+    } else {
+        for (int i = (int)(patients.size()); i >= 0; i--) {
+            ui->patientTable->removeRow(i);
+        }
+
+        for (int i = 0; i < (int)(patients.size()); i++) {
+            if (patients[i].getAge() == age) {
+                if (age >= 0 && age <= 7) {
+                if (patients[i].getPulseValue() >= 115) {
+                    hyperTTachyC.push_back(patients[i]);
+                }
+                } else if (age >= 8 && age <= 18) {
+                if (patients[i].getPulseValue() >= 85) {
+                    hyperTTachyC.push_back(patients[i]);
+                }
+                } else if (age >= 19 && age <= 50) {
+                if (patients[i].getPulseValue() >= 85) {
+                    hyperTTachyC.push_back(patients[i]);
+                }
+            } else {
+                if (patients[i].getPulseValue() >= 80) {
+                    hyperTTachyC.push_back(patients[i]);
+                }
+            }
+        }
+    }
+
+    QTableWidgetItem* newPatientInfo = NULL;
+
+    for (int i = 0; i < (int)(hyperTTachyC.size()); i++) {
+        ui->patientTable->insertRow(i);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(i+1));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 0, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(hyperTTachyC[i].getSurname().c_str());
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 1, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(hyperTTachyC[i].getAge()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 2, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(hyperTTachyC[i].getBloodType()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 3, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(hyperTTachyC[i].getRhFactor()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 4, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(hyperTTachyC[i].getUpPressure()) + "/" + QString::number(hyperTTachyC[i].getLowPressure()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 5, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(hyperTTachyC[i].getPulseValue()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 6, newPatientInfo);
+    }
+    }
 }
 
+void PatientMonitor::on_actionCancel_action_triggered()
+{
+
+    for (int i = (int)(patients.size()); i >= 0; i--) {
+    ui->patientTable->removeRow(i);
+    }
+
+    QTableWidgetItem* newPatientInfo = NULL;
+
+    for (int i = 0; i < (int)(patients.size()); i++) {
+    ui->patientTable->insertRow(i);
+
+    newPatientInfo = new QTableWidgetItem(QString::number(i+1));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(i, 0, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(patients[i].getSurname().c_str());
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(i, 1, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getAge()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(i, 2, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getBloodType()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(i, 3, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getRhFactor()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(i, 4, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getUpPressure()) + "/" + QString::number(patients[i].getLowPressure()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(i, 5, newPatientInfo);
+
+    newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getPulseValue()));
+    newPatientInfo->setTextAlignment(Qt::AlignCenter);
+    ui->patientTable->setItem(i, 6, newPatientInfo);
+    }
+}
+
+
+void PatientMonitor::on_actionExit_triggered()
+{
+    close();
+}
+
+
+void PatientMonitor::on_writeButton_clicked()
+{
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Patient Data"), "", tr("Text Files (*.txt);;All Files (*)"));
+
+    if (!filePath.isEmpty()) {
+    std::ofstream patientOutputFile(filePath.toStdString());
+
+    if (patientOutputFile.is_open()) {
+        std::string patientToOutput = "";
+
+        QTableWidgetItem* theItem = nullptr;
+
+        for (int i = 0; i < ui->patientTable->rowCount(); i++) {
+            patientToOutput = "";
+            for (int j = 0; j < ui->patientTable->columnCount(); j++) {
+                theItem = ui->patientTable->item(i, j);
+                QString theText = theItem->text();
+                patientToOutput += theText.toStdString() + " | ";
+            }
+            patientToOutput += "\n";
+            patientOutputFile << patientToOutput;
+        }
+
+        patientOutputFile.close();
+    }
+    else {
+        std::cerr << "Error opening file\n";
+    }
+    }
+}
+
+
+void PatientMonitor::onItemClicked(QTableWidgetItem *item) {
+    if (item != nullptr) {
+    int row = item->row();
+
+    ui->patientTable->clearSelection();
+
+    for (int col = 0; col < ui->patientTable->columnCount(); ++col) {
+        ui->patientTable->item(row, col)->setSelected(true);
+    }
+    }
+}
+
+
+void PatientMonitor::on_normPressureCheckButton_clicked()
+{
+    if(patients.size() == 0) {
+    QMessageBox mb("Pressure and pulse check",
+                   "Patient list is empty",
+                   QMessageBox::NoIcon,
+                   QMessageBox::Ok | QMessageBox::Default,
+                   QMessageBox::NoButton,
+                   QMessageBox::NoButton);
+    QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
+    mb.setIconPixmap(exportSuccess);
+    mb.setStyleSheet("QMessageBox {"
+                     "background-color: #C6CCE8;"
+                     "color: #000000;"
+                     "font-family: 'Gogh';"
+                     "font-weight: 400;"
+                     "font-size: 20px"
+                     "}");
+    mb.exec();
+    } else {
+
+    healthyPatients.clear();
+        for (int i = (int)(patients.size()); i >= 0; i--) {
+            ui->patientTable->removeRow(i);
+        }
+
+        int age = 0;
+
+        for (int i = 0; i < (int)(patients.size()); i++) {
+            age = patients[i].getAge();
+            if (age >= 0 && age <= 5) {
+                if ((patients[i].getUpPressure() >= 80 && patients[i].getUpPressure() <= 110 ) &&
+                    (patients[i].getLowPressure() >= 55 && patients[i].getLowPressure() <= 80 )) {
+                    healthyPatients.push_back(patients[i]);
+                }
+            } else if (age >= 6 && age <= 13) {
+                if ((patients[i].getUpPressure() >= 90 && patients[i].getUpPressure() <= 115 ) &&
+                    (patients[i].getLowPressure() >= 60 && patients[i].getLowPressure() <= 80 )) {
+                    healthyPatients.push_back(patients[i]);
+                }
+            }
+            else if (age >= 14 && age <= 49) {
+                if ((patients[i].getUpPressure() >= 110 && patients[i].getUpPressure() <= 140 ) &&
+                    (patients[i].getLowPressure() >= 77 && patients[i].getLowPressure() <= 85 )) {
+                    healthyPatients.push_back(patients[i]);
+                }
+            } else {
+                if ((patients[i].getUpPressure() >= 115 && patients[i].getUpPressure() <= 150 ) &&
+                    (patients[i].getLowPressure() >= 80 && patients[i].getLowPressure() <= 90 )) {
+                    healthyPatients.push_back(patients[i]);
+                }
+            }
+        }
+    }
+
+    QTableWidgetItem* newPatientInfo = NULL;
+
+    for (int i = 0; i < (int)(healthyPatients.size()); i++) {
+        ui->patientTable->insertRow(i);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(i+1));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 0, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(healthyPatients[i].getSurname().c_str());
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 1, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(healthyPatients[i].getAge()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 2, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(healthyPatients[i].getBloodType()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 3, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(healthyPatients[i].getRhFactor()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 4, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(healthyPatients[i].getUpPressure()) + "/" + QString::number(healthyPatients[i].getLowPressure()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 5, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(healthyPatients[i].getPulseValue()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 6, newPatientInfo);
+    }
+}

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AgeInputDialog</class>
+ <widget class="QDialog" name="AgeInputDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>260</width>
+    <height>220</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: #8E9DCC
+}</string>
+  </property>
+  <widget class="QLabel" name="ageLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>70</y>
+     <width>50</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Age</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="enterAgeLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>20</y>
+     <width>190</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #000000;
+font-size: 20px;
+font-family: &quot;Gogh&quot;;
+font-weight: 500;</string>
+   </property>
+   <property name="text">
+    <string>Enter patients' age</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="ageSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>70</y>
+     <width>70</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QSpinBox {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QSpinBox:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="checkButton">
+   <property name="geometry">
+    <rect>
+     <x>95</x>
+     <y>130</y>
+     <width>70</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}</string>
+   </property>
+   <property name="text">
+    <string>Check</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
