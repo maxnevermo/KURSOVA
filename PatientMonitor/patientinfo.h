@@ -10,7 +10,7 @@ public:
     patientInfo();
     patientInfo(std::string surname, int age, std::string bloodType, std::string rhFactor, int upPressure, int lowPressure, int pulse);
 
-    void setNum(int num) { m_num = num; }
+    void setNum (int num) {m_num = num;}
     void setSurname(const std::string& surname) { m_surname = surname; }
     void setAge(int age) { m_age = age; }
     void setBloodType(std::string bloodType) { m_bloodType = bloodType; }
@@ -27,6 +27,9 @@ public:
     int getUpPressure() const { return m_upPressure; }
     int getLowPressure() const { return m_lowPressure; }
     int getPulseValue() const { return m_pulseValue; }
+
+    friend std::istream& operator>>(std::istream& is, patientInfo& patient);
+    friend std::ostream& operator<<(std::ostream& os, const patientInfo& patient);
 
 private:
     int m_num;

@@ -43,7 +43,7 @@ public:
     {
         if (addPatientDialog->objectName().isEmpty())
             addPatientDialog->setObjectName("addPatientDialog");
-        addPatientDialog->resize(399, 439);
+        addPatientDialog->resize(400, 440);
         addPatientDialog->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "	background-color: #8E9DCC\n"
 "}"));
@@ -182,49 +182,49 @@ public:
 "font-weight: 500;"));
         ageLabel = new QLabel(addPatientDialog);
         ageLabel->setObjectName("ageLabel");
-        ageLabel->setGeometry(QRect(15, 80, 30, 30));
+        ageLabel->setGeometry(QRect(15, 80, 51, 30));
         ageLabel->setStyleSheet(QString::fromUtf8("color: #000000;\n"
 "font-size: 20px;\n"
 "font-family: \"Gogh\";\n"
 "font-weight: 500;"));
         bloodTypeLabel = new QLabel(addPatientDialog);
         bloodTypeLabel->setObjectName("bloodTypeLabel");
-        bloodTypeLabel->setGeometry(QRect(15, 125, 131, 21));
+        bloodTypeLabel->setGeometry(QRect(15, 125, 111, 21));
         bloodTypeLabel->setStyleSheet(QString::fromUtf8("color: #000000;\n"
 "font-size: 20px;\n"
 "font-family: \"Gogh\";\n"
 "font-weight: 500;"));
         rhFactorLabel = new QLabel(addPatientDialog);
         rhFactorLabel->setObjectName("rhFactorLabel");
-        rhFactorLabel->setGeometry(QRect(15, 160, 141, 21));
+        rhFactorLabel->setGeometry(QRect(15, 160, 91, 21));
         rhFactorLabel->setStyleSheet(QString::fromUtf8("color: #000000;\n"
 "font-size: 20px;\n"
 "font-family: \"Gogh\";\n"
 "font-weight: 500;"));
         upperLabel = new QLabel(addPatientDialog);
         upperLabel->setObjectName("upperLabel");
-        upperLabel->setGeometry(QRect(15, 190, 191, 40));
+        upperLabel->setGeometry(QRect(15, 190, 181, 40));
         upperLabel->setStyleSheet(QString::fromUtf8("color: #000000;\n"
 "font-size: 20px;\n"
 "font-family: \"Gogh\";\n"
 "font-weight: 500;"));
         lowerLabel = new QLabel(addPatientDialog);
         lowerLabel->setObjectName("lowerLabel");
-        lowerLabel->setGeometry(QRect(15, 230, 181, 40));
+        lowerLabel->setGeometry(QRect(15, 230, 171, 40));
         lowerLabel->setStyleSheet(QString::fromUtf8("color: #000000;\n"
 "font-size: 20px;\n"
 "font-family: \"Gogh\";\n"
 "font-weight: 500;"));
         pulseLabel = new QLabel(addPatientDialog);
         pulseLabel->setObjectName("pulseLabel");
-        pulseLabel->setGeometry(QRect(15, 285, 70, 40));
+        pulseLabel->setGeometry(QRect(15, 285, 101, 40));
         pulseLabel->setStyleSheet(QString::fromUtf8("color: #000000;\n"
 "font-size: 20px;\n"
 "font-family: \"Gogh\";\n"
 "font-weight: 500;"));
         addButton = new QPushButton(addPatientDialog);
         addButton->setObjectName("addButton");
-        addButton->setGeometry(QRect(140, 350, 121, 41));
+        addButton->setGeometry(QRect(165, 350, 70, 40));
         addButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #C6CCE8;\n"
 "    color: #000000;\n"
@@ -247,14 +247,14 @@ public:
     void retranslateUi(QDialog *addPatientDialog)
     {
         addPatientDialog->setWindowTitle(QCoreApplication::translate("addPatientDialog", "Dialog", nullptr));
-        surnameLabel->setText(QCoreApplication::translate("addPatientDialog", "\320\237\321\200\321\226\320\267\320\262\320\270\321\211\320\265", nullptr));
-        ageLabel->setText(QCoreApplication::translate("addPatientDialog", "\320\222\321\226\320\272:", nullptr));
-        bloodTypeLabel->setText(QCoreApplication::translate("addPatientDialog", "\320\223\321\200\321\203\320\277\320\260 \320\272\321\200\320\276\320\262\321\226", nullptr));
-        rhFactorLabel->setText(QCoreApplication::translate("addPatientDialog", "\320\240\320\265\320\267\321\203\321\201-\321\204\320\260\320\272\321\202\320\276\321\200", nullptr));
-        upperLabel->setText(QCoreApplication::translate("addPatientDialog", "\320\224\321\226\320\260\321\201\321\202\320\276\320\273\321\226\321\207\320\275\320\270\320\271 \321\202\320\270\321\201\320\272", nullptr));
-        lowerLabel->setText(QCoreApplication::translate("addPatientDialog", "\320\241\320\270\321\201\321\202\320\276\320\273\321\226\321\207\320\275\320\270\320\271 \321\202\320\270\321\201\320\272", nullptr));
-        pulseLabel->setText(QCoreApplication::translate("addPatientDialog", "\320\237\321\203\320\273\321\214\321\201", nullptr));
-        addButton->setText(QCoreApplication::translate("addPatientDialog", "\320\224\320\276\320\264\320\260\321\202\320\270", nullptr));
+        surnameLabel->setText(QCoreApplication::translate("addPatientDialog", "Surname", nullptr));
+        ageLabel->setText(QCoreApplication::translate("addPatientDialog", "Age", nullptr));
+        bloodTypeLabel->setText(QCoreApplication::translate("addPatientDialog", "Blood type", nullptr));
+        rhFactorLabel->setText(QCoreApplication::translate("addPatientDialog", "Rh factor", nullptr));
+        upperLabel->setText(QCoreApplication::translate("addPatientDialog", "Diastolic pressure", nullptr));
+        lowerLabel->setText(QCoreApplication::translate("addPatientDialog", "Systolic pressure", nullptr));
+        pulseLabel->setText(QCoreApplication::translate("addPatientDialog", "Heart rate", nullptr));
+        addButton->setText(QCoreApplication::translate("addPatientDialog", "Add", nullptr));
     } // retranslateUi
 
 };

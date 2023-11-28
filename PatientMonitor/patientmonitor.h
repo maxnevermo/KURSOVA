@@ -11,9 +11,6 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QPainter>
-#include <QTextDocument>
-#include <QTextCursor>
-
 
 #include "addpatientdialog.h"
 #include "patientinfo.h"

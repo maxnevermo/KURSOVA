@@ -111,26 +111,26 @@ QPushButton:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QTableWidget {
-	background-color: #D9DBF1;
+    background-color: #D9DBF1;
     color: #000000;
     border-radius: 20px;
-	font-family: 'Gogh';
-	font-weight: 500;
-	font-size: 15px;
+    font-family: 'Gogh';
+    font-weight: 500;
+    font-size: 15px;
 }
 
-QTableWidget::item:hover { 
-border-right: 0.5px solid #E5E5E5;
+QTableWidget::item:hover {
+    border-right: 0.5px solid #E5E5E5;
 }
-
-QTableWidget::item:hover { 
-border-right: 0.5px solid #E5E5E5;
-background-color: #A9B9E3
- }
 
 QTableWidget::item:selected {
-background-color: #A9B9E3; 
-border: none;
+    background-color: #A9B9E3;
+    border: none;
+}
+
+QTableWidget::item:hover:selected {
+    background-color: #A9B9E3;
+    border-right: 0.5px solid #E5E5E5;
 }</string>
     </property>
    </widget>

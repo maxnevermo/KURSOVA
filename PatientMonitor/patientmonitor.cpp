@@ -69,13 +69,13 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->normPressureCheckButton->setGraphicsEffect(shadowEffectHealthyChecker);
 
     ui->patientTable->setColumnCount(7);
-    ui->patientTable->setColumnWidth(0, 47);
-    ui->patientTable->setColumnWidth(1, 122);
-    ui->patientTable->setColumnWidth(2, 65);
-    ui->patientTable->setColumnWidth(3, 126);
+    ui->patientTable->setColumnWidth(0, 43);
+    ui->patientTable->setColumnWidth(1, 120);
+    ui->patientTable->setColumnWidth(2, 63);
+    ui->patientTable->setColumnWidth(3, 123);
     ui->patientTable->setColumnWidth(4, 120);
-    ui->patientTable->setColumnWidth(5, 143);
-    ui->patientTable->setColumnWidth(6, 88);
+    ui->patientTable->setColumnWidth(5, 140);
+    ui->patientTable->setColumnWidth(6, 84);
 
     ui->patientTable->setShowGrid(false);
 
@@ -95,6 +95,9 @@ PatientMonitor::PatientMonitor(QWidget *parent)
                                 "QMenu:hover { background-color: #A9B9E3; font-family: 'Gogh'; font-weight: 500; } ");
 
     ui->menubar->setStyleSheet("QMenuBar { color: #000000; border-radius: 0.5em; font-family: 'Gogh'; font-weight: 500; font-size: 15px }");
+
+    ui->patientTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->patientTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 
     QGraphicsDropShadowEffect *shadowEffectScanTable = new QGraphicsDropShadowEffect();
@@ -121,6 +124,7 @@ PatientMonitor::~PatientMonitor()
 }
 
 
+//функція для розбиття зчитаної з файлу стрічки для подальшого заповнення таблиці
 
 std::vector<std::string> splitByString(const std::string& input, const std::string& delimiter) {
     std::vector<std::string> elements;
@@ -137,9 +141,16 @@ std::vector<std::string> splitByString(const std::string& input, const std::stri
 }
 
 
-
+//функція для зчитування з таблиці пацієнтів з файлу (ліве бокове меню програми)
 void PatientMonitor::on_scanButton_clicked()
 {
+    //очищення попередньої таблиці
+    if (ui->patientTable->rowCount() > 0) {
+        for (int i = ui->patientTable->rowCount() - 1; i >= 0; i--) {
+            ui->patientTable->removeRow(i);
+        }
+        patients.clear();
+    }
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
 
@@ -163,7 +174,7 @@ void PatientMonitor::on_scanButton_clicked()
                          "font-size: 20px"
                          "}");
         mb.exec();
-    }
+    } else {
 
     std::string myline;
     std::string delim = " | ";
@@ -171,6 +182,7 @@ void PatientMonitor::on_scanButton_clicked()
     std::vector<std::string> dividedPatientInfo;
     std::vector<std::string> dividedPressure;
 
+    //зчитування стрічки та створення екземпляру класу
     while (std::getline(inputData, myline)) {
         dividedPatientInfo = splitByString(myline, delim);
         dividedPressure = splitByString(dividedPatientInfo.at(4), Pdelim);
@@ -181,15 +193,17 @@ void PatientMonitor::on_scanButton_clicked()
 
     inputData.close();
 
-    if (backUpVector.empty()) {
-        backUpVector = patients;
+    //створення резервної копії зчитаного списку для функції "Відміна"
+    backUpVector = patients;
     }
 }
 
+//функція для зчитування таблиці пацієнтів з файлу (кнопка всередині таблиці, якщо таблиця пуста)
 void PatientMonitor::onScanTableButtonClick() {
     on_scanButton_clicked();
 }
 
+//функція виклику діалогового вікна для додавання нового пацієнта
 void PatientMonitor::on_addButton_clicked()
 {
     addPatientDialog addPatientDialog(this);
@@ -197,6 +211,7 @@ void PatientMonitor::on_addButton_clicked()
     addPatientDialog.exec();
 }
 
+//функція обробки введених даних про нового пацієнта і додавання його у таблицю
 void PatientMonitor::onPatientAdded(const patientInfo &patient)
 {
     patients.push_back(patient);
@@ -236,6 +251,7 @@ void PatientMonitor::onPatientAdded(const patientInfo &patient)
     checkIfEmpty();
 }
 
+// функція швидкого сортування для класу patientInfo за артеріальним тиском
 void PatientMonitor::pressureQuickSort(std::vector<patientInfo> &patients, int low, int high) {
     if (low < high) {
         int pivotIndex = pressurePartition(patients, low, high);
@@ -244,6 +260,7 @@ void PatientMonitor::pressureQuickSort(std::vector<patientInfo> &patients, int l
     }
 }
 
+//функція ділення масиву на частини для швидкого сортування за артеріальним тиском
 int PatientMonitor::pressurePartition(std::vector<patientInfo> &patients, int low, int high) {
     patientInfo pivot = patients[high];
     int i = low - 1;
@@ -259,6 +276,7 @@ int PatientMonitor::pressurePartition(std::vector<patientInfo> &patients, int lo
     return i + 1;
 }
 
+//функція швидкого сортування для класу patientInfo за пульсом
 void PatientMonitor::heartRateQuickSort(std::vector<patientInfo> &patients, int low, int high) {
     if (low < high) {
         int pivotIndex = heartRatepressurepartition(patients, low, high);
@@ -267,6 +285,7 @@ void PatientMonitor::heartRateQuickSort(std::vector<patientInfo> &patients, int 
     }
 }
 
+//функція ділення масиву на частини для швидкого сортування за пульсом
 int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high) {
     patientInfo pivot = patients[high];
     int i = low - 1;
@@ -282,6 +301,8 @@ int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patient
     return i + 1;
 }
 
+//функція, що сортує пацієнтів за артеріальним тиском та виводить
+// відсортований список пацієнтів у таблицю
 void PatientMonitor::on_bloodPressureSort_clicked()
 {
     if (patients.size() == 0) {
@@ -327,6 +348,8 @@ void PatientMonitor::on_bloodPressureSort_clicked()
     }
 }
 
+//функція для перевірки, чи таблиця пуста:
+//якщо так, вивести кнопку сканування у таблицю
 void PatientMonitor::checkIfEmpty() {
     if(ui->patientTable->rowCount() > 0) {
         ui->scanTableButton->setVisible(false);
@@ -335,11 +358,14 @@ void PatientMonitor::checkIfEmpty() {
     }
 }
 
+//функція для групування пацієнтів за групою крові та резус-фактором
 void PatientMonitor::on_bloodTypeGroupButton_clicked()
 {
+    //перевірка, чи таблиця не пуста
     if (patients.size() == 0) {
         operatingError();
     } else {
+    //створення структур даних для зберігання груп пацієнтів
     std::vector<patientInfo> firstTB;
     std::vector<patientInfo> secondTB;
     std::vector<patientInfo> thirdTB;
@@ -351,6 +377,7 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
     std::string currentBT;
     std::string currentRH;
 
+    //відбір пацієнтів за резус-фактором
     for (int i = 0; i < (int)(patients.size()); i++) {
         currentRH = patients[i].getRhFactor();
         if(currentRH == "+")
@@ -366,7 +393,7 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
     rhP.clear();
     rhM.clear();
 
-
+    //відбір пацієнтів за групою крові
     for (int i = 0; i < (int)(groupedPatients.size()); i++) {
         currentBT = groupedPatients[i].getBloodType();
         if(currentBT == "I")
@@ -394,6 +421,7 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
 
     ui->patientTable->clear();
 
+    //вивід на екран
     for (int i = 0; i < (int)(mergedVector.size()); i++) {
         newPatientInfo = new QTableWidgetItem(QString::number(i+1));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
@@ -426,6 +454,8 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
     }
 }
 
+//функція для групування пацієнтів за резус-фактором
+//та сортування за показниками пульсу
 void PatientMonitor::on_rhGroupHrSort_clicked()
 {
     if (patients.size() == 0) {
@@ -436,6 +466,7 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
 
     std::string currentRH;
 
+    //відбір за резус-фактором
     for (int i = 0; i < (int)(patients.size()); i++) {
         currentRH = patients[i].getRhFactor();
         if(currentRH == "+")
@@ -444,6 +475,7 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
             rhM.push_back(patients[i]);
     }
 
+    //сортування кожної групи за показниками пульсу
     heartRateQuickSort(rhP, 0, rhP.size() - 1);
     heartRateQuickSort(rhM, 0, rhM.size() - 1);
 
@@ -459,6 +491,7 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
 
     ui->patientTable->clear();
 
+    //вивід на екран
     for (int i = 0; i < (int)(groupedPatients.size()); i++) {
         newPatientInfo = new QTableWidgetItem(QString::number(i+1));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
@@ -491,6 +524,8 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
     }
 }
 
+//функція, що викликає діалогове вікно для подальшої
+//перевірки, чи показники пульсу та артеріального тиску завищені
 void PatientMonitor::on_agePulseCheckButton_clicked()
 {
     if(patients.size() == 0) {
@@ -503,10 +538,12 @@ void PatientMonitor::on_agePulseCheckButton_clicked()
     }
 }
 
+//функція, що обробляє введений користувачем вік для перевірки
 void PatientMonitor::handleAgeSet(const int &age) {
     int flagChecker = 0;
     hyperTTachyC.clear();
 
+    //перевірка, чи є пацієнти вказаного віку
     for (int i = 0; i < (int)(patients.size()); i++) {
         if (patients[i].getAge() == age) {
             flagChecker++;
@@ -531,10 +568,12 @@ void PatientMonitor::handleAgeSet(const int &age) {
                          "}");
         mb.exec();
     } else {
+        //очищення таблиці
         for (int i = (int)(patients.size()); i >= 0; i--) {
             ui->patientTable->removeRow(i);
         }
 
+        //перевірка показників пульсу та артеріального тиску за вказаним віком
         for (int i = 0; i < (int)(patients.size()); i++) {
             if (patients[i].getAge() == age) {
                 if (age >= 0 && age <= 7) {
@@ -559,6 +598,7 @@ void PatientMonitor::handleAgeSet(const int &age) {
 
     QTableWidgetItem* newPatientInfo = NULL;
 
+    //вивід таблиці на екран
     for (int i = 0; i < (int)(hyperTTachyC.size()); i++) {
         ui->patientTable->insertRow(i);
 
@@ -591,8 +631,10 @@ void PatientMonitor::handleAgeSet(const int &age) {
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
     }
+    patients = hyperTTachyC;
 }
 
+//функція відміни здійснених операцій над таблицею
 void PatientMonitor::on_actionCancel_action_triggered()
 {
     if (patients.size() == 0) {
@@ -603,6 +645,7 @@ void PatientMonitor::on_actionCancel_action_triggered()
     }
 
     QTableWidgetItem* newPatientInfo = NULL;
+
 
     for (int i = 0; i < (int)(backUpVector.size()); i++) {
     ui->patientTable->insertRow(i);
@@ -636,17 +679,21 @@ void PatientMonitor::on_actionCancel_action_triggered()
     ui->patientTable->setItem(i, 6, newPatientInfo);
     }
 
+    //відновлення початкової зчитаної таблиці
     patients = backUpVector;
     }
+
+    checkIfEmpty();
 }
 
-
+//функція для закриття програми
 void PatientMonitor::on_actionExit_triggered()
 {
     close();
 }
 
 
+//функція для запису таблиці у файл
 void PatientMonitor::on_writeButton_clicked()
 {
     if (patients.size() == 0) {
@@ -657,6 +704,7 @@ void PatientMonitor::on_writeButton_clicked()
     if (!filePath.isEmpty()) {
     std::ofstream patientOutputFile(filePath.toStdString());
 
+    //перевірка, чи файл можна відкрити
     if (patientOutputFile.is_open()) {
         QString header = QString("%1 | %2 | %3 | %4 | %5 | %6 | %7\n")
                              .arg("ID", -15)
@@ -685,7 +733,22 @@ void PatientMonitor::on_writeButton_clicked()
 
         patientOutputFile.close();
     } else {
-        std::cerr << "Error opening file\n";
+        QMessageBox mb("PatientMonitor",
+                       "Error to open file",
+                       QMessageBox::NoIcon,
+                       QMessageBox::Ok | QMessageBox::Default,
+                       QMessageBox::NoButton,
+                       QMessageBox::NoButton);
+        QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
+        mb.setIconPixmap(exportSuccess);
+        mb.setStyleSheet("QMessageBox {"
+                         "background-color: #C6CCE8;"
+                         "color: #000000;"
+                         "font-family: 'Gogh';"
+                         "font-weight: 400;"
+                         "font-size: 20px"
+                         "}");
+        mb.exec();
     }
     }
     }
@@ -693,7 +756,7 @@ void PatientMonitor::on_writeButton_clicked()
 
 
 
-
+//функція для виділення усього рядка
 void PatientMonitor::onItemClicked(QTableWidgetItem *item) {
     if (item != nullptr) {
     int row = item->row();
@@ -706,20 +769,22 @@ void PatientMonitor::onItemClicked(QTableWidgetItem *item) {
     }
 }
 
-
+//функція для перевірки, чи здорові пацієнти (за показниками артеріального тиску)
 void PatientMonitor::on_normPressureCheckButton_clicked()
 {
+    //перевірка, чи таблиця не пуста
     if(patients.size() == 0) {
         operatingError();
     } else {
 
+    //оскільки не пуста, очищуємо її від початкових значень
     healthyPatients.clear();
         for (int i = (int)(patients.size()); i >= 0; i--) {
             ui->patientTable->removeRow(i);
         }
 
         int age = 0;
-
+        //перевірка тиску кожного пацієнта за його віком
         for (int i = 0; i < (int)(patients.size()); i++) {
             age = patients[i].getAge();
             if (age >= 0 && age <= 5) {
@@ -749,6 +814,7 @@ void PatientMonitor::on_normPressureCheckButton_clicked()
 
     QTableWidgetItem* newPatientInfo = NULL;
 
+    //вивід здорових пацієнтів
     for (int i = 0; i < (int)(healthyPatients.size()); i++) {
         ui->patientTable->insertRow(i);
 
@@ -780,8 +846,10 @@ void PatientMonitor::on_normPressureCheckButton_clicked()
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
+    patients = healthyPatients;
 }
 
+//функція для виклику вікна для перегляду донорів
 void PatientMonitor::on_donorCheckButton_clicked()
 {
     if (patients.size() == 0) {
@@ -794,11 +862,13 @@ void PatientMonitor::on_donorCheckButton_clicked()
     }
 }
 
+//функція для опису помилки користувачеві
+//[за пустої таблиці жодна з функцій, які маніплюють таблицею виконуватися не може]
 void PatientMonitor::operatingError() {
     QMessageBox mb("PatientMonitor",
                    "Patient list is empty",
                    QMessageBox::NoIcon,
-                   QMessageBox::Yes | QMessageBox::Default,
+                   QMessageBox::Ok | QMessageBox::Default,
                    QMessageBox::NoButton,
                    QMessageBox::NoButton);
     QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
@@ -813,8 +883,12 @@ void PatientMonitor::operatingError() {
     mb.exec();
 }
 
+//функція для виводу таблиці на друк
 void PatientMonitor::on_actionPrint_triggered()
 {
+    if (patients.size() == 0) {
+            operatingError();
+    } else {
     QPrinter printer(QPrinter::PrinterResolution);
 
     QPrintDialog printDialog(&printer, this);
@@ -832,6 +906,7 @@ void PatientMonitor::on_actionPrint_triggered()
             painter.scale(scaleFactor, scaleFactor);
 
             ui->patientTable->render(&painter);
+    }
     }
 }
 

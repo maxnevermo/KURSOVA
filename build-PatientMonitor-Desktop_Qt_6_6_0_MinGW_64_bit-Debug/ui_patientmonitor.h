@@ -10,10 +10,12 @@
 #define UI_PATIENTMONITOR_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -25,6 +27,9 @@ QT_BEGIN_NAMESPACE
 class Ui_PatientMonitor
 {
 public:
+    QAction *actionCancel_action;
+    QAction *actionExit;
+    QAction *actionPrint;
     QWidget *centralwidget;
     QLabel *state;
     QPushButton *pulseSortButton;
@@ -42,6 +47,7 @@ public:
     QPushButton *scanTableButton;
     QPushButton *rhGroupHrSort;
     QMenuBar *menubar;
+    QMenu *menuFile;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *PatientMonitor)
@@ -52,6 +58,12 @@ public:
         PatientMonitor->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "background-color: rgb(142, 157, 204);\n"
 "}"));
+        actionCancel_action = new QAction(PatientMonitor);
+        actionCancel_action->setObjectName("actionCancel_action");
+        actionExit = new QAction(PatientMonitor);
+        actionExit->setObjectName("actionExit");
+        actionPrint = new QAction(PatientMonitor);
+        actionPrint->setObjectName("actionPrint");
         centralwidget = new QWidget(PatientMonitor);
         centralwidget->setObjectName("centralwidget");
         state = new QLabel(centralwidget);
@@ -89,27 +101,27 @@ public:
         patientTable->setObjectName("patientTable");
         patientTable->setGeometry(QRect(270, 70, 711, 521));
         patientTable->setStyleSheet(QString::fromUtf8("QTableWidget {\n"
-"	background-color: #D9DBF1;\n"
+"    background-color: #D9DBF1;\n"
 "    color: #000000;\n"
 "    border-radius: 20px;\n"
-"	font-family: 'Gogh';\n"
-"	font-weight: 500;\n"
-"	font-size: 15px;\n"
+"    font-family: 'Gogh';\n"
+"    font-weight: 500;\n"
+"    font-size: 15px;\n"
 "}\n"
 "\n"
-"QTableWidget::item:hover { \n"
-"border-right: 0.5px solid #E5E5E5;\n"
+"QTableWidget::item:hover {\n"
+"    border-right: 0.5px solid #E5E5E5;\n"
 "}\n"
 "\n"
-"QTableWidget::item:hover { \n"
-"border-right: 0.5px solid #E5E5E5;\n"
-"background-color: #A9B9E3\n"
-" }\n"
+"QTableWidget::item:selected {\n"
+"    background-color: #A9B9E3;\n"
+"    border: none;\n"
+"}\n"
 "\n"
-"QTableWidget::item:active { \n"
-"border-right: 0.5px solid #E5E5E5;\n"
-"background-color: #A9B9E3\n"
-" }"));
+"QTableWidget::item:hover:selected {\n"
+"    background-color: #A9B9E3;\n"
+"    border-right: 0.5px solid #E5E5E5;\n"
+"}"));
         writeButton = new QPushButton(centralwidget);
         writeButton->setObjectName("writeButton");
         writeButton->setGeometry(QRect(180, 110, 70, 31));
@@ -308,10 +320,17 @@ public:
         menubar = new QMenuBar(PatientMonitor);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 990, 21));
+        menuFile = new QMenu(menubar);
+        menuFile->setObjectName("menuFile");
         PatientMonitor->setMenuBar(menubar);
         statusbar = new QStatusBar(PatientMonitor);
         statusbar->setObjectName("statusbar");
         PatientMonitor->setStatusBar(statusbar);
+
+        menubar->addAction(menuFile->menuAction());
+        menuFile->addAction(actionCancel_action);
+        menuFile->addAction(actionPrint);
+        menuFile->addAction(actionExit);
 
         retranslateUi(PatientMonitor);
 
@@ -321,6 +340,9 @@ public:
     void retranslateUi(QMainWindow *PatientMonitor)
     {
         PatientMonitor->setWindowTitle(QCoreApplication::translate("PatientMonitor", "PatientMonitor", nullptr));
+        actionCancel_action->setText(QCoreApplication::translate("PatientMonitor", "Cancel actions", nullptr));
+        actionExit->setText(QCoreApplication::translate("PatientMonitor", "Exit", nullptr));
+        actionPrint->setText(QCoreApplication::translate("PatientMonitor", "Print", nullptr));
         state->setText(QString());
         pulseSortButton->setText(QCoreApplication::translate("PatientMonitor", "Rh group | Pulse sort", nullptr));
         logo->setText(QString());
@@ -335,6 +357,7 @@ public:
         bloodTypeGroupButton->setText(QCoreApplication::translate("PatientMonitor", "Group by BT | RH", nullptr));
         scanTableButton->setText(QCoreApplication::translate("PatientMonitor", "Scan", nullptr));
         rhGroupHrSort->setText(QCoreApplication::translate("PatientMonitor", "Group RH | Sort HR", nullptr));
+        menuFile->setTitle(QCoreApplication::translate("PatientMonitor", "File", nullptr));
     } // retranslateUi
 
 };

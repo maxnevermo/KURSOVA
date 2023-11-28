@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>540</width>
-    <height>420</height>
+    <height>394</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,33 +23,33 @@ background-color: rgb(142, 157, 204);
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>130</y>
+      <y>120</y>
       <width>460</width>
       <height>230</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QTableWidget {
-	background-color: #D9DBF1;
+    background-color: #D9DBF1;
     color: #000000;
     border-radius: 20px;
-	font-family: 'Gogh';
-	font-weight: 500;
-	font-size: 15px;
+    font-family: 'Gogh';
+    font-weight: 500;
+    font-size: 15px;
 }
 
-QTableWidget::item:hover { 
-border-right: 0.5px solid #E5E5E5;
+QTableWidget::item:hover {
+    border-right: 0.5px solid #E5E5E5;
+    background-color: #A9B9E3;
 }
-
-QTableWidget::item:hover { 
-border-right: 0.5px solid #E5E5E5;
-background-color: #A9B9E3
- }
 
 QTableWidget::item:selected {
-background-color: #A9B9E3; 
-border: none;
+    background-color: #A9B9E3;
+    border: none;
+}
+
+QTableWidget::item {
+    border-right: 1px solid #8E9DCC;
 }</string>
     </property>
    </widget>
@@ -57,7 +57,7 @@ border: none;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>10</y>
       <width>220</width>
       <height>30</height>
      </rect>
@@ -85,7 +85,7 @@ QPushButton:hover {
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>30</y>
+      <y>10</y>
       <width>270</width>
       <height>30</height>
      </rect>
@@ -113,7 +113,7 @@ QPushButton:hover {
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>70</y>
+      <y>50</y>
       <width>340</width>
       <height>60</height>
      </rect>
@@ -135,8 +135,26 @@ QPushButton:hover {
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionPrint"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionPrint">
+   <property name="text">
+    <string>Print</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include <QTableWidgetItem>
 #include <QGraphicsDropShadowEffect>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
+#include <QBrush>
+#include <algorithm>
 
 #include "patientinfo.h"
 
@@ -28,6 +33,9 @@ private slots:
     void on_universalButton_clicked();
 
     void on_generalButton_clicked();
+
+    void on_actionExit_triggered();
+    void on_actionPrint_triggered();
 
 private:
     Ui::donorsTable *ui;

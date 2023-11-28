@@ -10,10 +10,12 @@
 #define UI_DONORSTABLE_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -25,27 +27,34 @@ QT_BEGIN_NAMESPACE
 class Ui_donorsTable
 {
 public:
+    QAction *actionPrint;
+    QAction *actionExit;
     QWidget *centralwidget;
     QTableWidget *donRepTable;
     QPushButton *universalButton;
     QPushButton *generalButton;
     QLabel *label;
     QMenuBar *menubar;
+    QMenu *menuFile;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *donorsTable)
     {
         if (donorsTable->objectName().isEmpty())
             donorsTable->setObjectName("donorsTable");
-        donorsTable->resize(540, 420);
+        donorsTable->resize(540, 394);
         donorsTable->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "background-color: rgb(142, 157, 204);\n"
 "}"));
+        actionPrint = new QAction(donorsTable);
+        actionPrint->setObjectName("actionPrint");
+        actionExit = new QAction(donorsTable);
+        actionExit->setObjectName("actionExit");
         centralwidget = new QWidget(donorsTable);
         centralwidget->setObjectName("centralwidget");
         donRepTable = new QTableWidget(centralwidget);
         donRepTable->setObjectName("donRepTable");
-        donRepTable->setGeometry(QRect(40, 130, 460, 230));
+        donRepTable->setGeometry(QRect(40, 120, 460, 230));
         donRepTable->setStyleSheet(QString::fromUtf8("QTableWidget {\n"
 "	background-color: #D9DBF1;\n"
 "    color: #000000;\n"
@@ -70,7 +79,7 @@ public:
 "}"));
         universalButton = new QPushButton(centralwidget);
         universalButton->setObjectName("universalButton");
-        universalButton->setGeometry(QRect(10, 30, 220, 30));
+        universalButton->setGeometry(QRect(10, 10, 220, 30));
         universalButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #C6CCE8;\n"
 "    color: #000000;\n"
@@ -86,7 +95,7 @@ public:
 "}"));
         generalButton = new QPushButton(centralwidget);
         generalButton->setObjectName("generalButton");
-        generalButton->setGeometry(QRect(260, 30, 270, 30));
+        generalButton->setGeometry(QRect(260, 10, 270, 30));
         generalButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: #C6CCE8;\n"
 "    color: #000000;\n"
@@ -102,16 +111,22 @@ public:
 "}"));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(100, 70, 340, 60));
+        label->setGeometry(QRect(100, 50, 340, 60));
         label->setPixmap(QPixmap(QString::fromUtf8("../../../images/DonorsRec.png")));
         donorsTable->setCentralWidget(centralwidget);
         menubar = new QMenuBar(donorsTable);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 540, 21));
+        menuFile = new QMenu(menubar);
+        menuFile->setObjectName("menuFile");
         donorsTable->setMenuBar(menubar);
         statusbar = new QStatusBar(donorsTable);
         statusbar->setObjectName("statusbar");
         donorsTable->setStatusBar(statusbar);
+
+        menubar->addAction(menuFile->menuAction());
+        menuFile->addAction(actionPrint);
+        menuFile->addAction(actionExit);
 
         retranslateUi(donorsTable);
 
@@ -121,9 +136,12 @@ public:
     void retranslateUi(QMainWindow *donorsTable)
     {
         donorsTable->setWindowTitle(QCoreApplication::translate("donorsTable", "MainWindow", nullptr));
+        actionPrint->setText(QCoreApplication::translate("donorsTable", "Print", nullptr));
+        actionExit->setText(QCoreApplication::translate("donorsTable", "Exit", nullptr));
         universalButton->setText(QCoreApplication::translate("donorsTable", "Universal donors | recipients", nullptr));
         generalButton->setText(QCoreApplication::translate("donorsTable", "General table of donors | recipients", nullptr));
         label->setText(QString());
+        menuFile->setTitle(QCoreApplication::translate("donorsTable", "File", nullptr));
     } // retranslateUi
 
 };

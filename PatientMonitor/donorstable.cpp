@@ -36,8 +36,6 @@ donorsTable::donorsTable(QWidget *parent) :
 
     ui->donRepTable->setFocusPolicy(Qt::NoFocus);
 
-    ui->donRepTable->setColumnCount(2);
-
     QGraphicsDropShadowEffect *shadowEffectUniButton = new QGraphicsDropShadowEffect();
     shadowEffectUniButton->setBlurRadius(20);
     shadowEffectUniButton->setXOffset(0);
@@ -56,6 +54,9 @@ donorsTable::donorsTable(QWidget *parent) :
     ui->universalButton->setGraphicsEffect(shadowEffectUniButton);
     ui->generalButton->setGraphicsEffect(shadowEffectGeneralButton);
     ui->donRepTable->setGraphicsEffect(shadowEffectTableSheet);
+
+    ui->donRepTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->donRepTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 donorsTable::~donorsTable()
@@ -72,6 +73,18 @@ void donorsTable::on_universalButton_clicked()
 {
     move(690, 314);
 
+    ui->universalButton->move(10, 10);
+    ui->generalButton->move(260, 10);
+    ui->label->move(100, 50);
+
+    ui->donRepTable->setColumnCount(2);
+
+    ui->donRepTable->setColumnWidth(0, 230);
+    ui->donRepTable->setColumnWidth(1, 230);
+
+    resize(540, 420);
+    ui->donRepTable->resize(460, 230);
+
     universalDonors.clear();
     universalRecipients.clear();
 
@@ -84,6 +97,8 @@ void donorsTable::on_universalButton_clicked()
             continue;
         }
     }
+
+
 
     for(int i = ui->donRepTable->rowCount()-1; i >= 0; i--) {
         ui->donRepTable->removeRow(i);
@@ -105,12 +120,6 @@ void donorsTable::on_universalButton_clicked()
         patientInfo = new QTableWidgetItem(QString::fromStdString(universalRecipients[i].getSurname()));
         ui->donRepTable->setItem(i, 1, patientInfo);
     }
-
-    ui->donRepTable->setColumnWidth(0, 230);
-    ui->donRepTable->setColumnWidth(1, 230);
-
-    resize(540, 420);
-    ui->donRepTable->resize(460, 230);
 }
 
 void donorsTable::onItemClicked(QTableWidgetItem *item) {
@@ -133,7 +142,7 @@ void donorsTable::onItemClicked(QTableWidgetItem *item) {
 
 void donorsTable::on_generalButton_clicked()
 {
-    move(690, 100);
+    move(480, 30);
 
     Idonors.clear();
     IIdonors.clear();
@@ -179,46 +188,229 @@ void donorsTable::on_generalButton_clicked()
         }
     }
 
-    int countOfRecipients = Irecipients.size() + IIrecipients.size() + IIIrecipients.size() + IVrecipients.size();
-    int countOfDonors = Idonors.size() + IIdonors.size() + IIIdonors.size() + IVdonors.size();
+    int countOfRecipientsIandIII = Irecipients.size() + IIIrecipients.size();
+    int countOfRecipientsIIandIV = IIrecipients.size() + IVrecipients.size();
 
-    if (countOfDonors > countOfRecipients) {
-        ui->donRepTable->setRowCount(countOfDonors);
-    } else {
-        ui->donRepTable->setRowCount(countOfRecipients);
-    }
+    int countOfDonorsIandIII = Idonors.size() + IIIdonors.size();
+    int countOfDonorsIIandIV =  IIdonors.size() + IVdonors.size();
 
+    ui->donRepTable->setRowCount(std::max({countOfRecipientsIandIII, countOfRecipientsIIandIV}) + std::max({countOfDonorsIandIII, countOfDonorsIIandIV}));
+
+    ui->donRepTable->setColumnCount(4);
     ui->donRepTable->setColumnWidth(0, 220);
     ui->donRepTable->setColumnWidth(1, 220);
+    ui->donRepTable->setColumnWidth(2, 220);
+    ui->donRepTable->setColumnWidth(3, 223);
 
     for(int i = 0; i < ui->donRepTable->rowCount()-1; i++) {
-        ui->donRepTable->setRowHeight(i, 20);
+        ui->donRepTable->setRowHeight(i, 15);
     }
-    resize(540, 20*(ui->donRepTable->rowCount()+8) + 155);
-    ui->donRepTable->resize(460, 20*(ui->donRepTable->rowCount()+8));
+    resize(962, 1000);
+    ui->donRepTable->resize(882, 800);
+
+    ui->universalButton->move(221, 10);
+    ui->generalButton->move(471, 10);
+    ui->label->move(311, 50);
 
     QStringList headers = {"I blood type", "II blood type", "III blood type", "IV blood type"};
 
     QTableWidgetItem* tableInfo = new QTableWidgetItem(headers.at(0));
+    ui->donRepTable->setSpan(0, 0, 1, 2);
     tableInfo->setTextAlignment(Qt::AlignCenter);
     ui->donRepTable->setItem(0,0, tableInfo);
 
-    int counter = 0;
+    int counterI = 0;
+    int counterII = 0;
 
-    for (counter = 0; counter < (int)(Idonors.size()); counter ++) {
-        tableInfo = new QTableWidgetItem(QString::fromStdString(Idonors[counter].getSurname()));
+    while(counterI < (int)(Idonors.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(Idonors[counterI].getSurname()));
         tableInfo->setTextAlignment(Qt::AlignCenter);
-        ui->donRepTable->setItem(counter+2,0, tableInfo);
+        ui->donRepTable->setItem(counterI+2,0, tableInfo);
+        counterI++;
     }
 
-    for (counter = 0; counter < (int)(Irecipients.size()); counter ++) {
-        tableInfo = new QTableWidgetItem(QString::fromStdString(Irecipients[counter].getSurname()));
+    counterI = 0;
+
+    while(counterI < (int)(Irecipients.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(Irecipients[counterI].getSurname()));
         tableInfo->setTextAlignment(Qt::AlignCenter);
-        ui->donRepTable->setItem(counter+2,1, tableInfo);
+        ui->donRepTable->setItem(counterI+2,1, tableInfo);
+        counterI++;
     }
 
     tableInfo = new QTableWidgetItem(headers.at(1));
     tableInfo->setTextAlignment(Qt::AlignCenter);
-    ui->donRepTable->setItem(counter+3,0, tableInfo);
+    ui->donRepTable->setSpan(counterI+2, 0, 1, 2);
+    ui->donRepTable->setItem(counterI+2,0, tableInfo);
+
+    int posToAlign = counterI+2;
+
+    while(counterII < (int)(IIdonors.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(IIdonors[counterII].getSurname()));
+        tableInfo->setTextAlignment(Qt::AlignCenter);
+        ui->donRepTable->setItem(counterI+4+counterII,0, tableInfo);
+        counterII++;
+    }
+
+    counterII = 0;
+
+    while(counterII < (int)(IIrecipients.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(IIrecipients[counterII].getSurname()));
+        tableInfo->setTextAlignment(Qt::AlignCenter);
+        ui->donRepTable->setItem(counterI+4+counterII,1, tableInfo);
+        counterII++;
+    }
+
+
+
+    tableInfo = new QTableWidgetItem(headers.at(2));
+    tableInfo->setTextAlignment(Qt::AlignCenter);
+    ui->donRepTable->setSpan(0, 2, 1, 2);
+    ui->donRepTable->setItem(0,2, tableInfo);
+
+    counterI = 0;
+
+    while(counterI < (int)(IIIdonors.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(IIIdonors[counterI].getSurname()));
+        tableInfo->setTextAlignment(Qt::AlignCenter);
+        ui->donRepTable->setItem(counterI+2,2, tableInfo);
+        counterI++;
+    }
+
+    counterI = 0;
+
+    while(counterI < (int)(IIIrecipients.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(IIIrecipients[counterI].getSurname()));
+        tableInfo->setTextAlignment(Qt::AlignCenter);
+        ui->donRepTable->setItem(counterI+2,3, tableInfo);
+        counterI++;
+    }
+
+    counterII = 0;
+
+    tableInfo = new QTableWidgetItem(headers.at(3));
+    tableInfo->setTextAlignment(Qt::AlignCenter);
+    ui->donRepTable->setSpan(posToAlign, 2, 1, 2);
+    ui->donRepTable->setItem(posToAlign,2, tableInfo);
+
+    while(counterII < (int)(IVdonors.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(IVdonors[counterII].getSurname()));
+        tableInfo->setTextAlignment(Qt::AlignCenter);
+        ui->donRepTable->setItem(posToAlign+2+counterII,2, tableInfo);
+        counterII++;
+    }
+
+    counterII = 0;
+
+    while(counterII < (int)(IVrecipients.size())) {
+        tableInfo = new QTableWidgetItem(QString::fromStdString(IVrecipients[counterII].getSurname()));
+        tableInfo->setTextAlignment(Qt::AlignCenter);
+        ui->donRepTable->setItem(posToAlign+2+counterII,3, tableInfo);
+        counterII++;
+    }
+}
+
+//void donorsTable::on_generalButton_clicked()
+//{
+//    move(410, 120);
+
+//    Idonors.clear();
+//    IIdonors.clear();
+//    IIIdonors.clear();
+//    IVdonors.clear();
+
+//    Irecipients.clear();
+//    IIrecipients.clear();
+//    IIIrecipients.clear();
+//    IVrecipients.clear();
+
+//    for(int i = ui->donRepTable->rowCount()-1; i >= 0; i--) {
+//        ui->donRepTable->removeRow(i);
+//    }
+
+//    for(int i = 0; i < (int)(gotPatients.size()); i++) {
+//        if (gotPatients[i].getBloodType() == "I") {
+//            Idonors.push_back(gotPatients[i]);
+//            IIdonors.push_back(gotPatients[i]);
+//            IIIdonors.push_back(gotPatients[i]);
+//            IVdonors.push_back(gotPatients[i]);
+
+//            Irecipients.push_back(gotPatients[i]);
+//        } else if(gotPatients[i].getBloodType() == "II") {
+//            IIdonors.push_back(gotPatients[i]);
+//            IVdonors.push_back(gotPatients[i]);
+
+//            Irecipients.push_back(gotPatients[i]);
+//            IIrecipients.push_back(gotPatients[i]);
+//        } else if(gotPatients[i].getBloodType() == "III") {
+//            IIIdonors.push_back(gotPatients[i]);
+//            IVdonors.push_back(gotPatients[i]);
+
+//            Irecipients.push_back(gotPatients[i]);
+//            IIIrecipients.push_back(gotPatients[i]);
+//        } else {
+//            IVdonors.push_back(gotPatients[i]);
+
+//            Irecipients.push_back(gotPatients[i]);
+//            IIrecipients.push_back(gotPatients[i]);
+//            IIIrecipients.push_back(gotPatients[i]);
+//            IVrecipients.push_back(gotPatients[i]);
+//        }
+//    }
+
+//    ui->donRepTable->setColumnCount(4);
+//    ui->donRepTable->setColumnWidth(0, 220);
+//    ui->donRepTable->setColumnWidth(1, 220);
+//    ui->donRepTable->setColumnWidth(2, 220);
+//    ui->donRepTable->setColumnWidth(3, 223);
+
+//    for(int i = 0; i < ui->donRepTable->rowCount()-1; i++) {
+//        ui->donRepTable->setRowHeight(i, 15);
+//    }
+//    resize(962, 1000);
+//    ui->donRepTable->resize(882, 800);
+
+//    ui->universalButton->move(221, 10);
+//    ui->generalButton->move(471, 10);
+//    ui->label->move(311, 50);
+
+//    QStringList headers = {"I blood type", "II blood type", "III blood type", "IV blood type"};
+
+//    QTableWidgetItem* tableInfo = new QTableWidgetItem(headers.at(0));
+//    ui->donRepTable->insertRow(0);
+//    ui->donRepTable->setSpan(0, 0, 1, 2);
+//    tableInfo->setTextAlignment(Qt::AlignCenter);
+//    ui->donRepTable->setItem(0,0, tableInfo);
+
+//}
+
+
+void donorsTable::on_actionExit_triggered()
+{
+    close();
+}
+
+
+void donorsTable::on_actionPrint_triggered()
+{
+    QPrinter printer;
+
+    QPrintDialog printDialog(&printer, this);
+    if (printDialog.exec() != QDialog::Accepted) {
+        return;
+    }
+
+    QPainter painter;
+    painter.begin(&printer);
+
+    QFont font = painter.font();
+    font.setPointSize(12);
+    painter.setFont(font);
+
+    double scaleFactor = 4;
+    painter.scale(scaleFactor, scaleFactor);
+    ui->donRepTable->render(&painter);
+
+    painter.end();
 }
 
