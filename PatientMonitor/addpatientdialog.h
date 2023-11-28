@@ -23,7 +23,7 @@ public:
     ~addPatientDialog();
 
 signals:
-    void patientAdded(const patientInfo &patient);
+    void patientAdded(patientInfo &patient);
 
 private slots:
     void on_addButton_clicked();

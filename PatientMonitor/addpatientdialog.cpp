@@ -146,7 +146,7 @@ void addPatientDialog::on_addButton_clicked()
             throw QString("Invalid pressure values.\nUpper pressure cannot be less than lower pressure.");
         }
 
-        patientInfo newPatient(gotName.toStdString(), gotAge, gotBloodType.toStdString(),
+        patientInfo newPatient(0, gotName.toStdString(), gotAge, gotBloodType.toStdString(),
                                gotRhFactor.toStdString(), gotUpperPressure, gotLowerPressure, gotPulse);
         emit patientAdded(newPatient);
     }

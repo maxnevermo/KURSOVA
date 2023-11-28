@@ -16,6 +16,7 @@
 #include "patientinfo.h"
 #include "ageinputdialog.h"
 #include "donorstable.h"
+#include "healthypatients.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -44,7 +45,7 @@ public:
     void operatingError();
 
 public slots:
-    void onPatientAdded(const patientInfo &patient);
+    void onPatientAdded(patientInfo &patient);
     void handleAgeSet(const int &age);
 
 private slots:

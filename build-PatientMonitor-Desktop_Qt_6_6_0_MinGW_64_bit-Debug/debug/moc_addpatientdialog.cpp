@@ -41,7 +41,7 @@ static constexpr auto qt_meta_stringdata_CLASSaddPatientDialogENDCLASS = QtMocHe
     "addPatientDialog",
     "patientAdded",
     "",
-    "patientInfo",
+    "patientInfo&",
     "patient",
     "on_addButton_clicked"
 );
@@ -51,7 +51,7 @@ struct qt_meta_stringdata_CLASSaddPatientDialogENDCLASS_t {
     char stringdata0[17];
     char stringdata1[13];
     char stringdata2[1];
-    char stringdata3[12];
+    char stringdata3[13];
     char stringdata4[8];
     char stringdata5[21];
 };
@@ -62,14 +62,14 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSaddPatientDialogENDCLASS_t qt_m
         QT_MOC_LITERAL(0, 16),  // "addPatientDialog"
         QT_MOC_LITERAL(17, 12),  // "patientAdded"
         QT_MOC_LITERAL(30, 0),  // ""
-        QT_MOC_LITERAL(31, 11),  // "patientInfo"
-        QT_MOC_LITERAL(43, 7),  // "patient"
-        QT_MOC_LITERAL(51, 20)   // "on_addButton_clicked"
+        QT_MOC_LITERAL(31, 12),  // "patientInfo&"
+        QT_MOC_LITERAL(44, 7),  // "patient"
+        QT_MOC_LITERAL(52, 20)   // "on_addButton_clicked"
     },
     "addPatientDialog",
     "patientAdded",
     "",
-    "patientInfo",
+    "patientInfo&",
     "patient",
     "on_addButton_clicked"
 };
@@ -116,7 +116,7 @@ Q_CONSTINIT const QMetaObject addPatientDialog::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<addPatientDialog, std::true_type>,
         // method 'patientAdded'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const patientInfo &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<patientInfo &, std::false_type>,
         // method 'on_addButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
@@ -129,14 +129,14 @@ void addPatientDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         auto *_t = static_cast<addPatientDialog *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->patientAdded((*reinterpret_cast< std::add_pointer_t<patientInfo>>(_a[1]))); break;
+        case 0: _t->patientAdded((*reinterpret_cast< std::add_pointer_t<patientInfo&>>(_a[1]))); break;
         case 1: _t->on_addButton_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (addPatientDialog::*)(const patientInfo & );
+            using _t = void (addPatientDialog::*)(patientInfo & );
             if (_t _q_method = &addPatientDialog::patientAdded; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 0;
                 return;
@@ -176,7 +176,7 @@ int addPatientDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void addPatientDialog::patientAdded(const patientInfo & _t1)
+void addPatientDialog::patientAdded(patientInfo & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

@@ -44,7 +44,7 @@ static constexpr auto qt_meta_stringdata_CLASSPatientMonitorENDCLASS = QtMocHelp
     "std::vector<patientInfo>",
     "patients",
     "onPatientAdded",
-    "patientInfo",
+    "patientInfo&",
     "patient",
     "handleAgeSet",
     "age",
@@ -70,7 +70,7 @@ struct qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t {
     char stringdata3[25];
     char stringdata4[9];
     char stringdata5[15];
-    char stringdata6[12];
+    char stringdata6[13];
     char stringdata7[8];
     char stringdata8[13];
     char stringdata9[4];
@@ -97,22 +97,22 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t qt_met
         QT_MOC_LITERAL(29, 24),  // "std::vector<patientInfo>"
         QT_MOC_LITERAL(54, 8),  // "patients"
         QT_MOC_LITERAL(63, 14),  // "onPatientAdded"
-        QT_MOC_LITERAL(78, 11),  // "patientInfo"
-        QT_MOC_LITERAL(90, 7),  // "patient"
-        QT_MOC_LITERAL(98, 12),  // "handleAgeSet"
-        QT_MOC_LITERAL(111, 3),  // "age"
-        QT_MOC_LITERAL(115, 21),  // "on_scanButton_clicked"
-        QT_MOC_LITERAL(137, 20),  // "on_addButton_clicked"
-        QT_MOC_LITERAL(158, 28),  // "on_bloodPressureSort_clicked"
-        QT_MOC_LITERAL(187, 31),  // "on_bloodTypeGroupButton_clicked"
-        QT_MOC_LITERAL(219, 24),  // "on_rhGroupHrSort_clicked"
-        QT_MOC_LITERAL(244, 30),  // "on_agePulseCheckButton_clicked"
-        QT_MOC_LITERAL(275, 32),  // "on_actionCancel_action_triggered"
-        QT_MOC_LITERAL(308, 23),  // "on_actionExit_triggered"
-        QT_MOC_LITERAL(332, 22),  // "on_writeButton_clicked"
-        QT_MOC_LITERAL(355, 34),  // "on_normPressureCheckButton_cl..."
-        QT_MOC_LITERAL(390, 27),  // "on_donorCheckButton_clicked"
-        QT_MOC_LITERAL(418, 24)   // "on_actionPrint_triggered"
+        QT_MOC_LITERAL(78, 12),  // "patientInfo&"
+        QT_MOC_LITERAL(91, 7),  // "patient"
+        QT_MOC_LITERAL(99, 12),  // "handleAgeSet"
+        QT_MOC_LITERAL(112, 3),  // "age"
+        QT_MOC_LITERAL(116, 21),  // "on_scanButton_clicked"
+        QT_MOC_LITERAL(138, 20),  // "on_addButton_clicked"
+        QT_MOC_LITERAL(159, 28),  // "on_bloodPressureSort_clicked"
+        QT_MOC_LITERAL(188, 31),  // "on_bloodTypeGroupButton_clicked"
+        QT_MOC_LITERAL(220, 24),  // "on_rhGroupHrSort_clicked"
+        QT_MOC_LITERAL(245, 30),  // "on_agePulseCheckButton_clicked"
+        QT_MOC_LITERAL(276, 32),  // "on_actionCancel_action_triggered"
+        QT_MOC_LITERAL(309, 23),  // "on_actionExit_triggered"
+        QT_MOC_LITERAL(333, 22),  // "on_writeButton_clicked"
+        QT_MOC_LITERAL(356, 34),  // "on_normPressureCheckButton_cl..."
+        QT_MOC_LITERAL(391, 27),  // "on_donorCheckButton_clicked"
+        QT_MOC_LITERAL(419, 24)   // "on_actionPrint_triggered"
     },
     "PatientMonitor",
     "sentPatients",
@@ -120,7 +120,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t qt_met
     "std::vector<patientInfo>",
     "patients",
     "onPatientAdded",
-    "patientInfo",
+    "patientInfo&",
     "patient",
     "handleAgeSet",
     "age",
@@ -209,7 +209,7 @@ Q_CONSTINIT const QMetaObject PatientMonitor::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<const std::vector<patientInfo> &, std::false_type>,
         // method 'onPatientAdded'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const patientInfo &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<patientInfo &, std::false_type>,
         // method 'handleAgeSet'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const int &, std::false_type>,
@@ -248,7 +248,7 @@ void PatientMonitor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         (void)_t;
         switch (_id) {
         case 0: _t->sentPatients((*reinterpret_cast< std::add_pointer_t<std::vector<patientInfo>>>(_a[1]))); break;
-        case 1: _t->onPatientAdded((*reinterpret_cast< std::add_pointer_t<patientInfo>>(_a[1]))); break;
+        case 1: _t->onPatientAdded((*reinterpret_cast< std::add_pointer_t<patientInfo&>>(_a[1]))); break;
         case 2: _t->handleAgeSet((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 3: _t->on_scanButton_clicked(); break;
         case 4: _t->on_addButton_clicked(); break;

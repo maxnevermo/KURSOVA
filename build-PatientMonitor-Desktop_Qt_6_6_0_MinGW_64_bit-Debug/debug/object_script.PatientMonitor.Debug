@@ -1,10 +1,12 @@
 debug/addpatientdialog.o
 debug/ageinputdialog.o
 debug/donorstable.o
+debug/healthypatients.o
 debug/main.o
 debug/patientinfo.o
 debug/patientmonitor.o
 debug/moc_addpatientdialog.o
 debug/moc_ageinputdialog.o
 debug/moc_donorstable.o
+debug/moc_healthypatients.o
 debug/moc_patientmonitor.o

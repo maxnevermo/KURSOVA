@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>healthyPatients</class>
+ <widget class="QMainWindow" name="healthyPatients">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>590</width>
+    <height>370</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+background-color: rgb(142, 157, 204);
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="healthyPatientsTable">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>10</y>
+      <width>580</width>
+      <height>300</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget {
+    background-color: #D9DBF1;
+    color: #000000;
+    border-radius: 20px;
+    font-family: 'Gogh';
+    font-weight: 500;
+    font-size: 15px;
+}
+
+QTableWidget::item:hover {
+    border-right: 0.5px solid #E5E5E5;
+}
+
+QTableWidget::item:selected {
+    background-color: #A9B9E3;
+    border: none;
+}
+
+QTableWidget::item:hover:selected {
+    background-color: #A9B9E3;
+    border-right: 0.5px solid #E5E5E5;
+}</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>590</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -2,13 +2,15 @@
 #define PATIENTINFO_H
 #include <iostream>
 #include <string>
+#include <iomanip>
 #include <QMessageBox>
 
 class patientInfo
 {
 public:
     patientInfo();
-    patientInfo(std::string surname, int age, std::string bloodType, std::string rhFactor, int upPressure, int lowPressure, int pulse);
+    patientInfo(int num, std::string surname, int age, std::string bloodType, std::string rhFactor, int upPressure, int lowPressure, int pulse);
+    patientInfo(const patientInfo& other);
 
     void setNum (int num) {m_num = num;}
     void setSurname(const std::string& surname) { m_surname = surname; }
