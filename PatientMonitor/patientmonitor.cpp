@@ -807,10 +807,24 @@ void PatientMonitor::on_normPressureCheckButton_clicked()
                 }
             }
         }
+
+        if(healthyPatientsList.empty()) {
+            operatingError();
+        } else {
+
+        for (int i = 0; i < healthyPatientsList.size() - 1; i++) {
+            for (int j = 0; j < healthyPatientsList.size() - i - 1; j++) {
+                if (healthyPatientsList[j].getSurname() > healthyPatientsList[j + 1].getSurname()) {
+                    std::swap(healthyPatientsList[j], healthyPatientsList[j + 1]);
+                }
+            }
+        }
+
     healthyPatients* healthyPatientsWindow = new healthyPatients(this);
     connect(this, &PatientMonitor::sentPatients, healthyPatientsWindow, healthyPatients::receivePatientList);
     emit sentPatients(healthyPatientsList);
     healthyPatientsWindow->show();
+    }
     }
 }
 
