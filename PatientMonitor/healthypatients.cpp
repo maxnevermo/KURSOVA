@@ -29,7 +29,6 @@ healthyPatients::healthyPatients(QWidget *parent) :
     ui->healthyPatientsTable->setSelectionMode(QAbstractItemView::MultiSelection);
 
     setWindowTitle("Healthy patients");
-//    connect(ui->healthyPatientsTable, &QTableWidget::itemClicked, this, &PatientMonitor::onItemClicked);
 
     ui->healthyPatientsTable->setFocusPolicy(Qt::NoFocus);
 

@@ -17,6 +17,7 @@
 #include "ageinputdialog.h"
 #include "donorstable.h"
 #include "healthypatients.h"
+#include "editpatient.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -47,6 +48,7 @@ public:
 public slots:
     void onPatientAdded(patientInfo &patient);
     void handleAgeSet(const int &age);
+    void onPatientChanged(patientInfo* editedPatient);
 
 private slots:
     void on_scanButton_clicked();
@@ -71,10 +73,17 @@ private slots:
 
     void on_actionPrint_triggered();
 
+    void showContextMenu(const QPoint& pos);
+    void onDeletePatient();
+    void onEditPatient();
+
 signals:
     void sentPatients(const std::vector<patientInfo> &patients);
 
 private:
+    QMenu *contextMenu;
+    QAction *deleteAction;
+    QAction *editAction;
     Ui::PatientMonitor *ui;
 };
 #endif // PATIENTMONITORING_H

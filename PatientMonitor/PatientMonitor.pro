@@ -14,6 +14,7 @@ SOURCES += \
     addpatientdialog.cpp \
     ageinputdialog.cpp \
     donorstable.cpp \
+    editpatient.cpp \
     healthypatients.cpp \
     main.cpp \
     patientinfo.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     addpatientdialog.h \
     ageinputdialog.h \
     donorstable.h \
+    editpatient.h \
     healthypatients.h \
     patientinfo.h \
     patientmonitor.h
@@ -31,6 +33,7 @@ FORMS += \
     addpatientdialog.ui \
     ageinputdialog.ui \
     donorstable.ui \
+    editpatient.ui \
     healthypatients.ui \
     patientmonitor.ui
 

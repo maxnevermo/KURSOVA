@@ -1,6 +1,7 @@
 release/addpatientdialog.o
 release/ageinputdialog.o
 release/donorstable.o
+release/editpatient.o
 release/healthypatients.o
 release/main.o
 release/patientinfo.o
@@ -8,5 +9,6 @@ release/patientmonitor.o
 release/moc_addpatientdialog.o
 release/moc_ageinputdialog.o
 release/moc_donorstable.o
+release/moc_editpatient.o
 release/moc_healthypatients.o
 release/moc_patientmonitor.o

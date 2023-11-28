@@ -72,13 +72,13 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->normPressureCheckButton->setGraphicsEffect(shadowEffectHealthyChecker);
 
     ui->patientTable->setColumnCount(7);
-    ui->patientTable->setColumnWidth(0, 43);
+    ui->patientTable->setColumnWidth(0, 50);
     ui->patientTable->setColumnWidth(1, 120);
-    ui->patientTable->setColumnWidth(2, 63);
-    ui->patientTable->setColumnWidth(3, 123);
+    ui->patientTable->setColumnWidth(2, 65);
+    ui->patientTable->setColumnWidth(3, 125);
     ui->patientTable->setColumnWidth(4, 120);
     ui->patientTable->setColumnWidth(5, 140);
-    ui->patientTable->setColumnWidth(6, 84);
+    ui->patientTable->setColumnWidth(6, 85);
 
     ui->patientTable->setShowGrid(false);
 
@@ -86,13 +86,11 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->patientTable->verticalHeader()->setVisible(false);
 
     ui->patientTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->patientTable->setSelectionMode(QAbstractItemView::NoSelection);
 
-    ui->patientTable->setSelectionMode(QAbstractItemView::MultiSelection);
     connect(ui->patientTable, &QTableWidget::itemClicked, this, &PatientMonitor::onItemClicked);
 
     ui->patientTable->setFocusPolicy(Qt::NoFocus);
-
+    ui->patientTable->setSelectionMode(QAbstractItemView::MultiSelection);
 
     ui->menuFile->setStyleSheet("QMenu {background-color: #C6CCE8; color: #000000; border-radius: 0.5em; font-family: 'Gogh'; font-weight: 500; font-size: 15px }"
                                 "QMenu:hover { background-color: #A9B9E3; font-family: 'Gogh'; font-weight: 500; } ");
@@ -112,6 +110,19 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     ui->scanTableButton->setVisible(false);
     connect(ui->scanTableButton, &QPushButton::clicked, this, &PatientMonitor::onScanTableButtonClick);
 
+    contextMenu = new QMenu(this);
+    deleteAction = new QAction("Delete patient", this);
+    editAction = new QAction("Edit patient", this);
+
+    contextMenu->addAction(deleteAction);
+    contextMenu->addAction(editAction);
+
+    connect(deleteAction, &QAction::triggered, this, &PatientMonitor::onDeletePatient);
+    connect(editAction, &QAction::triggered, this, &PatientMonitor::onEditPatient);
+    connect(ui->patientTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
+    ui->patientTable->setContextMenuPolicy(Qt::CustomContextMenu);
+
+
     try {
         if (ui->patientTable->rowCount() == 0)
             throw 1;
@@ -120,11 +131,126 @@ PatientMonitor::PatientMonitor(QWidget *parent)
         ui->scanTableButton->setVisible(true);
     }
 }
+
 PatientMonitor::~PatientMonitor()
 {
     delete ui;
 }
 
+
+void PatientMonitor::onDeletePatient() {
+    QList<QTableWidgetItem *> selectedItems = ui->patientTable->selectedItems();
+
+    if (!selectedItems.isEmpty()) {
+        int row = selectedItems.first()->row();
+        patients.erase(patients.begin() + row);
+
+        for(int i = ui->patientTable->rowCount()-1; i >= 0; i--) {
+            ui->patientTable->removeRow(i);
+        }
+
+        QTableWidgetItem* newPatientInfo = NULL;
+        for (int i = 0; i < (int)(patients.size()); i++) {
+            ui->patientTable->insertRow(i);
+            patients[i].setNum(i+1);
+            newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getNum()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 0, newPatientInfo);
+
+            newPatientInfo = new QTableWidgetItem(patients[i].getSurname().c_str());
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 1, newPatientInfo);
+
+            newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getAge()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 2, newPatientInfo);
+
+            newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getBloodType()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 3, newPatientInfo);
+
+            newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getRhFactor()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 4, newPatientInfo);
+
+            newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getUpPressure()) + "/" + QString::number(patients[i].getLowPressure()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 5, newPatientInfo);
+
+            newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getPulseValue()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 6, newPatientInfo);
+
+        }
+    }
+    checkIfEmpty();
+}
+
+void PatientMonitor::onEditPatient() {
+    QList<QTableWidgetItem *> selectedItems = ui->patientTable->selectedItems();
+
+    if (!selectedItems.isEmpty()) {
+        int row = selectedItems.first()->row();
+        patientInfo selectedPatient = patients.at(row);
+
+        EditPatient editPatientDialog(this, &selectedPatient);
+        connect(&editPatientDialog, &QDialog::accepted, this, [=, &editPatientDialog]() {
+            onPatientChanged(editPatientDialog.getEditedPatient());
+        });
+        editPatientDialog.exec();
+    }
+}
+
+void PatientMonitor::onPatientChanged(patientInfo* editedPatient) {
+
+    QTableWidgetItem* newPatientInfo = NULL;
+
+    QList<QTableWidgetItem *> selectedItems = ui->patientTable->selectedItems();
+
+    if (!selectedItems.isEmpty()) {
+        int row = selectedItems.first()->row();
+        patients.at(row) = *editedPatient;
+    }
+
+    for (int i =0; i < (int)(patients.size()); i++) {
+        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getNum()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 0, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(patients[i].getSurname().c_str());
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 1, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getAge()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 2, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getBloodType()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 3, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getRhFactor()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 4, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getUpPressure()) + "/" + QString::number(patients[i].getLowPressure()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 5, newPatientInfo);
+
+        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getPulseValue()));
+        newPatientInfo->setTextAlignment(Qt::AlignCenter);
+        ui->patientTable->setItem(i, 6, newPatientInfo);
+    }
+}
+
+void PatientMonitor::showContextMenu(const QPoint& pos) {
+    QTableWidgetItem* item = ui->patientTable->itemAt(pos);
+
+    if (item) {
+        QPoint globalPos = ui->patientTable->mapToGlobal(pos);
+        contextMenu->exec(globalPos);
+    }
+}
 
 
 //функція для зчитування з таблиці пацієнтів з файлу (ліве бокове меню програми)
@@ -186,6 +312,8 @@ void PatientMonitor::on_addButton_clicked()
     connect(&addPatientDialog, &addPatientDialog::patientAdded, this, &PatientMonitor::onPatientAdded);
     addPatientDialog.exec();
 }
+
+
 
 //функція обробки введених даних про нового пацієнта і додавання його у таблицю
 void PatientMonitor::onPatientAdded(patientInfo &patient)
