@@ -329,7 +329,6 @@ public:
 
         menubar->addAction(menuFile->menuAction());
         menuFile->addAction(actionCancel_action);
-        menuFile->addAction(actionPrint);
         menuFile->addAction(actionExit);
 
         retranslateUi(PatientMonitor);

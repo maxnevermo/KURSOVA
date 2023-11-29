@@ -46,7 +46,7 @@ static constexpr auto qt_meta_stringdata_CLASSdonorsTableENDCLASS = QtMocHelpers
     "on_universalButton_clicked",
     "on_generalButton_clicked",
     "on_actionExit_triggered",
-    "on_actionPrint_triggered"
+    "on_actionWrite_triggered"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSdonorsTableENDCLASS_t {
@@ -73,7 +73,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSdonorsTableENDCLASS_t qt_meta_s
         QT_MOC_LITERAL(66, 26),  // "on_universalButton_clicked"
         QT_MOC_LITERAL(93, 24),  // "on_generalButton_clicked"
         QT_MOC_LITERAL(118, 23),  // "on_actionExit_triggered"
-        QT_MOC_LITERAL(142, 24)   // "on_actionPrint_triggered"
+        QT_MOC_LITERAL(142, 24)   // "on_actionWrite_triggered"
     },
     "donorsTable",
     "receivePatientList",
@@ -83,7 +83,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSdonorsTableENDCLASS_t qt_meta_s
     "on_universalButton_clicked",
     "on_generalButton_clicked",
     "on_actionExit_triggered",
-    "on_actionPrint_triggered"
+    "on_actionWrite_triggered"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -137,7 +137,7 @@ Q_CONSTINIT const QMetaObject donorsTable::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_actionExit_triggered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_actionPrint_triggered'
+        // method 'on_actionWrite_triggered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -153,7 +153,7 @@ void donorsTable::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 1: _t->on_universalButton_clicked(); break;
         case 2: _t->on_generalButton_clicked(); break;
         case 3: _t->on_actionExit_triggered(); break;
-        case 4: _t->on_actionPrint_triggered(); break;
+        case 4: _t->on_actionWrite_triggered(); break;
         default: ;
         }
     }

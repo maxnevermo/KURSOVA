@@ -1,6 +1,7 @@
 #include "healthypatients.h"
 #include "ui_healthypatients.h"
 
+std::vector<patientInfo> patientsToPrint;
 healthyPatients::healthyPatients(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::healthyPatients)
@@ -44,7 +45,7 @@ healthyPatients::~healthyPatients()
 void healthyPatients::receivePatientList(const std::vector<patientInfo> &patients) {
 
     QTableWidgetItem* newPatientInfo = NULL;
-
+    patientsToPrint = patients;
         //вивід здорових пацієнтів
         for (int i = 0; i < (int)(patients.size()); i++) {
             ui->healthyPatientsTable->insertRow(i);
@@ -57,3 +58,19 @@ void healthyPatients::receivePatientList(const std::vector<patientInfo> &patient
             ui->healthyPatientsTable->setItem(i, 1, newPatientInfo);
     }
 }
+
+void healthyPatients::on_actionWrite_to_file_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
+    std::ofstream outputFile(fileName.toStdString());
+
+    if (!outputFile.is_open()) {
+        return;
+    }
+    for (int i = 0; i < patientsToPrint.size(); i++) {
+        outputFile << patientsToPrint[i].getSurname() << "---ЗДОРОВИЙ!---" << "\n";
+
+    }
+    outputFile.close();
+}
+

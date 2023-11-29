@@ -9,6 +9,10 @@
 #include <QPainter>
 #include <QBrush>
 #include <algorithm>
+#include <QFile>
+#include <fstream>
+#include <QFileDialog>
+#include <QTextStream>
 
 #include "patientinfo.h"
 
@@ -35,7 +39,8 @@ private slots:
     void on_generalButton_clicked();
 
     void on_actionExit_triggered();
-    void on_actionPrint_triggered();
+
+    void on_actionWrite_triggered();
 
 private:
     Ui::donorsTable *ui;

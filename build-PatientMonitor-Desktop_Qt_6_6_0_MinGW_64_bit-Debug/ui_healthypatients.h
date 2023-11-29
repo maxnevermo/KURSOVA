@@ -10,9 +10,11 @@
 #define UI_HEALTHYPATIENTS_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
@@ -23,9 +25,11 @@ QT_BEGIN_NAMESPACE
 class Ui_healthyPatients
 {
 public:
+    QAction *actionWrite_to_file;
     QWidget *centralwidget;
     QTableWidget *healthyPatientsTable;
     QMenuBar *menubar;
+    QMenu *fileMenu;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *healthyPatients)
@@ -36,6 +40,8 @@ public:
         healthyPatients->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "background-color: rgb(142, 157, 204);\n"
 "}"));
+        actionWrite_to_file = new QAction(healthyPatients);
+        actionWrite_to_file->setObjectName("actionWrite_to_file");
         centralwidget = new QWidget(healthyPatients);
         centralwidget->setObjectName("centralwidget");
         healthyPatientsTable = new QTableWidget(centralwidget);
@@ -67,10 +73,15 @@ public:
         menubar = new QMenuBar(healthyPatients);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 590, 21));
+        fileMenu = new QMenu(menubar);
+        fileMenu->setObjectName("fileMenu");
         healthyPatients->setMenuBar(menubar);
         statusbar = new QStatusBar(healthyPatients);
         statusbar->setObjectName("statusbar");
         healthyPatients->setStatusBar(statusbar);
+
+        menubar->addAction(fileMenu->menuAction());
+        fileMenu->addAction(actionWrite_to_file);
 
         retranslateUi(healthyPatients);
 
@@ -80,6 +91,8 @@ public:
     void retranslateUi(QMainWindow *healthyPatients)
     {
         healthyPatients->setWindowTitle(QCoreApplication::translate("healthyPatients", "MainWindow", nullptr));
+        actionWrite_to_file->setText(QCoreApplication::translate("healthyPatients", "Write", nullptr));
+        fileMenu->setTitle(QCoreApplication::translate("healthyPatients", "File", nullptr));
     } // retranslateUi
 
 };

@@ -310,107 +310,42 @@ void donorsTable::on_generalButton_clicked()
     }
 }
 
-//void donorsTable::on_generalButton_clicked()
-//{
-//    move(410, 120);
-
-//    Idonors.clear();
-//    IIdonors.clear();
-//    IIIdonors.clear();
-//    IVdonors.clear();
-
-//    Irecipients.clear();
-//    IIrecipients.clear();
-//    IIIrecipients.clear();
-//    IVrecipients.clear();
-
-//    for(int i = ui->donRepTable->rowCount()-1; i >= 0; i--) {
-//        ui->donRepTable->removeRow(i);
-//    }
-
-//    for(int i = 0; i < (int)(gotPatients.size()); i++) {
-//        if (gotPatients[i].getBloodType() == "I") {
-//            Idonors.push_back(gotPatients[i]);
-//            IIdonors.push_back(gotPatients[i]);
-//            IIIdonors.push_back(gotPatients[i]);
-//            IVdonors.push_back(gotPatients[i]);
-
-//            Irecipients.push_back(gotPatients[i]);
-//        } else if(gotPatients[i].getBloodType() == "II") {
-//            IIdonors.push_back(gotPatients[i]);
-//            IVdonors.push_back(gotPatients[i]);
-
-//            Irecipients.push_back(gotPatients[i]);
-//            IIrecipients.push_back(gotPatients[i]);
-//        } else if(gotPatients[i].getBloodType() == "III") {
-//            IIIdonors.push_back(gotPatients[i]);
-//            IVdonors.push_back(gotPatients[i]);
-
-//            Irecipients.push_back(gotPatients[i]);
-//            IIIrecipients.push_back(gotPatients[i]);
-//        } else {
-//            IVdonors.push_back(gotPatients[i]);
-
-//            Irecipients.push_back(gotPatients[i]);
-//            IIrecipients.push_back(gotPatients[i]);
-//            IIIrecipients.push_back(gotPatients[i]);
-//            IVrecipients.push_back(gotPatients[i]);
-//        }
-//    }
-
-//    ui->donRepTable->setColumnCount(4);
-//    ui->donRepTable->setColumnWidth(0, 220);
-//    ui->donRepTable->setColumnWidth(1, 220);
-//    ui->donRepTable->setColumnWidth(2, 220);
-//    ui->donRepTable->setColumnWidth(3, 223);
-
-//    for(int i = 0; i < ui->donRepTable->rowCount()-1; i++) {
-//        ui->donRepTable->setRowHeight(i, 15);
-//    }
-//    resize(962, 1000);
-//    ui->donRepTable->resize(882, 800);
-
-//    ui->universalButton->move(221, 10);
-//    ui->generalButton->move(471, 10);
-//    ui->label->move(311, 50);
-
-//    QStringList headers = {"I blood type", "II blood type", "III blood type", "IV blood type"};
-
-//    QTableWidgetItem* tableInfo = new QTableWidgetItem(headers.at(0));
-//    ui->donRepTable->insertRow(0);
-//    ui->donRepTable->setSpan(0, 0, 1, 2);
-//    tableInfo->setTextAlignment(Qt::AlignCenter);
-//    ui->donRepTable->setItem(0,0, tableInfo);
-
-//}
-
-
 void donorsTable::on_actionExit_triggered()
 {
     close();
 }
 
 
-void donorsTable::on_actionPrint_triggered()
+void donorsTable::on_actionWrite_triggered()
 {
-    QPrinter printer;
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
 
-    QPrintDialog printDialog(&printer, this);
-    if (printDialog.exec() != QDialog::Accepted) {
-        return;
+    std::ofstream patientOutputFile(fileName.toStdString());
+    QFile file(fileName);
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out.setFieldWidth(0);
+
+        // Iterate through rows and columns
+        for (int row = 0; row < ui->donRepTable->rowCount(); ++row) {
+            for (int col = 0; col < ui->donRepTable->columnCount(); ++col) {
+                QTableWidgetItem *item = ui->donRepTable->item(row, col);
+                if (item) {
+                    if (item->text() == "I blood type" || item->text() == "III blood type"
+                        || item->text() == "II blood type" || item->text() == "IV blood type") {
+                        out.setFieldWidth(40);
+                        out << item->text() << "\t";
+                    } else {
+                    out.setFieldWidth(20);
+                    out << item->text() << "\t";
+                    }
+                }
+            }
+            out.setFieldWidth(0);
+            out << "\n"; // Newline after each row
+        }
+
+        file.close();
     }
-
-    QPainter painter;
-    painter.begin(&printer);
-
-    QFont font = painter.font();
-    font.setPointSize(12);
-    painter.setFont(font);
-
-    double scaleFactor = 4;
-    painter.scale(scaleFactor, scaleFactor);
-    ui->donRepTable->render(&painter);
-
-    painter.end();
 }
-

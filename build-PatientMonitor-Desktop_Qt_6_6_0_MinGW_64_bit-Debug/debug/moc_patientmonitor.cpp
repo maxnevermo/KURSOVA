@@ -62,15 +62,18 @@ static constexpr auto qt_meta_stringdata_CLASSPatientMonitorENDCLASS = QtMocHelp
     "on_writeButton_clicked",
     "on_normPressureCheckButton_clicked",
     "on_donorCheckButton_clicked",
-    "on_actionPrint_triggered",
     "showContextMenu",
     "pos",
     "onDeletePatient",
-    "onEditPatient"
+    "onEditPatient",
+    "handleSortButtonClicked",
+    "comboBox1Text",
+    "comboBox2Text",
+    "handleSortButtonHR"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t {
-    uint offsetsAndSizes[58];
+    uint offsetsAndSizes[64];
     char stringdata0[15];
     char stringdata1[13];
     char stringdata2[1];
@@ -95,11 +98,14 @@ struct qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t {
     char stringdata21[23];
     char stringdata22[35];
     char stringdata23[28];
-    char stringdata24[25];
-    char stringdata25[16];
-    char stringdata26[4];
-    char stringdata27[16];
-    char stringdata28[14];
+    char stringdata24[16];
+    char stringdata25[4];
+    char stringdata26[16];
+    char stringdata27[14];
+    char stringdata28[24];
+    char stringdata29[14];
+    char stringdata30[14];
+    char stringdata31[19];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -129,11 +135,14 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t qt_met
         QT_MOC_LITERAL(377, 22),  // "on_writeButton_clicked"
         QT_MOC_LITERAL(400, 34),  // "on_normPressureCheckButton_cl..."
         QT_MOC_LITERAL(435, 27),  // "on_donorCheckButton_clicked"
-        QT_MOC_LITERAL(463, 24),  // "on_actionPrint_triggered"
-        QT_MOC_LITERAL(488, 15),  // "showContextMenu"
-        QT_MOC_LITERAL(504, 3),  // "pos"
-        QT_MOC_LITERAL(508, 15),  // "onDeletePatient"
-        QT_MOC_LITERAL(524, 13)   // "onEditPatient"
+        QT_MOC_LITERAL(463, 15),  // "showContextMenu"
+        QT_MOC_LITERAL(479, 3),  // "pos"
+        QT_MOC_LITERAL(483, 15),  // "onDeletePatient"
+        QT_MOC_LITERAL(499, 13),  // "onEditPatient"
+        QT_MOC_LITERAL(513, 23),  // "handleSortButtonClicked"
+        QT_MOC_LITERAL(537, 13),  // "comboBox1Text"
+        QT_MOC_LITERAL(551, 13),  // "comboBox2Text"
+        QT_MOC_LITERAL(565, 18)   // "handleSortButtonHR"
     },
     "PatientMonitor",
     "sentPatients",
@@ -159,11 +168,14 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSPatientMonitorENDCLASS_t qt_met
     "on_writeButton_clicked",
     "on_normPressureCheckButton_clicked",
     "on_donorCheckButton_clicked",
-    "on_actionPrint_triggered",
     "showContextMenu",
     "pos",
     "onDeletePatient",
-    "onEditPatient"
+    "onEditPatient",
+    "handleSortButtonClicked",
+    "comboBox1Text",
+    "comboBox2Text",
+    "handleSortButtonHR"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -175,7 +187,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSPatientMonitorENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      19,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -183,27 +195,28 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSPatientMonitorENDCLASS[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,  128,    2, 0x06,    1 /* Public */,
+       1,    1,  134,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       5,    1,  131,    2, 0x0a,    3 /* Public */,
-       8,    1,  134,    2, 0x0a,    5 /* Public */,
-      10,    1,  137,    2, 0x0a,    7 /* Public */,
-      13,    0,  140,    2, 0x08,    9 /* Private */,
-      14,    0,  141,    2, 0x08,   10 /* Private */,
-      15,    0,  142,    2, 0x08,   11 /* Private */,
-      16,    0,  143,    2, 0x08,   12 /* Private */,
-      17,    0,  144,    2, 0x08,   13 /* Private */,
-      18,    0,  145,    2, 0x08,   14 /* Private */,
-      19,    0,  146,    2, 0x08,   15 /* Private */,
-      20,    0,  147,    2, 0x08,   16 /* Private */,
-      21,    0,  148,    2, 0x08,   17 /* Private */,
-      22,    0,  149,    2, 0x08,   18 /* Private */,
-      23,    0,  150,    2, 0x08,   19 /* Private */,
-      24,    0,  151,    2, 0x08,   20 /* Private */,
-      25,    1,  152,    2, 0x08,   21 /* Private */,
-      27,    0,  155,    2, 0x08,   23 /* Private */,
-      28,    0,  156,    2, 0x08,   24 /* Private */,
+       5,    1,  137,    2, 0x0a,    3 /* Public */,
+       8,    1,  140,    2, 0x0a,    5 /* Public */,
+      10,    1,  143,    2, 0x0a,    7 /* Public */,
+      13,    0,  146,    2, 0x08,    9 /* Private */,
+      14,    0,  147,    2, 0x08,   10 /* Private */,
+      15,    0,  148,    2, 0x08,   11 /* Private */,
+      16,    0,  149,    2, 0x08,   12 /* Private */,
+      17,    0,  150,    2, 0x08,   13 /* Private */,
+      18,    0,  151,    2, 0x08,   14 /* Private */,
+      19,    0,  152,    2, 0x08,   15 /* Private */,
+      20,    0,  153,    2, 0x08,   16 /* Private */,
+      21,    0,  154,    2, 0x08,   17 /* Private */,
+      22,    0,  155,    2, 0x08,   18 /* Private */,
+      23,    0,  156,    2, 0x08,   19 /* Private */,
+      24,    1,  157,    2, 0x08,   20 /* Private */,
+      26,    0,  160,    2, 0x08,   22 /* Private */,
+      27,    0,  161,    2, 0x08,   23 /* Private */,
+      28,    2,  162,    2, 0x08,   24 /* Private */,
+      31,    1,  167,    2, 0x08,   27 /* Private */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -223,10 +236,11 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSPatientMonitorENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QPoint,   25,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QPoint,   26,
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,   29,   30,
+    QMetaType::Void, QMetaType::QString,   29,
 
        0        // eod
 };
@@ -274,15 +288,20 @@ Q_CONSTINIT const QMetaObject PatientMonitor::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_donorCheckButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_actionPrint_triggered'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'showContextMenu'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QPoint &, std::false_type>,
         // method 'onDeletePatient'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onEditPatient'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'handleSortButtonClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'handleSortButtonHR'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>
     >,
     nullptr
 } };
@@ -308,10 +327,11 @@ void PatientMonitor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 12: _t->on_writeButton_clicked(); break;
         case 13: _t->on_normPressureCheckButton_clicked(); break;
         case 14: _t->on_donorCheckButton_clicked(); break;
-        case 15: _t->on_actionPrint_triggered(); break;
-        case 16: _t->showContextMenu((*reinterpret_cast< std::add_pointer_t<QPoint>>(_a[1]))); break;
-        case 17: _t->onDeletePatient(); break;
-        case 18: _t->onEditPatient(); break;
+        case 15: _t->showContextMenu((*reinterpret_cast< std::add_pointer_t<QPoint>>(_a[1]))); break;
+        case 16: _t->onDeletePatient(); break;
+        case 17: _t->onEditPatient(); break;
+        case 18: _t->handleSortButtonClicked((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 19: _t->handleSortButtonHR((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -345,13 +365,13 @@ int PatientMonitor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 20;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 20)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 19;
+        _id -= 20;
     }
     return _id;
 }

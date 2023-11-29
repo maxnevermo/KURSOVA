@@ -16,9 +16,11 @@ SOURCES += \
     donorstable.cpp \
     editpatient.cpp \
     healthypatients.cpp \
+    heartratesortdialog.cpp \
     main.cpp \
     patientinfo.cpp \
-    patientmonitor.cpp
+    patientmonitor.cpp \
+    pressuresortdialog.cpp
 
 HEADERS += \
     addpatientdialog.h \
@@ -26,8 +28,10 @@ HEADERS += \
     donorstable.h \
     editpatient.h \
     healthypatients.h \
+    heartratesortdialog.h \
     patientinfo.h \
-    patientmonitor.h
+    patientmonitor.h \
+    pressuresortdialog.h
 
 FORMS += \
     addpatientdialog.ui \
@@ -35,7 +39,9 @@ FORMS += \
     donorstable.ui \
     editpatient.ui \
     healthypatients.ui \
-    patientmonitor.ui
+    heartratesortdialog.ui \
+    patientmonitor.ui \
+    pressuresortdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

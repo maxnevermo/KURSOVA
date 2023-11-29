@@ -18,6 +18,8 @@
 #include "donorstable.h"
 #include "healthypatients.h"
 #include "editpatient.h"
+#include "pressuresortdialog.h"
+#include "heartratesortdialog.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -35,11 +37,13 @@ public:
     void onScanTableButtonClick();
     void checkIfEmpty();
 
-    void pressureQuickSort(std::vector<patientInfo> &patients, int low, int high);
-    void heartRateQuickSort(std::vector<patientInfo> &patients, int low, int high);
+    void pressureQuickSortUpper(std::vector<patientInfo> &patients, int low, int high, QString choiceForOrder);
+    void pressureQuickSortLower(std::vector<patientInfo> &patients, int low, int high, QString choiceForOrder);
+    void heartRateQuickSort(std::vector<patientInfo> &patients, int low, int high, QString choiceForOrder);
 
-    int pressurePartition(std::vector<patientInfo> &patients, int low, int high);
-    int heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high);
+    int pressurePartitionUpper(std::vector<patientInfo> &patients, int low, int high, QString choice);
+    int pressurePartitionLower(std::vector<patientInfo> &patients, int low, int high, QString choice);
+    int heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high, QString choice);
 
     void onItemClicked(QTableWidgetItem *item);
 
@@ -71,11 +75,13 @@ private slots:
 
     void on_donorCheckButton_clicked();
 
-    void on_actionPrint_triggered();
-
     void showContextMenu(const QPoint& pos);
     void onDeletePatient();
     void onEditPatient();
+
+    void handleSortButtonClicked(const QString& comboBox1Text, const QString& comboBox2Text);
+    void handleSortButtonHR(const QString& comboBox1Text);
+
 
 signals:
     void sentPatients(const std::vector<patientInfo> &patients);

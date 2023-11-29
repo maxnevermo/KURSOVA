@@ -463,7 +463,6 @@ QPushButton:hover {
      <string>File</string>
     </property>
     <addaction name="actionCancel_action"/>
-    <addaction name="actionPrint"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>

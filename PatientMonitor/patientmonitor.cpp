@@ -117,6 +117,26 @@ PatientMonitor::PatientMonitor(QWidget *parent)
     contextMenu->addAction(deleteAction);
     contextMenu->addAction(editAction);
 
+    contextMenu->setStyleSheet("QMenu {"
+            "background-color: #D9DBF1;"
+            "color: #000000;"
+            "border-radius: 8px;"
+            "font-family: 'Gogh';"
+            "font-weight: 500;"
+            "font-size: 15px;"
+            "border: 1px solid #000000;"
+            "}"
+
+            "QMenu::item {"
+            "padding: 8px 16px;"
+            "}"
+
+            "QMenu::item:selected {"
+            "background-color: #A9B9E3;"
+            "border: none;"
+        "}"
+        );
+
     connect(deleteAction, &QAction::triggered, this, &PatientMonitor::onDeletePatient);
     connect(editAction, &QAction::triggered, this, &PatientMonitor::onEditPatient);
     connect(ui->patientTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
@@ -143,11 +163,13 @@ void PatientMonitor::onDeletePatient() {
 
     if (!selectedItems.isEmpty()) {
         int row = selectedItems.first()->row();
-        patients.erase(patients.begin() + row);
+        vectorToPrint.erase(vectorToPrint.begin() + row);
 
         for(int i = ui->patientTable->rowCount()-1; i >= 0; i--) {
             ui->patientTable->removeRow(i);
         }
+
+        patients = vectorToPrint;
 
         QTableWidgetItem* newPatientInfo = NULL;
         for (int i = 0; i < (int)(patients.size()); i++) {
@@ -191,7 +213,7 @@ void PatientMonitor::onEditPatient() {
 
     if (!selectedItems.isEmpty()) {
         int row = selectedItems.first()->row();
-        patientInfo selectedPatient = patients.at(row);
+        patientInfo selectedPatient = vectorToPrint.at(row);
 
         EditPatient editPatientDialog(this, &selectedPatient);
         connect(&editPatientDialog, &QDialog::accepted, this, [=, &editPatientDialog]() {
@@ -212,32 +234,32 @@ void PatientMonitor::onPatientChanged(patientInfo* editedPatient) {
         patients.at(row) = *editedPatient;
     }
 
-    for (int i =0; i < (int)(patients.size()); i++) {
-        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getNum()));
+    for (int i =0; i < (int)(vectorToPrint.size()); i++) {
+        newPatientInfo = new QTableWidgetItem(QString::number(vectorToPrint[i].getNum()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 0, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(patients[i].getSurname().c_str());
+        newPatientInfo = new QTableWidgetItem(vectorToPrint[i].getSurname().c_str());
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 1, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getAge()));
+        newPatientInfo = new QTableWidgetItem(QString::number(vectorToPrint[i].getAge()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 2, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getBloodType()));
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(vectorToPrint[i].getBloodType()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 3, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patients[i].getRhFactor()));
+        newPatientInfo = new QTableWidgetItem(QString::fromStdString(vectorToPrint[i].getRhFactor()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 4, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getUpPressure()) + "/" + QString::number(patients[i].getLowPressure()));
+        newPatientInfo = new QTableWidgetItem(QString::number(vectorToPrint[i].getUpPressure()) + "/" + QString::number(vectorToPrint[i].getLowPressure()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 5, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patients[i].getPulseValue()));
+        newPatientInfo = new QTableWidgetItem(QString::number(vectorToPrint[i].getPulseValue()));
         newPatientInfo->setTextAlignment(Qt::AlignCenter);
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
@@ -353,48 +375,94 @@ void PatientMonitor::onPatientAdded(patientInfo &patient)
     newPatientInfo->setTextAlignment(Qt::AlignCenter);
     ui->patientTable->setItem(rows, 6, newPatientInfo);
 
+    vectorToPrint = patients;
+
     checkIfEmpty();
 }
 // функція швидкого сортування для класу patientInfo за артеріальним тиском
-void PatientMonitor::pressureQuickSort(std::vector<patientInfo> &patients, int low, int high) {
+void PatientMonitor::pressureQuickSortUpper(std::vector<patientInfo> &patients, int low, int high, QString choice) {
     if (low < high) {
-        int pivotIndex = pressurePartition(patients, low, high);
-        pressureQuickSort(patients, low, pivotIndex - 1);
-        pressureQuickSort(patients, pivotIndex + 1, high);
+        int pivotIndex = pressurePartitionUpper(patients, low, high, choice);
+        pressureQuickSortUpper(patients, low, pivotIndex - 1, choice);
+        pressureQuickSortUpper(patients, pivotIndex + 1, high, choice);
     }
 }
 //функція ділення масиву на частини для швидкого сортування за артеріальним тиском
-int PatientMonitor::pressurePartition(std::vector<patientInfo> &patients, int low, int high) {
+int PatientMonitor::pressurePartitionUpper(std::vector<patientInfo> &patients, int low, int high, QString choiceForOrder) {
     patientInfo pivot = patients[high];
     int i = low - 1;
 
     for (int j = low; j < high; ++j) {
+        if (choiceForOrder == "By growth") {
         if (patients[j].getUpPressure() < pivot.getUpPressure()) {
             i++;
             std::swap(patients[i], patients[j]);
         }
+        } else {
+        if (patients[j].getUpPressure() > pivot.getUpPressure()) {
+            i++;
+            std::swap(patients[i], patients[j]);
+        }
+    }
+    }
+
+    std::swap(patients[i + 1], patients[high]);
+    return i + 1;
+}
+
+void PatientMonitor::pressureQuickSortLower(std::vector<patientInfo> &patients, int low, int high, QString choice) {
+    if (low < high) {
+    int pivotIndex = pressurePartitionLower(patients, low, high, choice);
+    pressureQuickSortLower(patients, low, pivotIndex - 1, choice);
+    pressureQuickSortLower(patients, pivotIndex + 1, high, choice);
+    }
+}
+//функція ділення масиву на частини для швидкого сортування за артеріальним тиском
+int PatientMonitor::pressurePartitionLower(std::vector<patientInfo> &patients, int low, int high, QString choiceForOrder) {
+    patientInfo pivot = patients[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; ++j) {
+    if (choiceForOrder == "By growth") {
+        if (patients[j].getLowPressure() < pivot.getLowPressure()) {
+            i++;
+            std::swap(patients[i], patients[j]);
+        }
+    } else {
+        if (patients[j].getLowPressure() > pivot.getLowPressure()) {
+            i++;
+            std::swap(patients[i], patients[j]);
+        }
+    }
     }
 
     std::swap(patients[i + 1], patients[high]);
     return i + 1;
 }
 //функція швидкого сортування для класу patientInfo за пульсом
-void PatientMonitor::heartRateQuickSort(std::vector<patientInfo> &patients, int low, int high) {
+void PatientMonitor::heartRateQuickSort(std::vector<patientInfo> &patients, int low, int high, QString choiceForOrder) {
     if (low < high) {
-        int pivotIndex = heartRatepressurepartition(patients, low, high);
-        heartRateQuickSort(patients, low, pivotIndex - 1);
-        heartRateQuickSort(patients, pivotIndex + 1, high);
+        int pivotIndex = heartRatepressurepartition(patients, low, high, choiceForOrder);
+        heartRateQuickSort(patients, low, pivotIndex - 1, choiceForOrder);
+        heartRateQuickSort(patients, pivotIndex + 1, high, choiceForOrder);
     }
 }
 //функція ділення масиву на частини для швидкого сортування за пульсом
-int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high) {
+int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patients, int low, int high, QString choice) {
     patientInfo pivot = patients[high];
     int i = low - 1;
 
     for (int j = low; j < high; ++j) {
+        if (choice == "By growth") {
         if (patients[j].getPulseValue() < pivot.getPulseValue()) {
             i++;
             std::swap(patients[i], patients[j]);
+            }
+        } else {
+            if (patients[j].getPulseValue() > pivot.getPulseValue()) {
+            i++;
+            std::swap(patients[i], patients[j]);
+            }
         }
     }
 
@@ -405,55 +473,70 @@ int PatientMonitor::heartRatepressurepartition(std::vector<patientInfo> &patient
 // відсортований список пацієнтів у таблицю
 void PatientMonitor::on_bloodPressureSort_clicked()
 {
+    pressureSortDialog* pressureSortDialogWindow = new pressureSortDialog(this);
+    connect(pressureSortDialogWindow, &pressureSortDialog::sortButtonClicked, this, &PatientMonitor::handleSortButtonClicked);
+    pressureSortDialogWindow->show();
+}
+
+void PatientMonitor::handleSortButtonClicked(const QString &comboBox1Text, const QString &comboBox2Text) {
     if (patients.size() == 0) {
         operatingError();
     } else {
-    std::vector<patientInfo> patientsToOperate = patients;
+        std::vector<patientInfo> patientsToOperate = patients;
 
-    pressureQuickSort(patientsToOperate, 0, patientsToOperate.size() - 1);
-    vectorToPrint = patientsToOperate;
+        if (comboBox1Text == "By upper") {
+        pressureQuickSortUpper(patientsToOperate, 0, patientsToOperate.size() - 1, comboBox2Text);
+        vectorToPrint = patientsToOperate;
 
-    for(int i = 0; i < vectorToPrint.size(); i++) {
-        vectorToPrint[i].setNum(i+1);
-        patientsToOperate[i].setNum(i+1);
-    }
+        for(int i = 0; i < vectorToPrint.size(); i++) {
+            vectorToPrint[i].setNum(i+1);
+            patientsToOperate[i].setNum(i+1);
+        }
+        } else {
+            pressureQuickSortLower(patientsToOperate, 0, patientsToOperate.size() - 1, comboBox2Text);
+            vectorToPrint = patientsToOperate;
 
-    ui->patientTable->clear();
+            for(int i = 0; i < vectorToPrint.size(); i++) {
+                vectorToPrint[i].setNum(i+1);
+                patientsToOperate[i].setNum(i+1);
+            }
+        }
 
-    QTableWidgetItem* newPatientInfo = NULL;
+        ui->patientTable->clear();
 
-    for (int i =0; i < (int)(patients.size()); i++) {
-        newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getNum()));
-        newPatientInfo->setTextAlignment(Qt::AlignCenter);
-        ui->patientTable->setItem(i, 0, newPatientInfo);
+        QTableWidgetItem* newPatientInfo = NULL;
 
-        newPatientInfo = new QTableWidgetItem(patientsToOperate[i].getSurname().c_str());
-        newPatientInfo->setTextAlignment(Qt::AlignCenter);
-        ui->patientTable->setItem(i, 1, newPatientInfo);
+        for (int i =0; i < (int)(patients.size()); i++) {
+            newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getNum()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 0, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getAge()));
-        newPatientInfo->setTextAlignment(Qt::AlignCenter);
-        ui->patientTable->setItem(i, 2, newPatientInfo);
+            newPatientInfo = new QTableWidgetItem(patientsToOperate[i].getSurname().c_str());
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 1, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patientsToOperate[i].getBloodType()));
-        newPatientInfo->setTextAlignment(Qt::AlignCenter);
-        ui->patientTable->setItem(i, 3, newPatientInfo);
+            newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getAge()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 2, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::fromStdString(patientsToOperate[i].getRhFactor()));
-        newPatientInfo->setTextAlignment(Qt::AlignCenter);
-        ui->patientTable->setItem(i, 4, newPatientInfo);
+            newPatientInfo = new QTableWidgetItem(QString::fromStdString(patientsToOperate[i].getBloodType()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 3, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getUpPressure()) + "/" + QString::number(patientsToOperate[i].getLowPressure()));
-        newPatientInfo->setTextAlignment(Qt::AlignCenter);
-        ui->patientTable->setItem(i, 5, newPatientInfo);
+            newPatientInfo = new QTableWidgetItem(QString::fromStdString(patientsToOperate[i].getRhFactor()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 4, newPatientInfo);
 
-        newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getPulseValue()));
-        newPatientInfo->setTextAlignment(Qt::AlignCenter);
-        ui->patientTable->setItem(i, 6, newPatientInfo);
-    }
+            newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getUpPressure()) + "/" + QString::number(patientsToOperate[i].getLowPressure()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 5, newPatientInfo);
+
+            newPatientInfo = new QTableWidgetItem(QString::number(patientsToOperate[i].getPulseValue()));
+            newPatientInfo->setTextAlignment(Qt::AlignCenter);
+            ui->patientTable->setItem(i, 6, newPatientInfo);
+        }
     }
 }
-
 //функція для перевірки, чи таблиця пуста:
 //якщо так, вивести кнопку сканування у таблицю
 void PatientMonitor::checkIfEmpty() {
@@ -564,12 +647,10 @@ void PatientMonitor::on_bloodTypeGroupButton_clicked()
     }
 }
 
-//функція для групування пацієнтів за резус-фактором
-//та сортування за показниками пульсу
-void PatientMonitor::on_rhGroupHrSort_clicked()
+void PatientMonitor::handleSortButtonHR(const QString& orderChoice)
 {
     if (patients.size() == 0) {
-        operatingError();
+    operatingError();
     } else {
     std::vector<patientInfo> rhP;
     std::vector<patientInfo> rhM;
@@ -586,8 +667,8 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
     }
 
     //сортування кожної групи за показниками пульсу
-    heartRateQuickSort(rhP, 0, rhP.size() - 1);
-    heartRateQuickSort(rhM, 0, rhM.size() - 1);
+    heartRateQuickSort(rhP, 0, rhP.size() - 1, orderChoice);
+    heartRateQuickSort(rhM, 0, rhM.size() - 1, orderChoice);
 
 
     std::vector<patientInfo> groupedPatients;
@@ -639,6 +720,16 @@ void PatientMonitor::on_rhGroupHrSort_clicked()
         ui->patientTable->setItem(i, 6, newPatientInfo);
     }
     }
+}
+
+
+//функція для групування пацієнтів за резус-фактором
+//та сортування за показниками пульсу
+void PatientMonitor::on_rhGroupHrSort_clicked()
+{
+    heartRateSortDialog* heartRateSortDialogWindow = new heartRateSortDialog(this);
+    connect(heartRateSortDialogWindow, &heartRateSortDialog::sortButtonClicked, this, &PatientMonitor::handleSortButtonHR);
+    heartRateSortDialogWindow->show();
 }
 
 //функція, що викликає діалогове вікно для подальшої
@@ -964,7 +1055,7 @@ void PatientMonitor::on_donorCheckButton_clicked()
     } else {
             donorsTable* donorsTableWindow = new donorsTable(this);
             connect(this, &PatientMonitor::sentPatients, donorsTableWindow, &donorsTable::receivePatientList);
-            emit sentPatients(vectorToPrint);
+            emit sentPatients(patients);
             donorsTableWindow->show();
     }
 }
@@ -989,32 +1080,3 @@ void PatientMonitor::operatingError() {
                      "}");
     mb.exec();
 }
-
-//функція для виводу таблиці на друк
-void PatientMonitor::on_actionPrint_triggered()
-{
-    if (patients.size() == 0) {
-            operatingError();
-    } else {
-    QPrinter printer(QPrinter::PrinterResolution);
-
-    QPrintDialog printDialog(&printer, this);
-    if (printDialog.exec() == QDialog::Accepted) {
-            QPainter painter(&printer);
-
-            painter.setRenderHint(QPainter::Antialiasing, true);
-            painter.setRenderHint(QPainter::TextAntialiasing, true);
-
-            QFont font = painter.font();
-            font.setPointSize(12);
-            painter.setFont(font);
-
-            double scaleFactor = 4;
-            painter.scale(scaleFactor, scaleFactor);
-
-            ui->patientTable->render(&painter);
-    }
-    }
-}
-
-

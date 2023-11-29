@@ -3,8 +3,11 @@
 
 #include <QMainWindow>
 #include <QGraphicsDropShadowEffect>
+#include <fstream>
+#include <QFileDialog>
 
 #include "patientinfo.h"
+
 
 namespace Ui {
 class healthyPatients;
@@ -19,6 +22,9 @@ public slots:
 public:
     explicit healthyPatients(QWidget *parent = nullptr);
     ~healthyPatients();
+
+private slots:
+    void on_actionWrite_to_file_triggered();
 
 private:
     Ui::healthyPatients *ui;

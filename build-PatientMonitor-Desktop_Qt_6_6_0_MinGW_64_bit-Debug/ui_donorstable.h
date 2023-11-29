@@ -27,8 +27,8 @@ QT_BEGIN_NAMESPACE
 class Ui_donorsTable
 {
 public:
-    QAction *actionPrint;
     QAction *actionExit;
+    QAction *actionWrite;
     QWidget *centralwidget;
     QTableWidget *donRepTable;
     QPushButton *universalButton;
@@ -46,10 +46,10 @@ public:
         donorsTable->setStyleSheet(QString::fromUtf8("QWidget {\n"
 "background-color: rgb(142, 157, 204);\n"
 "}"));
-        actionPrint = new QAction(donorsTable);
-        actionPrint->setObjectName("actionPrint");
         actionExit = new QAction(donorsTable);
         actionExit->setObjectName("actionExit");
+        actionWrite = new QAction(donorsTable);
+        actionWrite->setObjectName("actionWrite");
         centralwidget = new QWidget(donorsTable);
         centralwidget->setObjectName("centralwidget");
         donRepTable = new QTableWidget(centralwidget);
@@ -125,7 +125,7 @@ public:
         donorsTable->setStatusBar(statusbar);
 
         menubar->addAction(menuFile->menuAction());
-        menuFile->addAction(actionPrint);
+        menuFile->addAction(actionWrite);
         menuFile->addAction(actionExit);
 
         retranslateUi(donorsTable);
@@ -136,8 +136,8 @@ public:
     void retranslateUi(QMainWindow *donorsTable)
     {
         donorsTable->setWindowTitle(QCoreApplication::translate("donorsTable", "MainWindow", nullptr));
-        actionPrint->setText(QCoreApplication::translate("donorsTable", "Print", nullptr));
         actionExit->setText(QCoreApplication::translate("donorsTable", "Exit", nullptr));
+        actionWrite->setText(QCoreApplication::translate("donorsTable", "Write", nullptr));
         universalButton->setText(QCoreApplication::translate("donorsTable", "Universal donors | recipients", nullptr));
         generalButton->setText(QCoreApplication::translate("donorsTable", "General table of donors | recipients", nullptr));
         label->setText(QString());

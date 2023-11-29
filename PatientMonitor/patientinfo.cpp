@@ -1,4 +1,40 @@
 #include "patientinfo.h"
+bool isNumeric(const std::string& str) {
+    for (char ch : str) {
+        if (!std::isdigit(ch)) {
+            return false;
+        }
+    }
+    return !str.empty();
+}
+
+bool isAlphabetic(const std::string& str) {
+    for (char ch : str) {
+        if (!std::isalpha(ch)) {
+            return false;
+        }
+    }
+    return !str.empty();
+}
+
+void scanningError(const QString errorMessage) {
+    QMessageBox mb("Add new patient",
+                   errorMessage,
+                   QMessageBox::NoIcon,
+                   QMessageBox::Ok | QMessageBox::Default,
+                   QMessageBox::NoButton,
+                   QMessageBox::NoButton);
+    QPixmap exportSuccess("C:\\Users\\maxnevermo\\Downloads\\gui-check-no-svgrepo-com.svg");
+    mb.setIconPixmap(exportSuccess);
+    mb.setStyleSheet("QMessageBox {"
+                     "background-color: #C6CCE8;"
+                     "color: #000000;"
+                     "font-family: 'Gogh';"
+                     "font-weight: 400;"
+                     "font-size: 20px"
+                     "}");
+    mb.exec();
+}
 
 std::vector<std::string> splitByString(const std::string& input, const std::string& delimiter) {
     std::vector<std::string> elements;
@@ -6,40 +42,13 @@ std::vector<std::string> splitByString(const std::string& input, const std::stri
     size_t foundPos;
 
     while ((foundPos = input.find(delimiter, startPos)) != std::string::npos) {
-        std::string element = input.substr(startPos, foundPos - startPos);
-
-        // Remove leading and trailing whitespaces
-        element.erase(element.begin(), std::find_if(element.begin(), element.end(), [](unsigned char ch) {
-                          return !std::isspace(ch);
-                      }));
-        element.erase(std::find_if(element.rbegin(), element.rend(), [](unsigned char ch) {
-                          return !std::isspace(ch);
-                      }).base(), element.end());
-
-        elements.push_back(element);
+        elements.push_back(input.substr(startPos, foundPos - startPos));
         startPos = foundPos + delimiter.length();
-
-        // Skip additional spaces
-        while (startPos < input.length() && input[startPos] == ' ') {
-            startPos++;
-        }
     }
 
-    // Handle the last element
-    std::string lastElement = input.substr(startPos);
-    // Remove leading and trailing whitespaces
-    lastElement.erase(lastElement.begin(), std::find_if(lastElement.begin(), lastElement.end(), [](unsigned char ch) {
-                          return !std::isspace(ch);
-                      }));
-    lastElement.erase(std::find_if(lastElement.rbegin(), lastElement.rend(), [](unsigned char ch) {
-                          return !std::isspace(ch);
-                      }).base(), lastElement.end());
-
-    elements.push_back(lastElement);
-
+    elements.push_back(input.substr(startPos));
     return elements;
 }
-
 
 
 patientInfo::patientInfo()
@@ -66,22 +75,80 @@ patientInfo::patientInfo(int num, std::string surname, int age, std::string bloo
     m_pulseValue = pulse;
 }
 
-
-std::istream& operator>>(std::istream& is, patientInfo& patient)
+patientInfo& patientInfo::operator=(const patientInfo& other)
 {
+    if (this != &other)
+    {
+        m_num = other.m_num;
+        m_surname = other.m_surname;
+        m_age = other.m_age;
+        m_bloodType = other.m_bloodType;
+        m_rhFactor = other.m_rhFactor;
+        m_upPressure = other.m_upPressure;
+        m_lowPressure = other.m_lowPressure;
+        m_pulseValue = other.m_pulseValue;
+    }
 
+    return *this;
+}
+
+std::istream& operator>>(std::istream& is, patientInfo& patient) {
     std::string myline;
     std::string delim = " | ";
     std::string Pdelim = "/";
     std::vector<std::string> dividedPatientInfo;
     std::vector<std::string> dividedPressure;
 
-    if (std::getline(is, myline)) {
-        dividedPatientInfo = splitByString(myline, delim);
-        dividedPressure = splitByString(dividedPatientInfo.at(5), Pdelim);
+    try {
+        if (std::getline(is, myline)) {
+            dividedPatientInfo = splitByString(myline, delim);
 
-        patient = patientInfo(stoi(dividedPatientInfo.at(0)), dividedPatientInfo.at(1), stoi(dividedPatientInfo.at(2)), dividedPatientInfo.at(3), dividedPatientInfo.at(4),
-                              stoi(dividedPressure.at(0)), stoi(dividedPressure.at(1)), stoi(dividedPatientInfo.at(6)));
+            if (dividedPatientInfo.size() != 7) {
+                throw QString("Incorrect data format");
+            }
+
+            dividedPressure = splitByString(dividedPatientInfo.at(5), Pdelim);
+
+            if (!isNumeric(dividedPatientInfo.at(0))) {
+                throw QString("Number can not be a string");
+            }
+
+            if (!isAlphabetic(dividedPatientInfo.at(1))) {
+                throw QString("Surname can not be a number");
+            }
+
+            if (!isNumeric(dividedPatientInfo.at(2))) {
+                throw QString("Age can not be a string");
+            }
+
+            if (dividedPatientInfo.at(3) != "I" && dividedPatientInfo.at(3) != "II" &&
+                dividedPatientInfo.at(3) != "III" && dividedPatientInfo.at(3) != "IV") {
+                throw QString("Blood type must be 'I', 'II', 'III', or 'IV'");
+            }
+
+            if (dividedPatientInfo.at(4) != "+" && dividedPatientInfo.at(4) != "-") {
+                throw QString("Rh factor must be '+' or '-'");
+            }
+
+            if (dividedPressure.size() != 2) {
+                throw QString("Incorrect format for blood pressure values");
+            }
+
+            if (!isNumeric(dividedPressure.at(0)) || !isNumeric(dividedPressure.at(1))) {
+                throw QString("Blood pressure values must be numeric");
+            }
+
+            if (!isNumeric(dividedPatientInfo.at(6))) {
+                throw QString("Heart rate must be numeric");
+            }
+
+            patient = patientInfo(stoi(dividedPatientInfo.at(0)), dividedPatientInfo.at(1), stoi(dividedPatientInfo.at(2)),
+                                  dividedPatientInfo.at(3), dividedPatientInfo.at(4),
+                                  stoi(dividedPressure.at(0)), stoi(dividedPressure.at(1)), stoi(dividedPatientInfo.at(6)));
+        }
+    } catch (const QString& errorMessage) {
+        scanningError(errorMessage);
+        is.setstate(std::ios::failbit);
     }
 
     return is;
@@ -89,13 +156,13 @@ std::istream& operator>>(std::istream& is, patientInfo& patient)
 
 std::ostream& operator<<(std::ostream& os, const patientInfo& patient)
 {
-    os << std::setw(4) << patient.m_num << " | "
-       << std::setw(15) << patient.m_surname << " | "
-       << std::setw(5) << patient.m_age << " | "
-       << std::setw(7) << patient.m_bloodType << " | "
-       << std::setw(5) << patient.m_rhFactor << " | "
-       << std::setw(13) << patient.m_upPressure << "/" << patient.m_lowPressure << " | "
-       << std::setw(4) << patient.m_pulseValue << " |";
+    os << patient.m_num << " | "
+       << patient.m_surname << " | "
+       << patient.m_age << " | "
+       << patient.m_bloodType << " | "
+       << patient.m_rhFactor << " | "
+       << patient.m_upPressure << "/" << patient.m_lowPressure << " | "
+       << patient.m_pulseValue;
 
 
     return os;

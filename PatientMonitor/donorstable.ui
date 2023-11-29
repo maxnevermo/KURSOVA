@@ -139,20 +139,20 @@ QPushButton:hover {
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionPrint"/>
+    <addaction name="actionWrite"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionPrint">
-   <property name="text">
-    <string>Print</string>
-   </property>
-  </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionWrite">
+   <property name="text">
+    <string>Write</string>
    </property>
   </action>
  </widget>

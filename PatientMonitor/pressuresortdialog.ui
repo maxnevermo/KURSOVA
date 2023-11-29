@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>pressureSortDialog</class>
+ <widget class="QDialog" name="pressureSortDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>200</width>
+    <height>180</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: #8E9DCC
+}</string>
+  </property>
+  <widget class="QComboBox" name="pressureChoice">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>140</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QComboBox:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>By upper</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>By lower</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="orderChoice">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>70</y>
+     <width>140</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+
+QComboBox:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}
+</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>By growth</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>By descending</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="sortConfirm">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>120</y>
+     <width>90</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #C6CCE8;
+    color: #000000;
+    border-radius: 0.5em;
+	font-family: 'Gogh';
+	font-weight: 500;
+	font-size: 15px;
+}
+QPushButton:hover {
+    background-color: #A9B9E3;
+	font-family: 'Gogh';
+	font-weight: 500;
+}</string>
+   </property>
+   <property name="text">
+    <string>Sort</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

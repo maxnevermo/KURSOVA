@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cctype>
 #include <QMessageBox>
 
 class patientInfo
@@ -11,6 +12,7 @@ public:
     patientInfo();
     patientInfo(int num, std::string surname, int age, std::string bloodType, std::string rhFactor, int upPressure, int lowPressure, int pulse);
     patientInfo(const patientInfo& other);
+    patientInfo& operator=(const patientInfo& other);
 
     void setNum (int num) {m_num = num;}
     void setSurname(const std::string& surname) { m_surname = surname; }
@@ -32,7 +34,6 @@ public:
 
     friend std::istream& operator>>(std::istream& is, patientInfo& patient);
     friend std::ostream& operator<<(std::ostream& os, const patientInfo& patient);
-
 private:
     int m_num;
     std::string m_surname;
