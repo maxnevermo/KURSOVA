@@ -1,6 +1,10 @@
 #ifndef AGEINPUTDIALOG_H
 #define AGEINPUTDIALOG_H
 
+//діалогове вікно для вказування віку
+//для подальшого пошуку пацієнтів
+//із завищеними показниками Артеріального тиску та Пульсу
+
 #include <QDialog>
 
 namespace Ui {

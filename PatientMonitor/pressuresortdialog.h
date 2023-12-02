@@ -1,6 +1,9 @@
 #ifndef PRESSURESORTDIALOG_H
 #define PRESSURESORTDIALOG_H
 
+//діалогове вікно для вказування порядку сортування
+//за Артеріальним тиском
+
 #include <QDialog>
 
 namespace Ui {

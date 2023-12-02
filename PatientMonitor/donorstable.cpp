@@ -1,6 +1,8 @@
 #include "donorstable.h"
 #include "ui_donorstable.h"
 
+
+//вектори для зберігання донорів та реципієнтів
 std::vector<patientInfo> universalDonors;
 std::vector<patientInfo> universalRecipients;
 
@@ -65,6 +67,7 @@ donorsTable::~donorsTable()
 }
 
 void donorsTable::receivePatientList(const std::vector<patientInfo> &patients) {
+    //зчитування переданих з головного вікна пацієнтів
     gotPatients = patients;
 }
 
@@ -88,6 +91,7 @@ void donorsTable::on_universalButton_clicked()
     universalDonors.clear();
     universalRecipients.clear();
 
+    //відбір універсальних донорів та універсальних реципієнтів
     for(int i = 0; i < (int)(gotPatients.size()); i++) {
         if(gotPatients[i].getBloodType() == "I"){
             universalDonors.push_back(gotPatients[i]);
@@ -110,6 +114,7 @@ void donorsTable::on_universalButton_clicked()
         ui->donRepTable->setRowCount((int)(universalRecipients.size()));
     }
 
+    //виведення інформації у таблицю
     QTableWidgetItem* patientInfo = nullptr;
     for(int i = 0; i < (int)(universalDonors.size()); i++) {
         patientInfo = new QTableWidgetItem(QString::fromStdString(universalDonors[i].getSurname()));
@@ -158,6 +163,7 @@ void donorsTable::on_generalButton_clicked()
         ui->donRepTable->removeRow(i);
     }
 
+    //відбір на донорів і реципієнтів згідно з групами крові пацієнтів
     for(int i = 0; i < (int)(gotPatients.size()); i++) {
         if (gotPatients[i].getBloodType() == "I") {
             Idonors.push_back(gotPatients[i]);
@@ -188,6 +194,7 @@ void donorsTable::on_generalButton_clicked()
         }
     }
 
+    //визначення оптимальної кількості рядків для таблиці
     int countOfRecipientsIandIII = Irecipients.size() + IIIrecipients.size();
     int countOfRecipientsIIandIV = IIrecipients.size() + IVrecipients.size();
 
@@ -206,7 +213,7 @@ void donorsTable::on_generalButton_clicked()
         ui->donRepTable->setRowHeight(i, 15);
     }
     resize(962, 1000);
-    ui->donRepTable->resize(882, 800);
+    ui->donRepTable->resize(882, 820);
 
     ui->universalButton->move(221, 10);
     ui->generalButton->move(471, 10);
@@ -214,6 +221,7 @@ void donorsTable::on_generalButton_clicked()
 
     QStringList headers = {"I blood type", "II blood type", "III blood type", "IV blood type"};
 
+    //вивід донорів та реципієнтів на екран
     QTableWidgetItem* tableInfo = new QTableWidgetItem(headers.at(0));
     ui->donRepTable->setSpan(0, 0, 1, 2);
     tableInfo->setTextAlignment(Qt::AlignCenter);
@@ -315,7 +323,7 @@ void donorsTable::on_actionExit_triggered()
     close();
 }
 
-
+//функція для запису донорів та реципієнтів у файл
 void donorsTable::on_actionWrite_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));
@@ -327,25 +335,23 @@ void donorsTable::on_actionWrite_triggered()
         QTextStream out(&file);
         out.setFieldWidth(0);
 
-        // Iterate through rows and columns
         for (int row = 0; row < ui->donRepTable->rowCount(); ++row) {
             for (int col = 0; col < ui->donRepTable->columnCount(); ++col) {
                 QTableWidgetItem *item = ui->donRepTable->item(row, col);
                 if (item) {
-                    if (item->text() == "I blood type" || item->text() == "III blood type"
-                        || item->text() == "II blood type" || item->text() == "IV blood type") {
-                        out.setFieldWidth(40);
-                        out << item->text() << "\t";
+                    if (item->text() == "I blood type" || item->text() == "II blood type"
+                        || item->text() == "III blood type" || item->text() == "IV blood type") {
+                        out << qSetFieldWidth(40) << item->text();
                     } else {
-                    out.setFieldWidth(20);
-                    out << item->text() << "\t";
+                        out << qSetFieldWidth(20) << item->text() << "\t";
                     }
+                } else {
+                    out << qSetFieldWidth(20) << " " << "\t";
                 }
             }
             out.setFieldWidth(0);
-            out << "\n"; // Newline after each row
+            out << "\n";
         }
-
         file.close();
     }
 }

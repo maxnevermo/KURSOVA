@@ -1,6 +1,9 @@
 #ifndef ADDPATIENTDIALOG_H
 #define ADDPATIENTDIALOG_H
 
+//діалогове вікно для додавання
+//пацієнта до таблиці
+
 #include <QDialog>
 #include <QGraphicsDropShadowEffect>
 #include <QRegularExpression>

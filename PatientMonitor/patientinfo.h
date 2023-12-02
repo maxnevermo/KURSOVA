@@ -6,6 +6,8 @@
 #include <cctype>
 #include <QMessageBox>
 
+//основний клас Пацієнт
+
 class patientInfo
 {
 public:

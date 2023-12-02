@@ -1,6 +1,8 @@
 #ifndef PATIENTMONITOR_H
 #define PATIENTMONITOR_H
 
+//головне вікно програми
+
 #include <QMainWindow>
 #include <QGraphicsDropShadowEffect>
 #include <QFileDialog>
@@ -31,6 +33,13 @@ class PatientMonitor : public QMainWindow
     Q_OBJECT
 
 public:
+
+    std::vector<patientInfo> patients;
+    std::vector<patientInfo> hyperTTachyC;
+    std::vector<patientInfo> healthyPatientsList;
+    std::vector<patientInfo> backUpVector;
+    std::vector<patientInfo> vectorToPrint;
+
     PatientMonitor(QWidget *parent = nullptr);
     ~PatientMonitor();
 

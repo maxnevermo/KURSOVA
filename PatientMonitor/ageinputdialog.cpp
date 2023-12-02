@@ -14,6 +14,8 @@ AgeInputDialog::~AgeInputDialog()
     delete ui;
 }
 
+//зчитування віку для для подальшого пошуку пацієнтів
+//із завищеними показниками Артеріального тиску та Пульсу
 void AgeInputDialog::on_checkButton_clicked()
 {
     int checkableAge = ui->ageSpinBox->value();

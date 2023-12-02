@@ -1,6 +1,8 @@
 #ifndef DONORSTABLE_H
 #define DONORSTABLE_H
 
+//вікно для відображення таблиці донорів та реципієнтів
+
 #include <QMainWindow>
 #include <QTableWidgetItem>
 #include <QGraphicsDropShadowEffect>

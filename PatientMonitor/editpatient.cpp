@@ -1,6 +1,8 @@
 #include "editpatient.h"
 #include "ui_editpatient.h"
 
+//реалізація діалогового вікна для зміни даних про пацієнта
+
 EditPatient::EditPatient(QWidget *parent, patientInfo *patient)
     : QDialog(parent),
     ui(new Ui::EditPatient),
@@ -28,6 +30,7 @@ EditPatient::~EditPatient()
 
 void EditPatient::on_changeButton_clicked()
 {
+    //зчитування змінених даних
     QString gotSurname = ui->surnameTextEdit->toPlainText();
     int gotAge = ui->ageSpinBox->value();
     QString gotBloodType = ui->bloodTypeCB->currentText();
@@ -36,6 +39,7 @@ void EditPatient::on_changeButton_clicked()
     QString gotLowerPressureStr = ui->lowerPressureTextEdit->toPlainText();
     int gotPulse = ui->pulseCB->value();
 
+    //обробка виняткових ситуацій
     try
     {
         QRegularExpression englishRegex("^[A-Za-z]+$");
@@ -74,9 +78,9 @@ void EditPatient::on_changeButton_clicked()
             throw QString("Invalid lower pressure.\nPlease enter a valid number.");
         }
 
-        if (gotPulse <= 0)
+        if (gotPulse <= 40)
         {
-            throw QString("Invalid pulse.\nPlease enter a pulse value\ngreater than 0.");
+            throw QString("Invalid pulse.\nPlease enter a pulse value\ngreater than 40.");
         }
 
         if (gotUpperPressure < gotLowerPressure)
@@ -97,6 +101,7 @@ void EditPatient::on_changeButton_clicked()
     }
 }
 
+//функція для виведення помилки, якщо введено дані неправильного формату
 void EditPatient::editDataError(const QString &errorInputMessage) {
     QMessageBox mb("Edit patient",
                    errorInputMessage,

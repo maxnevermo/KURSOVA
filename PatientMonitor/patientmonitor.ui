@@ -32,7 +32,7 @@ background-color: rgb(142, 157, 204);
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../../images/nav.png</pixmap>
+     <pixmap>C:/Users/maxnevermo/Desktop/course/git/KURSOVA/PatientMonitor/images/nav.png</pixmap>
     </property>
    </widget>
    <widget class="QPushButton" name="pulseSortButton">
@@ -81,7 +81,7 @@ QPushButton:hover {
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../../images/logo.png</pixmap>
+     <pixmap>C:/Users/maxnevermo/Desktop/course/git/KURSOVA/PatientMonitor/images/logo.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="rectangle">
@@ -97,7 +97,7 @@ QPushButton:hover {
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../../images/menu.png</pixmap>
+     <pixmap>C:/Users/maxnevermo/Desktop/course/git/KURSOVA/PatientMonitor/images/menu.png</pixmap>
     </property>
    </widget>
    <widget class="QTableWidget" name="patientTable">
@@ -311,7 +311,7 @@ QPushButton:hover {
 </string>
     </property>
     <property name="text">
-     <string>Age pressure checker</string>
+     <string>Age checker</string>
     </property>
    </widget>
    <widget class="QPushButton" name="normPressureCheckButton">

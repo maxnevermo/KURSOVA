@@ -1,4 +1,6 @@
 #include "patientinfo.h"
+
+//функція для перевірки чи параметр для створення пацієнта є числом
 bool isNumeric(const std::string& str) {
     for (char ch : str) {
         if (!std::isdigit(ch)) {
@@ -8,6 +10,7 @@ bool isNumeric(const std::string& str) {
     return !str.empty();
 }
 
+//функція для перевірки чи параметр для створення пацієнта є стрічкою
 bool isAlphabetic(const std::string& str) {
     for (char ch : str) {
         if (!std::isalpha(ch)) {
@@ -17,6 +20,7 @@ bool isAlphabetic(const std::string& str) {
     return !str.empty();
 }
 
+//функція для виведення помилки, що не вдалося створити нового пацієнта
 void scanningError(const QString errorMessage) {
     QMessageBox mb("Add new patient",
                    errorMessage,
@@ -36,6 +40,7 @@ void scanningError(const QString errorMessage) {
     mb.exec();
 }
 
+//функція для поділу зчитаного рядка на параметри для створення нового екземпляру класу patientInfo
 std::vector<std::string> splitByString(const std::string& input, const std::string& delimiter) {
     std::vector<std::string> elements;
     size_t startPos = 0;
@@ -50,7 +55,7 @@ std::vector<std::string> splitByString(const std::string& input, const std::stri
     return elements;
 }
 
-
+//конструктор за замовчуванням
 patientInfo::patientInfo()
 {
     this->m_num = 0;
@@ -63,6 +68,7 @@ patientInfo::patientInfo()
     this->m_pulseValue = 0;
 }
 
+//конструктор з параметрами
 patientInfo::patientInfo(int num, std::string surname, int age, std::string bloodType, std::string rhFactor, int upPressure, int lowPressure, int pulse)
 {
     m_num = num;
@@ -75,6 +81,20 @@ patientInfo::patientInfo(int num, std::string surname, int age, std::string bloo
     m_pulseValue = pulse;
 }
 
+//конструктор копій
+patientInfo::patientInfo(const patientInfo& other)
+{
+    m_num = other.m_num;
+    m_surname = other.m_surname;
+    m_age = other.m_age;
+    m_bloodType = other.m_bloodType;
+    m_rhFactor = other.m_rhFactor;
+    m_upPressure = other.m_upPressure;
+    m_lowPressure = other.m_lowPressure;
+    m_pulseValue = other.m_pulseValue;
+}
+
+//перевизначений оператор = для конструктора копій
 patientInfo& patientInfo::operator=(const patientInfo& other)
 {
     if (this != &other)
@@ -92,6 +112,7 @@ patientInfo& patientInfo::operator=(const patientInfo& other)
     return *this;
 }
 
+//перевизначений оператор >> для зчитування з фалйу
 std::istream& operator>>(std::istream& is, patientInfo& patient) {
     std::string myline;
     std::string delim = " | ";
@@ -138,8 +159,21 @@ std::istream& operator>>(std::istream& is, patientInfo& patient) {
                 throw QString("Blood pressure values must be numeric");
             }
 
+            if (stoi(dividedPressure.at(0)) < 80 || stoi(dividedPressure.at(0)) > 180) {
+                throw QString("Blood up pressure value must be [80, 180]");
+
+            }
+
+            if (stoi(dividedPressure.at(1)) < 50 || stoi(dividedPressure.at(1)) > 120) {
+                    throw QString("Blood low pressure value must be [50, 120]");
+                }
+
             if (!isNumeric(dividedPatientInfo.at(6))) {
                 throw QString("Heart rate must be numeric");
+            }
+
+            if (stoi(dividedPatientInfo.at(6)) <= 40 ) {
+                throw QString("Heart rate must be > 40");
             }
 
             patient = patientInfo(stoi(dividedPatientInfo.at(0)), dividedPatientInfo.at(1), stoi(dividedPatientInfo.at(2)),
@@ -154,6 +188,7 @@ std::istream& operator>>(std::istream& is, patientInfo& patient) {
     return is;
 }
 
+//перевизначений оператор << для запису у файл
 std::ostream& operator<<(std::ostream& os, const patientInfo& patient)
 {
     os << patient.m_num << " | "
@@ -166,16 +201,4 @@ std::ostream& operator<<(std::ostream& os, const patientInfo& patient)
 
 
     return os;
-}
-
-patientInfo::patientInfo(const patientInfo& other)
-{
-    m_num = other.m_num;
-    m_surname = other.m_surname;
-    m_age = other.m_age;
-    m_bloodType = other.m_bloodType;
-    m_rhFactor = other.m_rhFactor;
-    m_upPressure = other.m_upPressure;
-    m_lowPressure = other.m_lowPressure;
-    m_pulseValue = other.m_pulseValue;
 }

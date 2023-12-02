@@ -1,6 +1,8 @@
 #include "heartratesortdialog.h"
 #include "ui_heartratesortdialog.h"
 
+//реалізація діалогового вікна для вибору порядку сортування за Пульсом
+
 heartRateSortDialog::heartRateSortDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::heartRateSortDialog)

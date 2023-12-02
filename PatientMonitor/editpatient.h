@@ -1,6 +1,9 @@
 #ifndef EDITPATIENT_H
 #define EDITPATIENT_H
 
+//діалогове вікно для зміни даних
+//про пацієнта
+
 #include <QDialog>
 #include "patientinfo.h"
 namespace Ui {

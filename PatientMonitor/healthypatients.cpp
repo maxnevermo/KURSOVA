@@ -1,6 +1,8 @@
 #include "healthypatients.h"
 #include "ui_healthypatients.h"
 
+//реалізація вікна для виводу здорових пацієнтів
+
 std::vector<patientInfo> patientsToPrint;
 healthyPatients::healthyPatients(QWidget *parent) :
     QMainWindow(parent),
@@ -42,6 +44,7 @@ healthyPatients::~healthyPatients()
     delete ui;
 }
 
+//отримання вектора здорових пацієнтів з головного вікна
 void healthyPatients::receivePatientList(const std::vector<patientInfo> &patients) {
 
     QTableWidgetItem* newPatientInfo = NULL;
@@ -59,6 +62,7 @@ void healthyPatients::receivePatientList(const std::vector<patientInfo> &patient
     }
 }
 
+//вивід здорових пацієнтів у файл
 void healthyPatients::on_actionWrite_to_file_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Text File"), QDir::homePath(), tr("Text Files (*.txt)"));

@@ -1,6 +1,8 @@
 #ifndef HEARTRATESORTDIALOG_H
 #define HEARTRATESORTDIALOG_H
 
+//діалогове вікно для вибору за Пульсом
+
 #include <QDialog>
 
 namespace Ui {

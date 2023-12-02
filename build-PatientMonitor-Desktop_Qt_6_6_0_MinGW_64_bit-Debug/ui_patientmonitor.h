@@ -69,7 +69,7 @@ public:
         state = new QLabel(centralwidget);
         state->setObjectName("state");
         state->setGeometry(QRect(260, 10, 731, 61));
-        state->setPixmap(QPixmap(QString::fromUtf8("../../../images/nav.png")));
+        state->setPixmap(QPixmap(QString::fromUtf8("C:/Users/maxnevermo/Desktop/course/git/KURSOVA/PatientMonitor/images/nav.png")));
         pulseSortButton = new QPushButton(centralwidget);
         pulseSortButton->setObjectName("pulseSortButton");
         pulseSortButton->setGeometry(QRect(20, 290, 230, 41));
@@ -92,11 +92,11 @@ public:
         logo->setObjectName("logo");
         logo->setGeometry(QRect(30, 530, 71, 51));
         logo->setStyleSheet(QString::fromUtf8("background-color: #D9DBF1;"));
-        logo->setPixmap(QPixmap(QString::fromUtf8("../../../images/logo.png")));
+        logo->setPixmap(QPixmap(QString::fromUtf8("C:/Users/maxnevermo/Desktop/course/git/KURSOVA/PatientMonitor/images/logo.png")));
         rectangle = new QLabel(centralwidget);
         rectangle->setObjectName("rectangle");
         rectangle->setGeometry(QRect(0, 0, 271, 601));
-        rectangle->setPixmap(QPixmap(QString::fromUtf8("../../../images/menu.png")));
+        rectangle->setPixmap(QPixmap(QString::fromUtf8("C:/Users/maxnevermo/Desktop/course/git/KURSOVA/PatientMonitor/images/menu.png")));
         patientTable = new QTableWidget(centralwidget);
         patientTable->setObjectName("patientTable");
         patientTable->setGeometry(QRect(270, 70, 711, 521));
@@ -351,7 +351,7 @@ public:
         donorCheckButton->setText(QCoreApplication::translate("PatientMonitor", "Check donors", nullptr));
         addButton->setText(QCoreApplication::translate("PatientMonitor", "Add", nullptr));
         scanButton->setText(QCoreApplication::translate("PatientMonitor", "Scan", nullptr));
-        agePulseCheckButton->setText(QCoreApplication::translate("PatientMonitor", "Age pressure checker", nullptr));
+        agePulseCheckButton->setText(QCoreApplication::translate("PatientMonitor", "Age checker", nullptr));
         normPressureCheckButton->setText(QCoreApplication::translate("PatientMonitor", "Check healthy person", nullptr));
         bloodTypeGroupButton->setText(QCoreApplication::translate("PatientMonitor", "Group by BT | RH", nullptr));
         scanTableButton->setText(QCoreApplication::translate("PatientMonitor", "Scan", nullptr));

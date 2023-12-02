@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../PatientMonitor/patientmonitor.h"
+#include "C:/Users/maxnevermo/Desktop/course/git/KURSOVA/PatientMonitor/patientmonitor.h"
 #include <QtCore/qmetatype.h>
 
 #if __has_include(<QtCore/qtmochelpers.h>)

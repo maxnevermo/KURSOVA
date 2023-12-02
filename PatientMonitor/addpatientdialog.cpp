@@ -1,6 +1,8 @@
 #include "addpatientdialog.h"
 #include "ui_addpatientdialog.h"
 
+//реалізація вікна для додавання пацієнта
+
 addPatientDialog::addPatientDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::addPatientDialog)
@@ -64,6 +66,7 @@ addPatientDialog::addPatientDialog(QWidget *parent) :
     ui->addButton->setGraphicsEffect(shadowAddButton);
 }
 
+//функція для виведення помилки на екран про невдачу додавання пацієнта
 void addPatientDialog::addDataError(const QString &errorMessage) {
     QMessageBox mb("Add new patient",
                    errorMessage,
@@ -90,6 +93,7 @@ addPatientDialog::~addPatientDialog()
 
 void addPatientDialog::on_addButton_clicked()
 {
+    //зчитування полів діалогового вікна
     QString gotName = ui->surnameTextEdit->toPlainText();
     int gotAge = ui->ageSpinBox->value();
     QString gotBloodType = ui->bloodTypeCB->currentText();
@@ -98,6 +102,7 @@ void addPatientDialog::on_addButton_clicked()
     QString gotLowerPressureStr = ui->lowerPressureTextEdit->toPlainText();
     int gotPulse = ui->pulseCB->value();
 
+    //обробка виняткових ситуацій
     try
     {
         QRegularExpression englishRegex("^[A-Za-z]+$");
@@ -129,6 +134,10 @@ void addPatientDialog::on_addButton_clicked()
             throw QString("Invalid upper pressure.\nPlease enter a valid number.");
         }
 
+        if (gotUpperPressure <= 80 || gotUpperPressure >= 180) {
+            throw QString("Invalid upper pressure.\nPlease enter a valid number (from 80 to 180)");
+        }
+
         bool lowerPressureValid;
         int gotLowerPressure = gotLowerPressureStr.toInt(&lowerPressureValid);
         if (!lowerPressureValid)
@@ -136,9 +145,13 @@ void addPatientDialog::on_addButton_clicked()
             throw QString("Invalid lower pressure.\nPlease enter a valid number.");
         }
 
-        if (gotPulse <= 0)
+        if (gotLowerPressure <= 50 || gotLowerPressure >= 120) {
+            throw QString("Invalid lower pressure.\nPlease enter a valid number (from 50 to 120)");
+        }
+
+        if (gotPulse <= 40)
         {
-            throw QString("Invalid pulse.\nPlease enter a pulse value\ngreater than 0.");
+            throw QString("Invalid pulse.\nPlease enter a pulse value\ngreater than 40.");
         }
 
         if (gotUpperPressure < gotLowerPressure)
@@ -146,6 +159,7 @@ void addPatientDialog::on_addButton_clicked()
             throw QString("Invalid pressure values.\nUpper pressure cannot be less than lower pressure.");
         }
 
+        //створення нового пацієта
         patientInfo newPatient(0, gotName.toStdString(), gotAge, gotBloodType.toStdString(),
                                gotRhFactor.toStdString(), gotUpperPressure, gotLowerPressure, gotPulse);
         emit patientAdded(newPatient);

@@ -1,6 +1,8 @@
 #ifndef HEALTHYPATIENTS_H
 #define HEALTHYPATIENTS_H
 
+//вікно для відображення здорових пацієнтів
+
 #include <QMainWindow>
 #include <QGraphicsDropShadowEffect>
 #include <fstream>

@@ -112,7 +112,7 @@ public:
         label = new QLabel(centralwidget);
         label->setObjectName("label");
         label->setGeometry(QRect(100, 50, 340, 60));
-        label->setPixmap(QPixmap(QString::fromUtf8("../../../images/DonorsRec.png")));
+        label->setPixmap(QPixmap(QString::fromUtf8("../../images/DonorsRec.png")));
         donorsTable->setCentralWidget(centralwidget);
         menubar = new QMenuBar(donorsTable);
         menubar->setObjectName("menubar");
